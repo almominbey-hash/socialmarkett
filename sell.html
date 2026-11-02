@@ -1,0 +1,119 @@
+<main class="wrap">
+  <h1>Sell your account</h1>
+  <p class="sub">Free to list. You only pay a fee when it sells.</p>
+
+  <div class="layout">
+    <div>
+      <form id="f" novalidate>
+        <fieldset>
+          <legend>1. About the account</legend>
+          <div class="f" data-g>
+            <span class="t" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px" id="pl">Platform</span>
+            <div class="plat" role="radiogroup" aria-labelledby="pl">
+              <input type="radio" name="p" id="p1" value="YouTube"><label for="p1">YouTube</label>
+              <input type="radio" name="p" id="p2" value="Instagram"><label for="p2">Instagram</label>
+              <input type="radio" name="p" id="p3" value="TikTok"><label for="p3">TikTok</label>
+              <input type="radio" name="p" id="p4" value="Facebook"><label for="p4">Facebook</label>
+              <input type="radio" name="p" id="p5" value="Gaming"><label for="p5">Gaming</label>
+              
+            </div>
+            <div class="err">Choose a platform.</div>
+          </div>
+          <div class="f" data-g>
+            <label class="t" for="link">Account link or username</label>
+            <input type="text" id="link" placeholder="e.g. youtube.com/@yourchannel">
+            <div class="hint">Only our team sees this. Buyers do not.</div>
+            <div class="err">Add the link or username.</div>
+          </div>
+          <div class="f" data-g>
+            <label class="t" for="niche">Niche</label>
+            <select id="niche"><option value="">Choose one</option><option>Gaming</option><option>Lifestyle</option><option>Fitness</option><option>Technology</option><option>Food</option><option>Travel</option><option>Creative</option><option>Other</option></select>
+            <div class="err">Choose a niche.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Numbers</legend>
+          <div class="two">
+            <div class="f" data-g>
+              <label class="t" for="aud">Followers or subscribers</label>
+              <input type="number" id="aud" min="0" placeholder="82500">
+              <div class="err">Enter a number.</div>
+            </div>
+            <div class="f" data-g>
+              <label class="t" for="inc">Income per month (USD)</label>
+              <input type="number" id="inc" min="0" placeholder="1800">
+              <div class="hint">Enter 0 if it earns nothing.</div>
+              <div class="err">Enter a number.</div>
+            </div>
+          </div>
+          <div class="f" data-g>
+            <span class="t" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Analytics screenshots</span>
+            <label class="drop" for="shots">Tap to add screenshots of your followers, views and income<br><small>PNG or JPG. At least 2.</small></label>
+            <input type="file" id="shots" accept="image/*" multiple style="position:absolute;opacity:0;width:1px;height:1px">
+            <ul class="files" id="files"></ul>
+            <div class="err">Add at least 2 screenshots.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. Description and price</legend>
+          <div class="f" data-g>
+            <label class="t" for="title">Title</label>
+            <input type="text" id="title" maxlength="80" placeholder="e.g. Gaming channel with an engaged English audience">
+            <div class="err">Add a short title.</div>
+          </div>
+          <div class="f" data-g>
+            <label class="t" for="desc">Description</label>
+            <textarea id="desc" rows="4" placeholder="What is the account about? Where is the audience from? Why are you selling?"></textarea>
+            <div class="err">Write a few sentences about the account.</div>
+          </div>
+          <div class="f" data-g>
+            <label class="t" for="price">Your price (USD)</label>
+            <input type="number" id="price" min="1" placeholder="1250">
+            <div class="err">Enter a price.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. Agree</legend>
+          <div data-g>
+            <label class="chk"><input type="checkbox" id="own"> I own this account and have the right to sell it.</label>
+            <div class="err">Please confirm.</div>
+          </div>
+          <div data-g>
+            <label class="chk"><input type="checkbox" id="rec"> After the buyer pays, I will send the login details and remove my own recovery email and phone number.</label>
+            <div class="err">Please confirm.</div>
+          </div>
+          <div data-g>
+            <label class="chk"><input type="checkbox" id="tos"> I understand that some platforms do not allow selling accounts, and I accept this risk.</label>
+            <div class="err">Please confirm.</div>
+          </div>
+        </fieldset>
+
+        <div><button class="btn" type="submit">Submit for review</button></div>
+      </form>
+
+      <div class="done" id="done" role="status">
+        <div class="ic" aria-hidden="true">✓</div>
+        <h2>Your account is in review</h2>
+        <p>Our team checks every listing. We will email you within 24 hours. Once it is approved, buyers can see it.</p>
+        <button class="btn" id="again" type="button">List another account</button>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="card">
+        <h2>What you will get</h2>
+        <div class="sum"><span>Your price</span><span id="s1">$0</span></div>
+        <div class="sum"><span>Our fee (5%)</span><span id="s2">$0</span></div>
+        <div class="sum t"><span>You receive</span><span id="s3">$0</span></div>
+      </div>
+      <div class="card">
+        <h2>What happens next</h2>
+        <ol><li>We review your listing.</li><li>A buyer pays. We hold the money.</li><li>You send the account.</li><li>The buyer confirms and you are paid.</li></ol>
+      </div>
+      <div class="note">Never share your password in chat or email. You will send login details only after a buyer has paid.</div>
+    </aside>
+  </div>
+</main>

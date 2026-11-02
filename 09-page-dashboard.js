@@ -1,0 +1,10 @@
+/* Dashboard */
+init.dash=function(root){window.renderDash=function(){if(!U)return;var kc=U.kyc?'<div class="c" style="margin-top:16px"><b style="font-size:17px">Seller verification: <span style="color:var(--ok)">'+(U.kyc==="pending"?"In review":"Verified")+'</span></b><span>We check your details within 24 hours. You can already list accounts.</span></div>':'<div class="c" style="margin-top:16px"><b style="font-size:17px">Want to sell?</b><span>Verify your identity once, then list your accounts.</span><br><a class="btn" style="margin-top:10px" href="#verify">Become a seller</a></div>';var sel=U.role==="seller",v=root.querySelector("#dv"),n=esc(U.name);
+ var c=function(a,b){return '<div class="c"><b>'+a+'</b><span>'+b+'</span></div>'};
+ var row=function(a){return "<tr>"+a.map(function(x){return "<td>"+x+"</td>"}).join("")+"</tr>"};
+ var ok='<span class="pill ok">',pl='<span class="pill">';
+ v.innerHTML='<div class="hd"><div><h1>Hi, '+n+'</h1><p class="m" style="margin:0">Your account</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn line" href="#home">Browse accounts</a><a class="btn" href="#sell">+ List an account</a></div></div>'+
+ '<div class="cards">'+c("1","Active order")+c("3","Active listings")+c("$4,200","Sales this month")+c("$1,150","Pending payout")+'</div>'+
+ '<h2>My orders (buying)</h2><div class="tb"><table><tr><th>Order</th><th>Account</th><th>Amount</th><th>Status</th></tr>'+row(["#1042","YouTube gaming, 82.5K","$1,800",pl+"Awaiting delivery</span>"])+'</table></div>'+
+ '<h2>My listings (selling)</h2><div class="tb"><table><tr><th>Account</th><th>Price</th><th>Status</th></tr>'+row(["YouTube gaming, 82.5K","$1,800",ok+"Live</span>"])+row(["TikTok fitness, 215K","$3,100",pl+"In review</span>"])+row(["Instagram food, 73K","$1,100",ok+"Live</span>"])+'</table></div>'+
+ '<h2>Orders to deliver</h2><div class="tb"><table><tr><th>Order</th><th>Buyer</th><th>Amount</th><th></th></tr>'+row(["#1042","Buyer A","$1,800",'<a class="btn line" href="#order">Open order</a>'])+'</table></div>';v.querySelector('.hd').insertAdjacentHTML('afterend',kc)}};

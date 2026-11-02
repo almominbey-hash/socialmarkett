@@ -1,0 +1,51 @@
+:host{--bg:#fff;--soft:#f5f7fa;--text:#14181f;--muted:#566070;--line:#d5dbe5;--accent:#1d5fd6;--accent-t:#fff;--ok:#0f7a4a;--okbg:#e5f5ec;--bad:#b3261e;--warn:#9a5b00;--warnbg:#fff3dc;color-scheme:light;box-sizing:border-box;}
+@media (prefers-color-scheme:dark){:host{--bg:#10141b;--soft:#181e28;--text:#eef1f6;--muted:#a3adbd;--line:#34405a;--accent:#6b9bff;--accent-t:#0b1020;--ok:#5fd39a;--okbg:#123326;--bad:#ff8f86;--warn:#f0b45a;--warnbg:#33260f;color-scheme:dark}}
+
+*{box-sizing:border-box}
+:host{display:block;background:var(--bg);color:var(--text);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;height:64px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em}.logo b{color:var(--accent)}
+.nav span{margin-left:auto;color:var(--muted);font-size:15px}
+h1{font-size:30px;margin:32px 0 4px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 24px}
+.layout{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding-bottom:56px}
+form{display:flex;flex-direction:column;gap:20px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:18px 20px 20px;margin:0}
+legend{font-weight:700;font-size:17px;padding:0 6px}
+.f{margin-top:14px}
+label.t{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.hint{font-size:14px;color:var(--muted);margin-top:4px}
+input[type=text],input[type=number],select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;background:var(--bg);color:var(--text)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.plat{display:flex;flex-wrap:wrap;gap:8px}
+.plat input{position:absolute;opacity:0}
+.plat label{border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:500}
+.plat input:checked+label{background:var(--accent);color:var(--accent-t);border-color:var(--accent)}
+.plat input:focus-visible+label{outline:3px solid var(--accent);outline-offset:2px}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:18px;text-align:center;color:var(--muted);cursor:pointer;display:block}
+.drop:hover{border-color:var(--accent)}
+.files{list-style:none;margin:8px 0 0;padding:0;font-size:14px}
+.files li{padding:3px 0}.files li::before{content:"✓ ";color:var(--ok);font-weight:700}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:15px;margin-top:10px}
+.chk input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
+.err{color:var(--bad);font-size:14px;margin-top:4px;display:none}
+.bad input[type=text],.bad input[type=number],.bad select,.bad textarea{border-color:var(--bad)}
+.bad .err{display:block}
+.btn{border:0;border-radius:8px;padding:13px 22px;font:600 16px inherit;background:var(--accent);color:var(--accent-t);cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.side{position:sticky;top:16px;display:flex;flex-direction:column;gap:16px}
+.card{border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h2{font-size:17px;margin:0 0 10px}
+.sum{display:flex;justify-content:space-between;padding:5px 0;font-size:15px}
+.sum.t{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700;font-size:18px}
+.sum span:first-child{color:var(--muted)}.sum.t span:first-child{color:var(--text)}
+.card ol{margin:0;padding-left:20px;font-size:15px;color:var(--muted)}
+.card li{padding:3px 0}
+.note{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:12px 14px;font-size:14px}
+.done{display:none;border:1px solid var(--line);border-radius:12px;padding:32px 24px;text-align:center}
+.done .ic{width:56px;height:56px;border-radius:50%;background:var(--okbg);color:var(--ok);display:grid;place-items:center;margin:0 auto 12px;font-size:28px}
+.done h2{margin:0 0 8px}.done p{color:var(--muted);margin:0 auto 16px;max-width:420px}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.side{position:static}.two{grid-template-columns:1fr}}
