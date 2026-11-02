@@ -19,19 +19,25 @@ $("t-in").onclick=function(){setMode("in")};$("t-up").onclick=function(){setMode
 $("login").onsubmit=function(e){e.preventDefault();
   var a=mark("le",EM.test($("le").value.trim())),b=mark("lp",$("lp").value.length>0);
   if(!(a&&b)){firstBad(this);return}
-  var m=$("le").closest("[data-g]").querySelector(".err"),acc=accs()[$("le").value.trim().toLowerCase()];
-  if(!acc){m.textContent="No account with this email. Please sign up first.";mark("le",false);$("le").focus();return}
-  m.textContent="Enter a valid email.";finish(acc)};
+  var m=$("le").closest("[data-g]").querySelector(".err");m.textContent="Enter a valid email.";
+  sb.auth.signInWithPassword({email:$("le").value.trim().toLowerCase(),password:$("lp").value}).then(function(r){
+    if(r.error){m.textContent=/invalid login/i.test(r.error.message)?"Wrong email or password.":SM.msg(r.error);mark("le",false);$("le").focus();return}
+    return SM.loadUser(r.data.user).then(function(){finish(U)})
+  }).catch(function(x){m.textContent=SM.msg(x);mark("le",false)})};
 $("signup").onsubmit=function(e){e.preventDefault();
   var r=[mark("sn",$("sn").value.trim().length>1),mark("se",EM.test($("se").value.trim())),mark("sp",$("sp").value.length>=8),mark("st",$("st").checked)];
   if(r.indexOf(false)>-1){firstBad(this);if(!$("st").checked&&!root.querySelector("#signup .bad input[type=text],#signup .bad input[type=email],#signup .bad input[type=tel],#signup .bad input[type=password]"))$("st").focus();return}
-  
-  var u={name:$("sn").value.trim().replace(/\s+/g," "),email:$("se").value.trim().toLowerCase(),role:"member"},A=accs();A[u.email]=u;try{localStorage.setItem("sm_acc",JSON.stringify(A))}catch(x){}
-  finish(u)};
+  var m=$("se").closest("[data-g]").querySelector(".err");m.textContent="Enter a valid email.";
+  sb.auth.signUp({email:$("se").value.trim().toLowerCase(),password:$("sp").value,options:{data:{full_name:$("sn").value.trim().replace(/\s+/g," ")},emailRedirectTo:SM.home}}).then(function(r){
+    if(r.error){m.textContent=SM.msg(r.error);mark("se",false);$("se").focus();return}
+    if(!r.data.session){alert("We sent you an email. Click the link in it to confirm your account, then log in.");$("signup").reset();setMode("in");return}
+    return SM.loadUser(r.data.user).then(function(){finish(U)})
+  }).catch(function(x){m.textContent=SM.msg(x);mark("se",false)})};
 $("fg").onclick=function(){$("rok").classList.add("hide");view("v-forgot");$("re").focus()};
-$("rf").onsubmit=function(e){e.preventDefault();if(!mark("re",EM.test($("re").value.trim()))){$("re").focus();return}$("rok").classList.remove("hide")};
+$("rf").onsubmit=function(e){e.preventDefault();if(!mark("re",EM.test($("re").value.trim()))){$("re").focus();return}
+  sb.auth.resetPasswordForEmail($("re").value.trim().toLowerCase(),{redirectTo:SM.home}).then(function(){$("rok").classList.remove("hide")})};
 $("bk").onclick=function(){view("v-main");setMode("in")};
 setMode("in");
 
-$("gg").onclick=function(){finish({name:"Moman Hassan",email:"",role:"member"})};
+$("gg").onclick=function(){sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:SM.home}})};
 };

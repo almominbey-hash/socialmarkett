@@ -1,15 +1,11 @@
 # socialmarket
 
-How to run (VS Code):
-1. Open this folder in VS Code (File > Open Folder).
-2. Install the "Live Server" extension (Ritwick Dey).
-3. Right click index.html > "Open with Live Server".
+Front end: plain HTML/CSS/JS (index.html, css/, js/, pages/). Works on GitHub Pages.
+Back end: Supabase (database, login, file storage). Full setup steps in Urdu: SETUP-URDU.md.
 
-Without VS Code: open a terminal in this folder and run `python -m http.server 8000`, then open http://localhost:8000
+Files:
+- supabase/schema.sql   all tables, access rules and storage folders (run once in Supabase SQL Editor)
+- js/00-supabase.js     put your Project URL and anon key here
+- SETUP-URDU.md         step by step guide
 
-Folders:
-- index.html        top bar, category bar and the empty page area
-- css/style.css     styles shared by the whole site
-- pages/            one .html and one .css per page (landing, start, account, messages, order, sell, login, dash, saved, verify)
-- js/               the code, split by page and job (files are numbered in the order they load)
-- js/loader.js      loads the pages and then the js files
+To test on your computer: open a terminal in this folder and run `python -m http.server 8000`, then open http://localhost:8000

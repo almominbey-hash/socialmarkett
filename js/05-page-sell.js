@@ -20,7 +20,11 @@ f.onsubmit=function(e){
   if(first){first.scrollIntoView({block:"center"});if(first.type!=="radio"&&first.id!=="shots")first.focus();return}
   if(!U){window.GO="sell";location.hash="login";return}
   if(!U.kyc){window.GO="sell";location.hash="verify";return}
-  f.style.display="none";done.style.display="block";done.scrollIntoView({block:"start"});
+  if(f.dataset.busy)return;f.dataset.busy="1";f.style.opacity=".6";
+  SM.createListing({platform:f.querySelector("[name=p]:checked").value,niche:niche.value,title:title.value.trim(),description:desc.value.trim(),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:shots.files})
+   .then(function(){f.style.display="none";done.style.display="block";done.scrollIntoView({block:"start"})})
+   .catch(function(x){alert("Could not send your listing: "+SM.msg(x))})
+   .then(function(){delete f.dataset.busy;f.style.opacity=""});
 };
 $("again").onclick=function(){f.reset();files.innerHTML="";price.oninput();done.style.display="none";f.style.display="flex";window.scrollTo(0,0)};
 

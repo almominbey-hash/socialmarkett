@@ -1,5 +1,7 @@
 /* Settings, category menu data, page list and page titles */
-function openChat(sl,tt){window.pendChat={s:sl,t:tt};if(!U)window.GO="messages";location.hash="messages";route()}window.openChat=openChat;
+function openChat(id){
+ if(!U){window.GO="start";location.hash="login";route();return}
+ sb.rpc("start_conversation",{p_listing:id}).then(function(r){if(r.error){alert(SM.msg(r.error));return}window.pendChat={id:r.data};location.hash="messages";route()})}window.openChat=openChat;
 var HK={YouTube:"youtube",Instagram:"instagram",TikTok:"tiktok",Facebook:"facebook",Gaming:"gaming"},lastN=null;
 var AUD=[["Premium audience",[["USA audience","usa"],["UK audience","uk"]]],["Local audience",[["Pakistan audience","pakistan"]]]];
 var SUB={
