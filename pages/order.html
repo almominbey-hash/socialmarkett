@@ -1,0 +1,33 @@
+<main class="wrap">
+  <h1>Your order</h1>
+  <p class="sub">Your payment is held safely. The seller gets paid only after you confirm.</p>
+
+  <div class="layout">
+    <div>
+      <div class="box">
+        <ol class="steps" id="steps" aria-label="Order progress">
+          <li>Paid</li><li>Seller transfers</li><li>You check</li><li>Seller paid</li>
+        </ol>
+        <div id="stage"></div>
+      </div>
+      <div class="box">
+        <h2>Order history</h2>
+        <ul class="log" id="log"></ul>
+      </div>
+    </div>
+
+    <aside>
+      <div class="box">
+        <div class="acct"><i aria-hidden="true">▶</i><div><b>Gaming channel, 82.5K subscribers</b><small>YouTube · by Alex Morgan · Verified seller</small></div></div>
+        <div class="sum"><span>Account price</span><span>PKR 350,000</span></div>
+        <div class="sum"><span>Service fee (5%)</span><span>PKR 17,500</span></div>
+        <div class="sum t"><span>Total paid</span><span>PKR 367,500</span></div>
+        <p class="small" style="margin:12px 0 0">Held by socialmarket. Not sent to the seller yet.</p>
+      </div>
+      <div class="demo">
+        <b style="color:var(--text)">Demo controls</b><br>This is a design preview. Use these to see each step.
+        <div><button class="btn line" id="d1">Seller sends account</button><button class="btn line" id="d2">Skip 24 hours</button><button class="btn line" id="d3">Start over</button></div>
+      </div>
+    </aside>
+  </div>
+</main>

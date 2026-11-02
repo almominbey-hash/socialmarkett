@@ -1,0 +1,48 @@
+<main class="page">
+  <div class="box">
+    <div id="v-main">
+      <h1 id="h">Welcome back</h1>
+      <p class="sub" id="s">Log in to buy, sell and track your orders.</p>
+      <button type="button" class="btn line" id="gg"><b style="color:#ea4335">G</b>&nbsp; Continue with Google</button>
+      <p class="or">or use your email</p>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="t-in" aria-selected="true">Log in</button>
+        <button class="tab" role="tab" id="t-up" aria-selected="false">Sign up</button>
+      </div>
+
+      <form id="login" novalidate>
+        <div class="f" data-g><label class="t" for="le">Email</label><input type="email" id="le" autocomplete="email" placeholder="you@example.com"><div class="err">Enter a valid email.</div></div>
+        <div class="f" data-g><label class="t" for="lp">Password</label>
+          <div class="pw"><input type="password" id="lp" autocomplete="current-password"><button type="button" class="show" aria-controls="lp">Show</button></div>
+          <div class="err">Enter your password.</div></div>
+        <div class="row"><label class="chk"><input type="checkbox"> Keep me logged in</label><button type="button" class="link" id="fg">Forgot password?</button></div>
+        <button class="btn" type="submit">Log in</button>
+      </form>
+
+      <form id="signup" class="hide" novalidate>
+        <div class="f" data-g><label class="t" for="sn">Full name</label><input type="text" id="sn" autocomplete="name"><div class="err">Enter your name.</div></div>
+        <div class="f" data-g><label class="t" for="se">Email</label><input type="email" id="se" autocomplete="email" placeholder="you@example.com"><div class="err">Enter a valid email.</div></div>
+        <div class="f" data-g><label class="t" for="sp">Password</label>
+          <div class="pw"><input type="password" id="sp" autocomplete="new-password"><button type="button" class="show" aria-controls="sp">Show</button></div>
+          <div class="hint">At least 8 characters.</div><div class="err">Use at least 8 characters.</div></div>
+        <div data-g><label class="chk"><input type="checkbox" id="st"> I agree to the Terms and understand that some platforms do not allow selling accounts.</label><div class="err">Please agree to continue.</div></div>
+        <button class="btn" type="submit">Create account</button>
+      </form>
+
+      <p class="sw" id="sw"></p>
+    </div>
+
+    <div id="v-forgot" class="hide">
+      <h1>Reset your password</h1>
+      <p class="sub">Enter your email. We will send you a link.</p>
+      <form id="rf" novalidate>
+        <div class="f" data-g><label class="t" for="re">Email</label><input type="email" id="re" placeholder="you@example.com"><div class="err">Enter a valid email.</div></div>
+        <button class="btn" type="submit">Send reset link</button>
+      </form>
+      <div class="ok hide" id="rok" role="status"><b>Check your email</b>If an account exists for that address, a reset link is on its way.</div>
+      <p class="sw"><button class="link" id="bk" type="button">Back to log in</button></p>
+    </div>
+
+    </div>
+  <p class="safe">Never share your password with anyone, including our team.</p>
+</main>
