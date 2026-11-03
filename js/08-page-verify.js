@@ -8,6 +8,6 @@ init.verify=function(root){var $=function(i){return root.querySelector("#"+i)};
   var btn=root.querySelector("#vf button[type=submit]");btn.disabled=true;btn.textContent="Submitting...";
   SM.submitKyc({name:$("vn").value.trim().replace(/\s+/g," "),phone:$("vp").value.trim(),idType:$("vt").value,idNumber:$("vi").value.trim(),payout:$("vpay").value.trim(),front:$("vfr").files[0],back:$("vbk").files[0]})
    .then(function(){return SM.refresh()}).then(function(){
-    $("vf").reset();btn.disabled=false;btn.textContent="Submit for verification";var g=window.GO;window.GO=null;location.hash=g||"dash";route()})
+    $("vf").reset();btn.disabled=false;btn.textContent="Submit for verification";var g=window.GO;window.GO=null;NAV.go(g||"dash");route()})
    .catch(function(x){btn.disabled=false;btn.textContent="Submit for verification";alert("Could not submit: "+SM.msg(x))})};
 };

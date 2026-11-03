@@ -4,7 +4,7 @@ var SUPABASE_ANON_KEY="sb_publishable__bdTHwvUBt7QE5wuCimz-w_MYJqTtR8";
 
 var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{flowType:"pkce",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 var SM={};
-SM.home=location.origin+location.pathname;
+SM.home=location.origin+"/";
 
 SM.short=function(n){n=+n||0;if(n>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,"")+"M";if(n>=1e3)return (n/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(n)};
 

@@ -1,7 +1,14 @@
+/* Clean URLs: /youtube, /sell, /login ... (no # and no index.html) */
+var NAV={
+ cur:function(){return location.pathname.replace(/\/index\.html$/,"/").replace(/\.html$/,"").replace(/^\/+|\/+$/g,"")},
+ path:function(h){if(h==="start"||h==="home")return U?"/":"/browse";return "/"+h},
+ swap:function(p){if(location.pathname!==p)history.replaceState(null,"",p+location.search)},
+ go:function(h){var p=NAV.path(h);if(location.pathname!==p)history.pushState(null,"",p);window.dispatchEvent(new Event("navchange"))}
+};
 /* Settings, category menu data, page list and page titles */
 function openChat(id){
- if(!U){window.GO="start";location.hash="login";route();return}
- sb.rpc("start_conversation",{p_listing:id}).then(function(r){if(r.error){alert(SM.msg(r.error));return}window.pendChat={id:r.data};location.hash="messages";route()})}window.openChat=openChat;
+ if(!U){window.GO="start";NAV.go("login");route();return}
+ sb.rpc("start_conversation",{p_listing:id}).then(function(r){if(r.error){alert(SM.msg(r.error));return}window.pendChat={id:r.data};NAV.go("messages");route()})}window.openChat=openChat;
 var HK={YouTube:"youtube",Instagram:"instagram",TikTok:"tiktok",Facebook:"facebook",Gaming:"gaming"},lastN=null;
 var AUD=[["Premium audience",[["USA audience","usa"],["UK audience","uk"]]],["Local audience",[["Pakistan audience","pakistan"]]]];
 var SUB={

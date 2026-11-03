@@ -9,3 +9,6 @@ Files:
 - SETUP-URDU.md         step by step guide
 
 To test on your computer: open a terminal in this folder and run `python -m http.server 8000`, then open http://localhost:8000
+
+Clean URLs: pages live at /youtube, /sell, /login, /privacy, /terms ... (no # and no index.html).
+Each route has a small file in the root (youtube.html, sell.html ...) so GitHub Pages serves /youtube directly. 404.html is the fallback. If you add a new route, copy index.html to <name>.html.

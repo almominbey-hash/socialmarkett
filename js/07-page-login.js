@@ -1,6 +1,6 @@
 /* Login, sign up and password reset */
 init.login=function(root){var $=function(i){return root.querySelector("#"+i)};
-function finish(u){setUser(u);$("login").reset();$("signup").reset();setMode("in");view("v-main");var g=window.GO;window.GO=null;location.hash=g||"start";route()}
+function finish(u){setUser(u);$("login").reset();$("signup").reset();setMode("in");view("v-main");var g=window.GO;window.GO=null;NAV.go(g||"start");route()}
 
 var mode="in",EM=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function view(v){["v-main","v-forgot"].forEach(function(x){$(x).classList.toggle("hide",x!==v)});window.scrollTo(0,0)}

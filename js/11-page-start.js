@@ -18,13 +18,13 @@ var chips=$("chips"),subsEl=$("subs"),exhEl=$("exh"),grid=$("grid"),sortEl=$("so
   var b=document.createElement("button");b.type="button";b.className="chip";
   b.innerHTML='<span class="lg">'+LOGO[p]+'</span>'+(p==="All"?"All platforms":p);
   b.setAttribute("aria-pressed",p==="All");
-  b.dataset.p=p;b.onclick=function(){var h=HK[p]||"start";if(location.hash.slice(1)===h)setPlat(p);else location.hash=h};
+  b.dataset.p=p;b.onclick=function(){var h=HK[p]||"start";if(NAV.cur()===h)setPlat(p);else NAV.go(h)};
   chips.appendChild(b);
 });
 function setPlat(p,t){plat=p;tagF=t||null;[].forEach.call(chips.children,function(c){c.setAttribute("aria-pressed",c.dataset.p===p)});
   var g=SUB[p]||[];subsEl.innerHTML=g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+i[0]+'</button>'}).join("")}).join("");
   exhEl.textContent=tagF?p+" \u00b7 "+subLabel(p,tagF):"Explore popular categories on socialmarket";
-  render();grid.scrollLeft=0}window.setPlat=setPlat;subsEl.addEventListener("click",function(e){var b=e.target.closest(".sub");if(!b)return;var h=b.dataset.h;if(location.hash.slice(1)===h){setPlat(plat,null);location.hash=HK[plat]}else location.hash=h});
+  render();grid.scrollLeft=0}window.setPlat=setPlat;subsEl.addEventListener("click",function(e){var b=e.target.closest(".sub");if(!b)return;var h=b.dataset.h;if(NAV.cur()===h){setPlat(plat,null);NAV.go(HK[plat])}else NAV.go(h)});
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function arrows(){pv.disabled=grid.scrollLeft<=4;nx.disabled=grid.scrollLeft+grid.clientWidth>=grid.scrollWidth-4}
 function render(){
@@ -32,7 +32,7 @@ function render(){
   if(!list.length){grid.innerHTML='<p class="xe">'+(q?"No accounts match your search. Try another platform or niche.":"No accounts available")+'</p>';arrows();return}
   grid.innerHTML=list.map(function(d){
     var k=D.indexOf(d),on=SV.indexOf(d[2])>-1;
-    return '<article class="xc" data-k="'+k+'"><a href="#account"><div class="xm" style="--c:'+PL[d[0]]+'"><span class="lg">'+LOGO[d[0]]+'</span><div class="st"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+(d[9]?'<span class="vb">✓ Verified</span>':'')+'</div>'+
+    return '<article class="xc" data-k="'+k+'"><a href="/account"><div class="xm" style="--c:'+PL[d[0]]+'"><span class="lg">'+LOGO[d[0]]+'</span><div class="st"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+(d[9]?'<span class="vb">✓ Verified</span>':'')+'</div>'+
     '<div class="xi"><small>'+esc(d[0])+' · '+esc(d[1])+'</small><h3>'+esc(d[2])+'</h3><div class="pr"><span>From </span>$'+d[8].toLocaleString("en-US")+'</div></div></a>'+
     '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+on+'" aria-label="Save this account">'+(on?"♥":"♡")+'</button></article>';
   }).join("");
@@ -53,9 +53,9 @@ function seller(){var a=$("spx"),t=$("spt"),d=$("spd");if(!a)return;var old=a.qu
 /* Typing the first letters of a platform (i, ins, y, yo, you, t, f, g ...) opens that platform */
 function findPlat(t){if(!t)return null;var r=null;["YouTube","Instagram","TikTok","Facebook","Gaming"].forEach(function(p){var l=p.toLowerCase();if(!r&&(l.indexOf(t)===0||t.indexOf(l)===0))r=p});return r}
 $("fq").onsubmit=function(e){e.preventDefault();var t=$("fi").value.trim().toLowerCase(),hp=findPlat(t);
- if(hp){q="";var h=HK[hp];if(location.hash.slice(1)===h)setPlat(hp);else location.hash=h;$("browse").scrollIntoView({behavior:"smooth",block:"start"});return}
+ if(hp){q="";var h=HK[hp];if(NAV.cur()===h)setPlat(hp);else NAV.go(h);$("browse").scrollIntoView({behavior:"smooth",block:"start"});return}
  q=t;render();$("browse").scrollIntoView({behavior:"smooth",block:"start"})};
-$("sa").onclick=function(){q="";$("fi").value="";if(location.hash.slice(1)==="start")setPlat("All");else location.hash="start"};
+$("sa").onclick=function(){q="";$("fi").value="";if(NAV.cur()==="start")setPlat("All");else NAV.go("start")};
 window.addEventListener("resize",arrows);
 SM.listings().then(function(rows){rows.forEach(function(r){var u=r.platform==="YouTube"?"subscribers":r.platform==="Gaming"?"items":"followers";
  D.unshift([r.platform,r.niche,r.title,r.seller_name||"Seller",r.followers,SM.short(r.followers),u,Number(r.income)||0,Number(r.price),r.seller_verified?1:0,[],r.description||"",r.shots||[],r.id])});render()});

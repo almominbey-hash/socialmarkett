@@ -1,10 +1,10 @@
 /* Dashboard */
 init.dash=function(root){window.renderDash=function(){if(!U)return;SM.refresh().then(draw)};
 function draw(){if(!U)return;
- var kc=U.kyc?'<div class="c" style="margin-top:16px"><b style="font-size:17px">Seller verification: <span style="color:var(--ok)">'+(U.kyc==="pending"?"In review":"Verified")+'</span></b><span>'+(U.kyc==="pending"?"We check your details within 24 hours. You can already list accounts.":"You can list accounts.")+'</span></div>':'<div class="c" style="margin-top:16px"><b style="font-size:17px">Want to sell?</b><span>Verify your identity once, then list your accounts.</span><br><a class="btn" style="margin-top:10px" href="#verify">Become a seller</a></div>';
+ var kc=U.kyc?'<div class="c" style="margin-top:16px"><b style="font-size:17px">Seller verification: <span style="color:var(--ok)">'+(U.kyc==="pending"?"In review":"Verified")+'</span></b><span>'+(U.kyc==="pending"?"We check your details within 24 hours. You can already list accounts.":"You can list accounts.")+'</span></div>':'<div class="c" style="margin-top:16px"><b style="font-size:17px">Want to sell?</b><span>Verify your identity once, then list your accounts.</span><br><a class="btn" style="margin-top:10px" href="/verify">Become a seller</a></div>';
  var v=root.querySelector("#dv"),n=esc(U.name||U.email);
  var c=function(a,b){return '<div class="c"><b>'+a+'</b><span>'+b+'</span></div>'};
- v.innerHTML='<div class="hd"><div><h1>Hi, '+n+'</h1><p class="m" style="margin:0">Your account</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn line" href="#home">Browse accounts</a><a class="btn" href="#sell">+ List an account</a></div></div>'+
+ v.innerHTML='<div class="hd"><div><h1>Hi, '+n+'</h1><p class="m" style="margin:0">Your account</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn line" href="/">Browse accounts</a><a class="btn" href="/sell">+ List an account</a></div></div>'+
  '<div class="cards">'+c("0","Active orders")+c('<span id="nl">0</span>',"Active listings")+c("$0","Sales this month")+c("$0","Pending payout")+'</div>'+
  '<h2>My orders (buying)</h2><div class="tb"><p class="m" style="margin:0">No orders yet.</p></div>'+
  '<h2>My listings (selling)</h2><div class="tb" id="lt"><p class="m" style="margin:0">Loading...</p></div>'+

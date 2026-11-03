@@ -29,5 +29,5 @@ f.addEventListener("submit",function(e){e.preventDefault();var v=mi.value.trim()
 window.renderMessages=function(){if(!U)return;
  fetchAll().then(function(){if(window.pendChat){cur=window.pendChat.id;window.pendChat=null}
   draw();if(cur&&window.innerWidth<=760)box.classList.add("sel")})};
-setInterval(function(){if(U&&location.hash.slice(1)==="messages"&&!document.hidden)fetchAll().then(draw)},8000);
+setInterval(function(){if(U&&NAV.cur()==="messages"&&!document.hidden)fetchAll().then(draw)},8000);
 };
