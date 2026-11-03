@@ -13,11 +13,12 @@ R.forEach(function(n){
 });
 function route(){
   var raw=location.hash.slice(1),PM=PMAP,pf=PM[raw]?PM[raw][0]:null,pt=PM[raw]?PM[raw][2]:null;var n=pf?"start":raw;if(n==="home")n="start";if(R.indexOf(n)<0)n=U?"start":"landing";if(U&&n==="landing")n="start";
+  if(n==="sell"&&!U){window.GO="sell";n="login"}else if(n==="sell"&&!U.kyc){window.GO="sell";n="verify"}if(n==="verify"&&U&&U.kyc)n="sell";if(n==="account"&&!window.SEL)n="start";
   if(!U&&(n==="order"||n==="dash"||n==="verify"||n==="messages")){window.GO=n;n="login"}else if(!U&&n==="login"&&!window.GO)window.GO=null;if(!U&&(n==="order"||n==="dash"||n==="verify"||n==="messages"))n="login";else if(U&&n==="login")n="start";
   if(n==="landing"){if(location.hash)history.replaceState(null,"",location.pathname+location.search)}else if(!(pf&&n==="start")&&location.hash.slice(1)!==n)history.replaceState(null,"","#"+n);
   R.forEach(function(r){pages[r].classList.toggle("on",r===n)});
   [].forEach.call(document.querySelectorAll("#bar a[data-r]"),function(a){if(a.dataset.r===n)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
-  document.title=T[n];if(n==="dash"&&window.renderDash)renderDash();if(n==="verify"&&window.renderVerify)renderVerify();if(n==="saved"&&window.renderSaved)renderSaved();if(n==="messages"&&window.renderMessages)renderMessages();if(n==="start"&&window.renderStart)renderStart();if(n==="start"&&window.setPlat)window.setPlat(pf||"All",pt);
+  document.title=T[n];if(n==="dash"&&window.renderDash)renderDash();if(n==="verify"&&window.renderVerify)renderVerify();if(n==="saved"&&window.renderSaved)renderSaved();if(n==="account"&&window.renderAccount)renderAccount();if(n==="messages"&&window.renderMessages)renderMessages();if(n==="start"&&window.renderStart)renderStart();if(n==="start"&&window.setPlat)window.setPlat(pf||"All",pt);
   [].forEach.call(document.querySelectorAll("#cats nav a"),function(x){if(n==="start"&&x.dataset.p===(pf||"All"))x.setAttribute("aria-current","true");else x.removeAttribute("aria-current")});
   if(lastN!==n)window.scrollTo(0,0);if(pf&&lastN!=="start"){var gg=roots.start.querySelector("#grid");if(gg)gg.scrollIntoView()}lastN=n;
   

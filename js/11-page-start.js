@@ -10,24 +10,7 @@ Gaming:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="3" width="22"
 All:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>'};
 var PL={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0",Gaming:"#2e7d4f"};
 var NOUN={YouTube:"channel",Instagram:"page",TikTok:"account",Facebook:"page",Gaming:"account"};
-var D=[
-["YouTube","Gaming","Gaming channel with an engaged English-speaking audience","Alex Morgan",82500,"82.5K","subscribers",1800,1250,1,["monetized","aged","usa"]],
-["Instagram","Lifestyle","Lifestyle and wellness page with a connected community","Sarah Wilson",128000,"128K","followers",2600,2400,1,["aged","usa"]],
-["TikTok","Fitness","Fitness and motivation account ready for its next chapter","Ryan Mitchell",215000,"215K","followers",3100,1850,0,["monetized","usa"]],
-["YouTube","Technology","Tech reviews and tutorials channel for curious minds","Daniel Lee",64000,"64K","subscribers",2200,3200,1,["monetized","uk"]],
-["Facebook","Home & garden","Home and garden community with an active audience","Emma Green",96000,"96K","followers",900,950,1,["monetized","aged","usa"]],
-["Instagram","Food","Food and recipes page for a passionate foodie community","Mia Carter",73000,"73K","followers",1100,1150,0,["aged","uk"]],
-["TikTok","Creative","Art and design account with an audience of creators","Noah Brown",156000,"156K","followers",1500,1650,1,["aged","uk"]],
-["Gaming","Fortnite","Fortnite account with rare skins and a high rank","Jake Turner",420,"420","skins",1500,1400,1,["fortnite","highrank"]],
-["Gaming","Valorant","Valorant account at a high rank with all agents unlocked","Omar Sheikh",24,"24","agents",900,850,0,["valorant","highrank"]],
-["Gaming","PUBG","PUBG Mobile account with a high level and rare items","Hamza Ali",78,"78","level",700,650,1,["pubg"]],
-["YouTube","Vlogs","Fresh vlog channel with a clean history, ready to grow","Bilal Ahmed",1200,"1.2K","subscribers",0,120,1,["fresh","pakistan"]],
-["Instagram","Fashion","Fresh fashion page with a clean history and local followers","Ayesha Noor",2300,"2.3K","followers",0,90,1,["fresh","pakistan"]],
-["Instagram","Travel","Verified travel page with a USA audience","Chloe Adams",54000,"54K","followers",1400,2300,1,["verified","usa"]],
-["TikTok","Comedy","Fresh comedy account with a clean record","Usman Raza",3100,"3.1K","followers",0,110,0,["fresh","pakistan"]],
-["Facebook","News","Fresh Facebook page with a clean record","Imran Malik",5200,"5.2K","followers",0,140,1,["fresh","pakistan"]],
-["Facebook","Business","Page that meets monetization criteria, with a UK audience","Oliver Hughes",31000,"31K","followers",300,780,1,["criteria","uk"]]
-];
+var D=[];
 
 var plat="All",tagF=null,q="";
 var chips=$("chips"),subsEl=$("subs"),exhEl=$("exh"),grid=$("grid"),sortEl=$("sort"),pv=$("pv"),nx=$("nx");
@@ -46,16 +29,16 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;
 function arrows(){pv.disabled=grid.scrollLeft<=4;nx.disabled=grid.scrollLeft+grid.clientWidth>=grid.scrollWidth-4}
 function render(){
   var list=D.filter(function(d){return (plat==="All"||d[0]===plat)&&(!tagF||(d[10]||[]).indexOf(tagF)>-1)&&(!q||(d[0]+" "+d[1]+" "+d[2]).toLowerCase().indexOf(q)>-1)});
-  if(!list.length){grid.innerHTML=q?'<p class="xe">No accounts match your search. Try another platform or niche.</p>':'<p class="xe">No accounts available</p>';arrows();return}
+  if(!list.length){grid.innerHTML='<p class="xe">'+(q?"No accounts match your search. Try another platform or niche.":"No accounts available")+'</p>';arrows();return}
   grid.innerHTML=list.map(function(d){
     var k=D.indexOf(d),on=SV.indexOf(d[2])>-1;
-    return '<article class="xc"><a href="#account"><div class="xm" style="--c:'+PL[d[0]]+'"><span class="lg">'+LOGO[d[0]]+'</span><div class="st"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+(d[9]?'<span class="vb">✓ Verified</span>':'')+'</div>'+
+    return '<article class="xc" data-k="'+k+'"><a href="#account"><div class="xm" style="--c:'+PL[d[0]]+'"><span class="lg">'+LOGO[d[0]]+'</span><div class="st"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+(d[9]?'<span class="vb">✓ Verified</span>':'')+'</div>'+
     '<div class="xi"><small>'+esc(d[0])+' · '+esc(d[1])+'</small><h3>'+esc(d[2])+'</h3><div class="pr"><span>From </span>$'+d[8].toLocaleString("en-US")+'</div></div></a>'+
     '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+on+'" aria-label="Save this account">'+(on?"♥":"♡")+'</button></article>';
   }).join("");
   arrows();
 }
-grid.addEventListener("click",function(e){var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2]);var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"♥":"♡"}});
+grid.addEventListener("click",function(e){var c=e.target.closest(".xc");if(c&&!e.target.closest(".xh"))window.SEL=D[+c.dataset.k];var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2]);var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"♥":"♡"}});
 grid.addEventListener("scroll",arrows,{passive:true});
 pv.onclick=function(){grid.scrollBy({left:-grid.clientWidth*.8,behavior:"smooth"})};
 nx.onclick=function(){grid.scrollBy({left:grid.clientWidth*.8,behavior:"smooth"})};
@@ -74,6 +57,8 @@ $("fq").onsubmit=function(e){e.preventDefault();var t=$("fi").value.trim().toLow
  q=t;render();$("browse").scrollIntoView({behavior:"smooth",block:"start"})};
 $("sa").onclick=function(){q="";$("fi").value="";if(location.hash.slice(1)==="start")setPlat("All");else location.hash="start"};
 window.addEventListener("resize",arrows);
+SM.listings().then(function(rows){rows.forEach(function(r){var u=r.platform==="YouTube"?"subscribers":r.platform==="Gaming"?"items":"followers";
+ D.unshift([r.platform,r.niche,r.title,r.seller_name||"Seller",r.followers,SM.short(r.followers),u,Number(r.income)||0,Number(r.price),r.seller_verified?1:0,[],r.description||"",r.shots||[],r.id])});render()});
 window.SMD=D;window.renderStart=function(){welcome();seller();render()};render();welcome();seller();
 
 };
