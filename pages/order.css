@@ -2,7 +2,7 @@
 @media (prefers-color-scheme:dark){:host{--bg:#10141b;--soft:#181e28;--text:#eef1f6;--muted:#a3adbd;--line:#283142;--accent:#6b9bff;--accent-t:#0b1020;--ok:#5fd39a;--okbg:#123326;--warn:#f0b45a;--warnbg:#33260f;--bad:#ff8f86;--badbg:#3a1815;color-scheme:dark}}
 
 *{box-sizing:border-box}
-:host{display:block;background:var(--bg);color:var(--text);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+:host{display:block;background:var(--bg);color:var(--text);font:16px/1.5 Inter,"Helvetica Neue",Helvetica,Arial,sans-serif}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px}
 header{border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;height:64px}

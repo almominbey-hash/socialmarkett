@@ -1,7 +1,7 @@
 :root{--bg:#fff;--text:#14181f;--muted:#566070;--line:#e3e7ee;--accent:#1d5fd6;--accent-t:#fff;--soft:#f5f7fa;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#10141b;--text:#eef1f6;--muted:#a3adbd;--line:#283142;--accent:#6b9bff;--accent-t:#0b1020;--soft:#181e28;color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg);color:var(--text);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+body{margin:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg);color:var(--text);font:16px/1.5 Inter,"Helvetica Neue",Helvetica,Arial,sans-serif}
 #bar{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:var(--bg)}
 html{scroll-padding-top:80px}
 #bar .in{max-width:1400px;margin:0 auto;padding:0 24px;height:76px;display:flex;align-items:center;gap:28px}
@@ -10,6 +10,7 @@ html{scroll-padding-top:80px}
 #bar .logo{font-weight:800;font-size:28px;letter-spacing:-.05em;flex:none}
 #bar .logo b{color:#1dbf73}
 #hs{flex:1;max-width:1040px;display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;height:52px;padding:0 5px 0 24px;background:var(--bg)}
+body:not(.in-user) #hs{display:none}
 #hs:focus-within{border-color:var(--text);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
 #hs input{flex:1;min-width:0;border:0;background:none;color:var(--text);font:400 17px inherit;font-family:inherit;outline:none}
 #hs input::placeholder{color:var(--muted)}
