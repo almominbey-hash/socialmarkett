@@ -16,7 +16,7 @@ var GU=["How to buy an account safely","How to check followers and income","How 
 $("gd").innerHTML=GU.map(function(g,i){return '<div class="gc"><div class="m" data-k="gd'+i+'"></div><b>'+g+'</b></div>'}).join("");
 var FC=[["Platforms",[["YouTube","#home","YouTube"],["Instagram","#home","Instagram"],["TikTok","#home","TikTok"],["Facebook","#home","Facebook"],["Gaming","#home","Gaming"]]],
 ["For sellers",[["Become a seller","#verify"],["List an account","#sell"],["Seller rules","#top"],["Verification","#verify"]]],
-["Support",[["Help centre","#top"],["Trust &amp; safety","#top"],["Terms of service","#top"],["Privacy policy","#top"]]]];
+["Support",[["Help centre","#top"],["Trust &amp; safety","#top"],["Terms of service","terms.html"],["Privacy policy","privacy.html"]]]];
 $("cols").innerHTML=FC.map(function(c){return '<div><b>'+c[0]+'</b>'+c[1].map(function(l){return '<a href="'+l[1]+'"'+(l[2]?' data-p="'+l[2]+'"':'')+'>'+l[0]+'</a>'}).join("")+'</div>'}).join("");
 fill();
 /* SOCIAL LINKS: put your page links between the quotes. Empty = icon shows but does not open anything. */
