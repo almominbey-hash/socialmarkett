@@ -19,18 +19,24 @@
     </div>
     <select id="sort" aria-label="Sort by" hidden><option value="rec">Recommended</option></select>
     <div class="xp">
-      <div class="xcat" id="chips" role="group" aria-label="Platform filter"></div>
+      <aside class="fl" id="fl" aria-label="Refine your search">
+        <h3>Refine your search</h3>
+        <label for="fp">Platform</label><select id="fp"></select>
+        <label for="fn">Niche</label><select id="fn"></select>
+        <label for="fa" id="fal" hidden>Audience language</label><select id="fa" hidden></select>
+        <label for="fpr">Price</label><select id="fpr"></select>
+        <label for="fs">Subscribers</label><select id="fs"></select>
+        <button type="button" class="btn" id="fap">Apply filters</button>
+        <button type="button" class="rst" id="frs">Reset all filters</button>
+      </aside>
       <div class="xr"><div class="subs" id="subs" aria-label="Sub categories"></div>
       <div class="xrail" id="grid"></div></div>
     </div>
   </section>
 
-  <section class="wrap sell" id="sell">
-    <div>
-      <h2>Have an account to sell?</h2>
-      <p>List it for free. You only pay a fee when it sells.</p>
-    </div>
-    <a class="btn" href="/sell">List your account</a>
+  <section class="wrap rec" id="rec" hidden>
+    <h2>Inspired by your recent activity</h2>
+    <div class="recr" id="recg"></div>
   </section>
 </main>
 

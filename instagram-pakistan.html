@@ -4,9 +4,10 @@
 <title>socialmarket</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <script>if(/\/index\.html$/.test(location.pathname))history.replaceState(null,"","/"+location.search);else if(/\.html$/.test(location.pathname))history.replaceState(null,"",location.pathname.replace(/\.html$/,"")+location.search)</script>
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/theme.css">
 </head>
 <body>
 <div id="bar"><nav class="in" aria-label="Main">
@@ -24,8 +25,8 @@
 <span class="out-only"><a href="/login" id="auth" data-r="login" class="txt">Sign in</a><a href="/login" class="join">Join</a></span>
 </div>
 </nav>
-<div id="cats"><nav class="in" aria-label="Categories">
-<a href="/youtube" data-p="YouTube">YouTube</a><a href="/instagram" data-p="Instagram">Instagram</a><a href="/tiktok" data-p="TikTok">TikTok</a><a href="/facebook" data-p="Facebook">Facebook</a><a href="/gaming" data-p="Gaming">Gaming</a><a href="/browse" data-p="All">All categories &rarr;</a>
+<div id="cats"><nav class="in" aria-label="Categories"><a href="/browse" data-p="All">Trending <span aria-hidden="true">🔥</span></a>
+<a href="/youtube" data-p="YouTube">YouTube</a><a href="/instagram" data-p="Instagram">Instagram</a><a href="/tiktok" data-p="TikTok">TikTok</a><a href="/facebook" data-p="Facebook">Facebook</a>
 </nav><div id="mm"></div></div></div>
 <main id="app"></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>

@@ -1,0 +1,19 @@
+/* socialmarket theme: 60% white, 30% dark grey, 10% blue. One font: Inter, then sans-serif. */
+:root,:host{
+  --white:#FFFFFF;
+  --ink:#494A4E;
+  --blue:#1B58C8;
+  --bg:var(--white);
+  --text:var(--ink);
+  --accent:var(--blue);
+  --accent-t:var(--white);
+  --muted:color-mix(in srgb,var(--ink) 72%,var(--white));
+  --line:color-mix(in srgb,var(--ink) 16%,var(--white));
+  --soft:color-mix(in srgb,var(--ink) 5%,var(--white));
+  --ok:var(--blue);
+  --okbg:color-mix(in srgb,var(--blue) 10%,var(--white));
+  color-scheme:light;
+}
+:root,:host,body{font-family:Inter,sans-serif}
+button,input,select,textarea{font-family:inherit}
+h1,h2,h3,h4,h5,h6,b,strong,th{font-weight:500}

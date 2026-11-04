@@ -7,12 +7,12 @@ var SCRIPTS=["/js/00-supabase.js", "/js/01-config.js", "/js/02-page-messages.js"
 function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(u);return r.text()})}
 function addScript(src){return new Promise(function(ok,no){var s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=no;document.body.appendChild(s)})}
 Promise.all(PAGES.map(function(n){
-  return Promise.all([get("/pages/"+n+".css"),get("/pages/"+n+".html")]).catch(function(e){console.error("missing page file:",n);return ["",""]}).then(function(a){
-    var t=document.createElement("template");t.id="t-"+n;t.innerHTML="<style>"+a[0]+"</style>"+a[1];document.body.appendChild(t)})
+  return Promise.all([get("/pages/"+n+".css"),get("/pages/"+n+".html"),get("/css/theme.css")]).catch(function(e){console.error("missing page file:",n);return ["","",""]}).then(function(a){
+    var t=document.createElement("template");t.id="t-"+n;t.innerHTML="<style>"+a[0]+"</style><style>"+(a[2]||"")+"</style>"+a[1];document.body.appendChild(t)})
 })).then(function(){
   return SCRIPTS.reduce(function(p,src){return p.then(function(){return addScript(src).catch(function(e){console.error("missing script file:",src)})})},Promise.resolve())
 }).catch(function(e){
-  document.body.classList.add("ready");document.getElementById("app").innerHTML='<div style="max-width:560px;margin:80px auto;padding:24px;font:16px/1.6 system-ui,sans-serif"><h2>The site could not load</h2><p>Please refresh the page. If you are testing on your computer, open it with a small server (VS Code Live Server), not by double clicking the file.</p></div>';
+  document.body.classList.add("ready");document.getElementById("app").innerHTML='<div style="max-width:560px;margin:80px auto;padding:24px;font:16px/1.6 Inter,sans-serif"><h2>The site could not load</h2><p>Please refresh the page. If you are testing on your computer, open it with a small server (VS Code Live Server), not by double clicking the file.</p></div>';
   console.error(e);
 });
 })();
