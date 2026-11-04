@@ -55,3 +55,5 @@ a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .page{display:none}.page.on{display:block}
 @media (max-width:900px){#bar .hide-m{display:none!important}}
 @media (max-width:640px){#bar .in{gap:8px 10px;padding:10px 14px;height:auto;flex-wrap:wrap}#bar .logo{font-size:22px}#hs{order:3;flex:1 1 100%;max-width:none;height:44px;padding-left:16px}#hs input{font-size:15px}#hs button{width:36px;height:36px}#bar .tools{gap:2px}#bar a.ic{width:38px;height:38px}#bar a.ic svg{width:21px;height:21px}#bar a.cta{padding:8px 10px;font-size:14px}#bar .av{width:38px;height:38px}#cats .in{justify-content:flex-start;flex-wrap:nowrap;height:52px;padding:0 14px}#bar .logo{margin-right:auto}}
+/* Keep Sign in / Join hidden until the site has checked if the person is already logged in */
+body:not(.ready) .out-only{visibility:hidden}
