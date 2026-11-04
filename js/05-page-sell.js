@@ -18,8 +18,7 @@ f.onsubmit=function(e){
   ],first=null;
   r.forEach(function(x){bad(x[0],!x[1]);if(!x[1]&&!first)first=x[0]});
   if(first){first.scrollIntoView({block:"center"});if(first.type!=="radio"&&first.id!=="shots")first.focus();return}
-  if(!U){window.GO="sell";NAV.go("login");return}
-  if(!U.kyc){window.GO="sell";NAV.go("verify");return}
+  if(!U||U.kyc!=="verified"){NAV.go("start-selling");return}
   if(f.dataset.busy)return;f.dataset.busy="1";f.style.opacity=".6";
   SM.createListing({platform:f.querySelector("[name=p]:checked").value,niche:niche.value,title:title.value.trim(),description:desc.value.trim(),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:shots.files})
    .then(function(){f.style.display="none";done.style.display="block";done.scrollIntoView({block:"start"})})
