@@ -14,7 +14,7 @@ R.forEach(function(n){
     e.preventDefault();if(a.dataset.p)return;
     var h2=hr.slice(1);var el=h2&&sr.querySelector("#"+h2);if(el)el.scrollIntoView({behavior:"smooth"});else window.scrollTo(0,0);
   });
-  init[n](sr);
+  if(init[n])init[n](sr);
 });
 function route(){
   var raw=NAV.cur();if(raw==="browse")raw="start";var PM=PMAP,pf=PM[raw]?PM[raw][0]:null,pt=PM[raw]?PM[raw][2]:null;var n=pf?"start":raw;if(n==="home")n="start";if(R.indexOf(n)<0)n=U?"start":"landing";if(U&&n==="landing")n="start";
