@@ -9,6 +9,6 @@ document.addEventListener("click",function(e){
  var hr=a.getAttribute("href");if(hr.charAt(0)!=="/"||hr.charAt(1)==="/")return;
  var h=hr.slice(1);if(h==="")h="start";if(!(R.indexOf(h)>-1||PMAP[h]||h==="browse"))return;
  e.preventDefault();if(location.pathname===NAV.path(h))window.scrollTo(0,0);else NAV.go(h)});
-SM.boot().then(function(){updSc();setNav();
+SM.boot().then(function(){updSc();setNav();document.body.classList.add("ready");
  if(location.hash.length>1){var lh=location.hash.slice(1);if(lh==="home")lh="start";if(R.indexOf(lh)>-1||PMAP[lh])history.replaceState(null,"",NAV.path(lh))}
  if(location.search)history.replaceState(null,"",location.pathname);route()});
