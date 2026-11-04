@@ -12,8 +12,8 @@ SM.short=function(n){n=+n||0;if(n>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,
 SM.loadUser=function(user){
   return sb.from("profiles").select("*").eq("id",user.id).maybeSingle().then(function(r){
     var p=r.data||{},k=p.kyc_status;
-    setUser({id:user.id,email:p.email||user.email||"",name:p.full_name||"",role:p.role||"member",kyc:(k==="pending"||k==="verified")?k:undefined});
-    return SM.loadSaved();
+    setUser({id:user.id,email:p.email||user.email||"",name:p.full_name||"",role:p.role||"member",kyc:(k==="pending"||k==="verified"||k==="rejected")?k:undefined});
+    return SM.loadSaved().then(function(){if(SM.notify)SM.notify()});
   });
 };
 SM.refresh=function(){return sb.auth.getSession().then(function(r){var s=r.data&&r.data.session;if(s)return SM.loadUser(s.user)})};
@@ -36,9 +36,10 @@ SM.upload=function(bucket,file){
     if(r.error)throw r.error;return path});
 };
 
-SM.submitKyc=function(d){
-  return Promise.all([SM.upload("kyc",d.front),SM.upload("kyc",d.back)]).then(function(p){
-    return sb.rpc("submit_verification",{p_full_name:d.name,p_phone:d.phone,p_id_type:d.idType,p_id_number:d.idNumber,p_payout:d.payout,p_front:p[0],p_back:p[1]});
+SM.submitSeller=function(d){
+  var up=function(f){return f?SM.upload("kyc",f):Promise.resolve(null)};
+  return Promise.all([up(d.front),up(d.back),up(d.selfie),up(d.avatar)]).then(function(p){
+    return sb.rpc("submit_seller_application",{p_full_name:d.name,p_display_name:d.display,p_country:d.country,p_city:d.city,p_bio:d.bio,p_phone:d.phone,p_platforms:d.platforms,p_niche:d.niche,p_experience:d.exp,p_count:d.count,p_source:d.source,p_id_type:d.idType,p_id_number:d.idNumber,p_front:p[0],p_back:p[1],p_selfie:p[2],p_avatar:p[3]});
   }).then(function(r){if(r.error)throw r.error});
 };
 
