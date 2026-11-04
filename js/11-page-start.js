@@ -7,7 +7,7 @@ Instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id=
 TikTok:'<svg viewBox="0 0 24 24" aria-hidden="true"><g id="tn2"><path d="M16.5 3c.3 2.3 1.7 3.8 4 4v3.2c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3.3a2.8 2.8 0 1 0 2.8 2.7V3z"/></g><use href="#tn2" fill="#25f4ee" transform="translate(-.9 .7)"/><use href="#tn2" fill="#fe2c55" transform="translate(.9 -.7)"/><use href="#tn2" fill="#000"/></svg>',
 Facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1877f2"/><path d="M13.2 21v-7.3h2.4l.4-2.9h-2.8V9c0-.8.3-1.4 1.4-1.4H16V5.1c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H7.7v2.9h2.4V21z" fill="#fff"/></svg>',
 All:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>'};
-var PL={YouTube:"#494A4E",Instagram:"#494A4E",TikTok:"#494A4E",Facebook:"#494A4E"};
+var PL={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0"};
 var NOUN={YouTube:"channel",Instagram:"page",TikTok:"account",Facebook:"page"};
 var D=[];
 

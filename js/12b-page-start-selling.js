@@ -43,7 +43,7 @@ window.renderStartSelling=function(){if(!U)return;var k=U.kyc;
 SM.notify=function(){if(!U||document.getElementById("smtoast"))return;
  sb.from("notifications").select("id,title,body").eq("user_id",U.id).eq("read",false).order("created_at").limit(1).then(function(r){var n=r&&r.data&&r.data[0];if(!n||document.getElementById("smtoast"))return;
   var t=document.createElement("div");t.id="smtoast";t.setAttribute("role","status");
-  t.style.cssText="position:fixed;top:92px;right:16px;z-index:100000;max-width:340px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-left:5px solid #1B58C8;border-radius:12px;padding:16px 18px;box-shadow:0 12px 40px rgba(0,0,0,.25);font:15px/1.45 Inter,sans-serif";
+  t.style.cssText="position:fixed;top:92px;right:16px;z-index:100000;max-width:340px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-left:5px solid #1dbf73;border-radius:12px;padding:16px 18px;box-shadow:0 12px 40px rgba(0,0,0,.25);font:15px/1.45 Inter,sans-serif";
   t.innerHTML='<b style="display:block;font-size:16px;margin-bottom:4px"></b><span style="color:var(--muted)"></span><div style="text-align:right;margin-top:10px"><button type="button" style="border:0;border-radius:8px;padding:8px 16px;font:500 14px inherit;background:var(--accent);color:var(--accent-t);cursor:pointer">OK</button></div>';
   t.querySelector("b").textContent=n.title;t.querySelector("span").textContent=n.body;
   t.querySelector("button").onclick=function(){t.remove();sb.from("notifications").update({read:true}).eq("id",n.id).then(function(){SM.notify()},function(){})};
