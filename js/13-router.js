@@ -18,12 +18,12 @@ R.forEach(function(n){
 });
 function route(){
   var raw=NAV.cur();if(raw==="browse")raw="start";var PM=PMAP,pf=PM[raw]?PM[raw][0]:null,pt=PM[raw]?PM[raw][2]:null;var n=pf?"start":raw;if(n==="home")n="start";if(R.indexOf(n)<0)n=U?"start":"landing";if(U&&n==="landing")n="start";
-  if(n==="sell"&&!U){window.GO="sell";n="login"}else if(n==="sell"&&!U.kyc){window.GO="sell";n="verify"}if(n==="verify"&&U&&U.kyc)n="sell";if(n==="account"&&!window.SEL)n="start";
-  if(!U&&(n==="order"||n==="dash"||n==="verify"||n==="messages")){window.GO=n;n="login"}else if(!U&&n==="login"&&!window.GO)window.GO=null;if(!U&&(n==="order"||n==="dash"||n==="verify"||n==="messages"))n="login";else if(U&&n==="login")n="start";
+  if((n==="sell"||n==="start-selling"||n==="seller-dashboard")&&!U){window.GO=(n==="sell"?"start-selling":n);n="landing";setTimeout(function(){if(window.SMAuth)SMAuth.open("join")},0)}else if(n==="sell"&&U.kyc!=="verified")n="start-selling";else if(n==="start-selling"&&U.kyc==="verified")n="seller-dashboard";else if(n==="seller-dashboard"&&U.kyc!=="verified")n="start-selling";if(n==="account"&&!window.SEL)n="start";
+  if(!U&&(n==="order"||n==="dash"||n==="messages")){window.GO=n;n="login"}else if(!U&&n==="login"&&!window.GO)window.GO=null;if(!U&&(n==="order"||n==="dash"||n==="messages"))n="login";else if(U&&n==="login")n="start";
   if(n==="landing")NAV.swap("/");else if(pf&&n==="start")NAV.swap("/"+raw);else NAV.swap(NAV.path(n));
   R.forEach(function(r){pages[r].classList.toggle("on",r===n)});
   [].forEach.call(document.querySelectorAll("#bar a[data-r]"),function(a){if(a.dataset.r===n)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
-  document.title=T[n];if(n==="dash"&&window.renderDash)renderDash();if(n==="verify"&&window.renderVerify)renderVerify();if(n==="saved"&&window.renderSaved)renderSaved();if(n==="account"&&window.renderAccount)renderAccount();if(n==="messages"&&window.renderMessages)renderMessages();if(n==="start"&&window.renderStart)renderStart();if(n==="start"&&window.setPlat)window.setPlat(pf||"All",pt);
+  document.title=T[n];if(n==="dash"&&window.renderDash)renderDash();if(n==="start-selling"&&window.renderStartSelling)renderStartSelling();if(n==="seller-dashboard"&&window.renderSellerDash)renderSellerDash();if(n==="saved"&&window.renderSaved)renderSaved();if(n==="account"&&window.renderAccount)renderAccount();if(n==="messages"&&window.renderMessages)renderMessages();if(n==="start"&&window.renderStart)renderStart();if(n==="start"&&window.setPlat)window.setPlat(pf||"All",pt);
   [].forEach.call(document.querySelectorAll("#cats nav a"),function(x){if(n==="start"&&x.dataset.p===(pf||"All"))x.setAttribute("aria-current","true");else x.removeAttribute("aria-current")});
   if(lastN!==n)window.scrollTo(0,0);if(pf&&lastN!=="start"){var gg=roots.start.querySelector("#grid");if(gg)gg.scrollIntoView()}lastN=n;
   
