@@ -21,8 +21,17 @@ SM.boot=function(){return SM.refresh().catch(function(e){console.error(e)})};
 
 SM.loadSaved=function(){
   if(!U)return Promise.resolve();
-  return sb.from("saved_items").select("item_key").eq("user_id",U.id).then(function(r){
-    SV.length=0;(r.data||[]).forEach(function(x){SV.push(x.item_key)});updSc();
+  /* saved accounts (newest first, when the saved_at column exists) */
+  var items=sb.from("saved_items").select("item_key,saved_at").eq("user_id",U.id).then(function(r){
+    if(r.error)return sb.from("saved_items").select("item_key").eq("user_id",U.id);return r});
+  /* the person's own lists and what is inside them (stay empty until supabase/saved-lists.sql is run) */
+  var lists=sb.from("saved_lists").select("id,name,created_at").eq("user_id",U.id).order("created_at",{ascending:true}).then(function(r){return r.data||[]},function(){return[]});
+  var inside=sb.from("saved_list_items").select("list_id,item_key").eq("user_id",U.id).then(function(r){return r.data||[]},function(){return[]});
+  return Promise.all([items,lists,inside]).then(function(a){
+    var rows=(a[0].data||[]).slice().sort(function(x,y){return String(y.saved_at||"").localeCompare(String(x.saved_at||""))});
+    SV.length=0;SVT={};rows.forEach(function(x){SV.push(x.item_key);SVT[x.item_key]=x.saved_at||""});
+    SVL=a[1].map(function(l){return{id:l.id,name:l.name,items:a[2].filter(function(i){return i.list_id===l.id}).map(function(i){return i.item_key})}});
+    updSc();
   });
 };
 
