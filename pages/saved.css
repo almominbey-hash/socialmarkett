@@ -1,7 +1,7 @@
 :host{--bg:#fff;--soft:#f5f7fa;--text:#14181f;--muted:#566070;--line:#e3e7ee;--accent:#1d5fd6;--accent-t:#fff;--ok:#0f7a4a;--bad:#c0392b;color-scheme:light;display:block;background:var(--bg);color:var(--text);font:16px/1.5 Inter,sans-serif}
 @media (prefers-color-scheme:dark){:host{--bg:#10141b;--soft:#181e28;--text:#eef1f6;--muted:#a3adbd;--line:#283142;--accent:#6b9bff;--accent-t:#0b1020;--ok:#5fd39a;--bad:#ff8a7a;color-scheme:dark}}
 *{box-sizing:border-box}a{color:inherit;text-decoration:none}
-.wrap{max-width:1120px;margin:0 auto;padding:40px 20px}.box{max-width:440px;margin:0 auto;border:1px solid var(--line);border-radius:14px;padding:26px}
+.wrap{max-width:1400px;margin:0 auto;padding:20px 20px 40px}.box{max-width:440px;margin:0 auto;border:1px solid var(--line);border-radius:14px;padding:26px}
 h1{margin:0 0 6px;font-size:26px}.m{color:var(--muted);margin:0 0 18px}
 .tabs,.roles{display:flex;gap:8px;margin-bottom:16px}.tabs button,.roles label{flex:1;text-align:center;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--bg);color:var(--text);font:500 15px inherit;cursor:pointer}
 .tabs button[aria-pressed=true],.roles label:has(input:checked){background:var(--accent);color:var(--accent-t);border-color:var(--accent)}.roles input{position:absolute;opacity:0}
@@ -34,3 +34,8 @@ label.f{display:block;margin-bottom:12px;font-size:14px;font-weight:500}label.f 
 .hh{position:absolute;top:10px;right:10px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:#d92d4a;font-size:21px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
 .rmv{display:block;width:calc(100% - 28px);margin:0 14px 14px}
 @media (max-width:760px){.sv2{grid-template-columns:1fr;gap:24px}.ac{width:230px}}
+/* Saved page: a box with a line around it, like the Messages page */
+.sv2{gap:0;align-items:stretch;border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:420px}
+.sv2 .sd{padding:12px;border-right:1px solid var(--line)}
+.sv2 .mn{min-width:0;padding:24px}
+@media (max-width:760px){.sv2 .sd{border-right:0;border-bottom:1px solid var(--line)}}
