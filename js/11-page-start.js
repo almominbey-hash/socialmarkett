@@ -64,7 +64,7 @@ function render(){
   var list=D.filter(function(d){return match(d,{plat:plat,niche:F.niche,price:F.price,subs:F.subs,lang:F.lang},tagF,q)});
   if(trend)list=list.slice().sort(function(x,y){return score(y)-score(x)});
   if(!D.length){if(!ready){grid.innerHTML="";arrows();return}grid.innerHTML=SAMPLE.map(function(d){return card(d,"",false,true)}).join("");arrows();return}
-  if(!list.length){grid.innerHTML='<p class="xe">'+(q?"No accounts match your search. Try another platform or niche.":"No accounts match these filters. Try a wider range.")+'</p>';arrows();return}
+  if(!list.length){grid.innerHTML='<p class="xe">'+(q?"No accounts available for this yet – coming soon. Try another platform or niche.":"No accounts available here yet – coming soon. Try a wider range.")+'</p>';arrows();return}
   grid.innerHTML=list.map(function(d){var k=D.indexOf(d);return card(d,k,SV.indexOf(d[2])>-1,false)}).join("");
   arrows();
 }
