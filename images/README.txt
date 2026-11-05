@@ -1,5 +1,7 @@
-Put these 9 pictures here (jpg), exported from Figma:
-hero.jpg   (the big top photo, about 1440x760)
-cover1.jpg cover2.jpg cover3.jpg cover4.jpg  (the 4 account cards, about 600x370)
-cover5.jpg (card inside the brown box)
-cover6.jpg cover7.jpg cover8.jpg  (the 3 guide pictures, about 700x540)
+These are DUMMY pictures (grey/colour boxes that say DUMMY).
+To use the real photos: export from Figma and save over the same file name here.
+hero.jpg  = big photo at the top (the girl with the ring light)
+cover1-4  = the 4 featured account cards
+cover5    = card inside the brown box
+cover6-8  = the 3 guide pictures
+Real account pictures from your database will later replace the cards.

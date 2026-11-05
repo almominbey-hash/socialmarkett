@@ -1,5 +1,6 @@
-/* socialmarket theme: one font (Inter, then sans-serif) and light text weights. Colours stay as in the original design. */
+/* socialmarket theme: one font (Inter, then sans-serif), a little bolder than before. Colours stay as in the original design. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 :root,:host{--white:#fff}
 :root,:host,body{font-family:Inter,sans-serif}
 button,input,select,textarea{font-family:inherit}
-h1,h2,h3,h4,h5,h6,b,strong,th{font-weight:500}
+h1,h2,h3,h4,h5,h6,b,strong,th{font-weight:600}
