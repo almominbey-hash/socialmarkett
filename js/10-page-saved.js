@@ -21,8 +21,6 @@ function svFindList(n){n=n.toLowerCase();for(var i=0;i<SVL.length;i++)if(SVL[i].
 var svp=null,svpKey="",svpDone=null,svpErr="";
 function svpStyle(){if(document.getElementById("svp-style"))return;var s=document.createElement("style");s.id="svp-style";
  s.textContent=
- "#svp{--bg:#fff;--soft:#f5f7fa;--text:#14181f;--muted:#566070;--line:#e3e7ee;--accent:#1d5fd6;--accent-t:#fff}"+
- "@media (prefers-color-scheme:dark){#svp{--bg:#10141b;--soft:#181e28;--text:#eef1f6;--muted:#a3adbd;--line:#283142;--accent:#6b9bff;--accent-t:#0b1020}}"+
  "#svp{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.45);font:16px/1.4 Inter,sans-serif}"+
  "#svp.on{display:flex}"+
  "#svp .svb{width:420px;max-width:100%;max-height:min(640px,calc(100vh - 32px));overflow-y:auto;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 16px 44px rgba(0,0,0,.25)}"+
@@ -79,11 +77,9 @@ init.saved=function(root){
  var v=root.querySelector("#sv");
  function D(){return window.SMD||[]}
  function idx(t){var a=D();for(var i=0;i<a.length;i++)if(a[i][2]===t)return i;return -1}
- function thumb(d){var im=d[12]&&d[12][0];return '<span class="th" style="--c:'+(PLC[d[0]]||"#566070")+'">'+(im?'<img src="'+svx(im)+'" alt="" loading="lazy">':'<span class="rl">'+svx(d[0])+'</span>')+'</span>'}
- function card(t,inList){var i=idx(t),d=D()[i],nm=String(d[3]||"Seller");
-  return '<article class="ac"><a class="al" href="/account" data-i="'+i+'"><div class="ah"><span class="av" style="--c:'+(PLC[d[0]]||"#566070")+'">'+svx(nm.charAt(0).toUpperCase())+'</span><b class="an">'+svx(nm)+'</b>'+(d[9]?'<span class="vf">\u2713 Verified</span>':'')+'</div>'+
-  '<div class="tgs"><span class="tg on">'+svx(d[0])+'</span><span class="tg">'+svx(d[1])+'</span><span class="tg">'+svx(d[5])+' '+svx(d[6])+'</span></div>'+
-  '<div class="ag">'+thumb(d)+'<span class="ai"><h3>'+svx(d[2])+'</h3><p class="ar">From Rs. '+d[8].toLocaleString("en-US")+'</p></span></div></a>'+
+ function media(d){var im=d[12]&&d[12][0];return '<div class="rm" style="--c:'+(PLC[d[0]]||"#566070")+'">'+(im?'<img src="'+svx(im)+'" alt="" loading="lazy">':'<span class="rl">'+svx(d[0])+'</span>')+'</div>'}
+ function card(t,inList){var i=idx(t),d=D()[i];
+  return '<article class="ac"><a class="al" href="/account" data-i="'+i+'">'+media(d)+'<div class="ab"><p class="ap">'+svx(d[0])+' \u00b7 '+svx(d[1])+'</p><h3>'+svx(d[2])+'</h3><p class="ar">Rs. '+d[8].toLocaleString("en-US")+'</p></div></a>'+
   '<button type="button" class="hh" data-t="'+svx(t)+'" aria-label="Saved. Choose a list">\u2665</button>'+
   (inList?'<button type="button" class="btn line rmv" data-l="'+svx(inList)+'" data-t="'+svx(t)+'">Remove from list</button>':'')+'</article>'}
  function have(a){return a.filter(function(t){return idx(t)>-1})}
