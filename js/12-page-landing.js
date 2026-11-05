@@ -13,7 +13,7 @@ $("sf").onsubmit=function(e){e.preventDefault();document.getElementById("hq").va
 /* Sign in / Join buttons in the header open the popup (the page is in a shadow box, so the popup's global click catcher cannot see them) */
 root.addEventListener("click",function(e){var a=e.target.closest("[data-auth]");if(!a||!window.SMAuth)return;e.preventDefault();e.stopPropagation();window.SMAuth.open(a.dataset.auth)},true);
 /* The hint text in the big search box changes by itself (every PH_MS milliseconds) */
-var PH=["YouTube channels","Instagram pages","TikTok accounts","Facebook pages","Amazon stores","E-commerce shops","Gaming accounts","Websites","AdSense accounts"],PH_MS=1500,pi=0;
+var PH=["YouTube channels","Instagram pages","TikTok accounts","Facebook pages","E-commerce shops","Gaming accounts","Websites","AdSense accounts"],PH_MS=1500,pi=0;
 setInterval(function(){pi=(pi+1)%PH.length;$("sq").placeholder=PH[pi]},PH_MS);
 /* Search boxes (big one and the one in the header after you scroll) */
 function go(inp){document.getElementById("hq").value=inp.value;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}))}
@@ -21,7 +21,7 @@ $("hs2").onsubmit=function(e){e.preventDefault();go($("hq2"))};
 /* After you scroll past the big picture: the search box and the category row appear in the header */
 var HD=$("hd"),HERO=$("hero");function sc(){if(!root.host.classList.contains("on"))return;HD.classList.toggle("sc",HERO.getBoundingClientRect().bottom<=HD.offsetHeight)}
 window.addEventListener("scroll",sc,{passive:true});window.addEventListener("resize",sc);sc();
-/* Categories that do not have their own page yet (Amazon, E-commerce, Gaming, Websites, AdSense): search for the word */
+/* Categories that do not have their own page yet (E-commerce, Gaming, Websites, AdSense): search for the word */
 root.addEventListener("click",function(e){var a=e.target.closest("[data-s]");if(!a)return;e.preventDefault();var q=a.dataset.s;$("sq").value=q;go($("sq"))});
 /* Heart button on a card: stays on the page, does not open the card */
 root.addEventListener("click",function(e){if(e.target.closest(".sv")){e.preventDefault();e.stopPropagation();return}
