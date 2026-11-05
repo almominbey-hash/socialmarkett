@@ -37,7 +37,7 @@ st.textContent=
 "#inb .ie{padding:56px 20px;text-align:center;color:var(--muted)}"+
 "#inb .ie svg{display:block;margin:0 auto 12px;width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}"+
 "#inb .if{display:flex;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--line)}"+
-"#inb .if button{border:0;background:none;color:var(--accent);font:500 15px Inter,sans-serif;cursor:pointer;padding:6px 4px}"+
+"#inb .if button{border:0;background:none;color:var(--accent);font:600 16px Inter,sans-serif;cursor:pointer;padding:6px 4px}"+
 "#inb .if button:hover{text-decoration:underline}"+
 "@media (max-width:640px){#inb{left:12px!important;right:12px!important;width:auto;max-width:none}}";
 document.head.appendChild(st);

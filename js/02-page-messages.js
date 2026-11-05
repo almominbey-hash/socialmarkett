@@ -1,7 +1,7 @@
-/* Messages page: conversations list, chat, emoji, files, details of the other person */
+/* Messages page: conversations list, chat, emoji, files */
 init.messages=function(root){var $=function(i){return root.querySelector("#"+i)};
-var list=$("list"),ms=$("ms"),th=$("th"),f=$("f"),mi=$("mi"),box=$("chat"),ov=$("ov"),q=$("q"),sr=$("sr"),fi=$("fi"),fchip=$("fchip"),emo=$("emo"),sendb=$("sendb");
-var cur=null,cache=[],pres={},peer={},asked={},urls={},lastSig="",file=null,term="",busy=false;
+var list=$("list"),ms=$("ms"),th=$("th"),f=$("f"),mi=$("mi"),box=$("chat"),q=$("q"),sr=$("sr"),fi=$("fi"),fchip=$("fchip"),emo=$("emo"),sendb=$("sendb");
+var cur=null,cache=[],pres={},urls={},lastSig="",file=null,term="",busy=false;
 var EMO="😀 😃 😄 😁 😆 😅 😂 🤣 🙂 😉 😊 😍 🥰 😘 😎 🤩 🤔 😐 😢 😭 😡 😱 🙏 👍 👎 👏 🙌 💪 🤝 👌 ✌️ 👋 🔥 ✨ 🎉 💯 ❤️ 💙 💚 ⭐ ✅ ❌ ⚠️ 💰 💵 📈 📌 📎 🔒".split(" ");
 var BAD=/\.(exe|bat|cmd|msi|scr|vbs|js|sh|apk|jar|com|dll|ps1)$/i;
 var CLIP='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7L10 17.4a1.7 1.7 0 0 1-2.4-2.4L15 7.6"/></svg>';
@@ -50,7 +50,7 @@ function drawList(){
 function drawThread(force){
  var cv=get(cur);
  box.classList.toggle("nosel",!cv);box.classList.toggle("sel",!!cv);
- if(!cv){th.innerHTML="";ms.innerHTML="";ov.innerHTML="";lastSig="";return}
+ if(!cv){th.innerHTML="";ms.innerHTML="";lastSig="";return}
  var s=status(cv.id);
  th.innerHTML='<button type="button" class="bk" id="bk">&larr; Inbox</button><span class="av">'+X(ini(cv.seller))+'<em class="'+(s.on?'on':'')+'"></em></span><div class="bd"><b>'+X(cv.seller)+'</b><small class="'+(s.on?'on':'')+'">'+X(s.t)+'</small></div>';
  var last=cv.msgs[cv.msgs.length-1],sig=cv.id+":"+cv.msgs.length+":"+(last?last.id:0);
@@ -64,26 +64,7 @@ function drawThread(force){
    return dl+'<div class="b'+(m.me?" me":"")+'">'+fh+body+'<small>'+hm(m.t)+'</small></div>'}).join(""):'<div class="hint"><b>Say hello to '+X(cv.seller)+'</b>Ask about the account, its stats or how the transfer works.</div>';
   [].forEach.call(ms.querySelectorAll("[data-fp]"),function(el){signed(el.dataset.fp,function(u){if(el.tagName==="IMG")el.src=u;else el.href=u})});
   ms.scrollTop=ms.scrollHeight;lastSig=sig}
- drawOv(cv,s)}
-
-function drawOv(cv,s){
- var p=peer[cv.id];
- var h='<h2>Overview</h2><div class="who"><span class="av">'+X(ini(cv.seller))+'<em class="'+(s.on?'on':'')+'"></em></span><div><b>'+X(cv.seller)+'</b><div class="none2">'+X(s.t)+'</div></div></div>';
- if(!p){h+=asked[cv.id]==="fail"?'<p class="none2">Details are not available yet.</p>':'<p class="none2">Loading details...</p>'}
- else{
-  h+='<div class="row"><span>Member since</span><span>'+X(p.member_since?new Date(p.member_since).toLocaleDateString([],{month:"short",year:"numeric"}):"-")+'</span></div><hr><h3>Account details</h3>'+
-   '<div class="row"><span>Account</span><span>'+X(p.listing_title||cv.title||"-")+'</span></div>'+
-   (p.platform?'<div class="row"><span>Platform</span><span>'+X(p.platform)+'</span></div>':'')+
-   (p.niche?'<div class="row"><span>Niche</span><span>'+X(p.niche)+'</span></div>':'')+
-   (p.followers!=null?'<div class="row"><span>Followers</span><span>'+X((+p.followers).toLocaleString("en-US"))+'</span></div>':'')+
-   (p.income?'<div class="row"><span>Income</span><span>'+X(money(p.income))+'</span></div>':'')+
-   (p.price?'<div class="row"><span>Price</span><span>'+X(money(p.price))+'</span></div>':'')+
-   (p.listing_status?'<div class="row"><span>Status</span><span>'+X(p.listing_status)+'</span></div>':'')+
-   (p.description?'<p class="ds">'+X(p.description)+'</p>':'')}
- ov.innerHTML=h}
-
-function loadPeer(id){if(asked[id])return;asked[id]="ask";
- sb.rpc("chat_peer",{p_conv:id}).then(function(r){var d=r&&r.data&&r.data[0];if(d){peer[id]=d;asked[id]="ok"}else asked[id]="fail";if(cur===id)drawThread(false)},function(){asked[id]="fail"})}
+}
 
 function markRead(){var cv=get(cur);if(!cv||!cv.unread||document.hidden)return;
  cv.unread=0;drawList();
@@ -95,7 +76,7 @@ function clearFile(){file=null;fi.value="";fchip.hidden=true;fchip.innerHTML=""}
 function showFile(){fchip.hidden=false;fchip.innerHTML='<span>'+CLIP.replace("<svg","<svg width=\"16\" height=\"16\" style=\"vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.6\"")+' '+X(file.name)+' ('+size(file.size)+')</span><button type="button" id="fx" aria-label="Remove file">&times;</button>'}
 
 list.addEventListener("click",function(e){var b=e.target.closest(".it");if(!b)return;
- cur=b.dataset.id;lastSig="";emo.hidden=true;drawAll(true);loadPeer(cur);mi.focus()});
+ cur=b.dataset.id;lastSig="";emo.hidden=true;drawAll(true);mi.focus()});
 th.addEventListener("click",function(e){if(e.target.closest("#bk")){cur=null;drawAll(true)}});
 $("sbtn").addEventListener("click",function(){sr.hidden=!sr.hidden;if(!sr.hidden)q.focus();else{q.value="";term="";drawList()}});
 q.addEventListener("input",function(){term=q.value.trim().toLowerCase();drawList()});
@@ -127,7 +108,7 @@ f.addEventListener("submit",function(e){e.preventDefault();var v=mi.value.trim()
 window.renderMessages=function(){if(!U)return;
  fetchAll().then(function(){if(window.pendChat){cur=window.pendChat.id;window.pendChat=null;lastSig=""}
   if(cur&&!get(cur))cur=null;
-  drawAll(true);if(cur)loadPeer(cur)})};
+  drawAll(true)})};
 function refresh(){if(U&&NAV.cur()==="messages"&&!document.hidden&&!busy)fetchAll().then(function(){drawAll(false)})}
 setInterval(refresh,8000);
 window.addEventListener("sm-msg",refresh);
