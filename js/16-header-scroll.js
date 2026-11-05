@@ -7,7 +7,7 @@ function u(){
  if(sr&&sr.querySelector('#gg')){ /* login / sign-in page: no category row */
   bar.classList.remove('rs');c.classList.remove('static');c.classList.remove('show');return}
  if(!landing){ /* signed-in page and other pages: row visible at the top, disappears on the first little scroll */
-  bar.classList.add('rs');c.classList.remove('static');
+  bar.classList.toggle('rs',!(sr&&sr.querySelector('#browse')));c.classList.remove('static'); /* start page: the row sits over the top of the page, so nothing is left empty when it hides */
   var sh=cur?y<=8:y<=2;c.classList.toggle('show',sh);return}
  bar.classList.remove('rs');c.classList.remove('static');
  var show;

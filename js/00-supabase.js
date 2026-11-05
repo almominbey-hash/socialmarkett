@@ -46,8 +46,12 @@ SM.submitSeller=function(d){
 SM.createListing=function(d){
   return Promise.all([].map.call(d.shots,function(f){return SM.upload("listing-shots",f)})).then(function(paths){
     var urls=paths.map(function(p){return sb.storage.from("listing-shots").getPublicUrl(p).data.publicUrl});
-    return sb.from("listings").insert({seller_id:U.id,platform:d.platform,niche:d.niche,title:d.title,description:d.description,
-      followers:d.followers,income:d.income,price:d.price,account_link:d.link,shots:urls});
+    var row={seller_id:U.id,platform:d.platform,niche:d.niche,title:d.title,description:d.description,
+      followers:d.followers,income:d.income,price:d.price,account_link:d.link,shots:urls};
+    return sb.from("listings").insert(d.audience?Object.assign({audience:d.audience},row):row).then(function(r){
+      /* the audience column is added by supabase/audience-and-views.sql; until then save without it */
+      if(r.error&&d.audience&&/audience/i.test(r.error.message||""))return sb.from("listings").insert(row);
+      return r});
   }).then(function(r){if(r.error)throw r.error});
 };
 

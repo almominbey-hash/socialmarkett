@@ -197,3 +197,57 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .rf{margin:0;font-size:16px;font-weight:500}
 .rc:hover .rm{transform:translateY(-2px)}
 .rm{transition:transform .15s}
+
+/* ===== Welcome back: soft light-blue wash (no curve), starts just under the header ===== */
+.hero.wb{padding:60px 24px 44px}
+.hero.wb::before{display:block;clip-path:none;-webkit-mask-image:none;mask-image:none;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 16%,var(--bg)) 0%,color-mix(in srgb,var(--accent) 7%,var(--bg)) 62%,var(--bg) 100%)}
+.hero.wb h1{font-weight:400;letter-spacing:-.02em}
+
+/* ===== Section heading: An audience worth building on. ===== */
+.exh{align-items:flex-end;margin:36px 0 28px}
+.exl h2{margin:0;font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;line-height:1.12}
+.exl p{margin:8px 0 0;color:var(--muted);font-size:15px}
+.exr{display:flex;align-items:center;gap:10px;flex:none}
+.sa{border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:500 15px inherit;font-family:inherit;text-decoration:none;padding:12px 18px;margin:0;cursor:pointer;white-space:nowrap}
+.sa:hover{border-color:var(--text)}
+.ar{width:44px;height:44px;font-size:22px}
+@media (max-width:640px){.exh{flex-direction:column;align-items:flex-start}.exr{width:100%;justify-content:space-between}}
+
+/* ===== Account cards ===== */
+.xrail{gap:20px}
+.xc{width:min(300px,76vw);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);transition:box-shadow .15s,border-color .15s}
+.xc:hover{border-color:color-mix(in srgb,var(--text) 22%,var(--bg));box-shadow:0 10px 26px rgba(0,0,0,.08)}
+.xc:hover .xm{transform:none}
+.xm{height:200px;padding:0;border-radius:0;display:grid;place-items:center;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#000))}
+.xm img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.xm .lg{width:56px;height:56px}.xm .lg svg{width:32px;height:32px}
+.xm .au{position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.95);color:#14181f;font-size:12.5px;font-weight:500;border-radius:999px;padding:5px 11px 5px 9px;max-width:70%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.xm .au svg{width:14px;height:14px;flex:none}
+.xm .vb{right:12px;bottom:12px}
+.xm .sm{position:absolute;left:12px;top:12px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:500;border-radius:6px;padding:3px 8px}
+.xi{padding:14px 16px 16px}
+.xpf{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.xpf .pi{width:16px;height:16px;display:grid;place-items:center;flex:none}.xpf .pi svg{width:100%;height:100%;display:block}
+.xi h3{margin:8px 0 4px;font-size:18px;line-height:1.3;font-weight:500;letter-spacing:-.01em}
+.xt{margin:0;color:var(--muted);font-size:14px}
+.xf{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:18px}
+.xf b{font-weight:500}.xf .xa{font-size:18px;line-height:1}
+.xc.dm{cursor:default}
+
+/* ===== Refine your search: no box, blends into the page ===== */
+.fl{background:transparent;border:0;border-radius:0;padding:4px 20px 8px 0;gap:4px}
+.fl h3{margin:0 0 14px;font-size:22px;font-weight:500;letter-spacing:-.02em}
+.fl label{margin-top:14px;font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
+.fl select{height:46px;padding:0 40px 0 14px;border:1px solid transparent;border-radius:12px;background-color:var(--soft);color:var(--text);font-size:15px;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23566070' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;transition:background-color .15s,border-color .15s}
+.fl select:hover{border-color:var(--line)}
+.fl select:focus-visible{border-color:var(--accent);background-color:var(--bg)}
+.fl .btn{margin-top:24px;height:48px;border-radius:12px;font-size:15px;font-weight:500}
+.fl .rst{margin-top:8px;font-size:14px;color:var(--muted)}
+
+/* ===== Sub categories: one tidy row inside the cards area (scrolls sideways), not spread over the page ===== */
+.subs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.subs::-webkit-scrollbar{display:none}
+.sub{flex:none;white-space:nowrap}

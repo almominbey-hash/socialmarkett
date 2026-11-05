@@ -1,5 +1,5 @@
 /* Sell an account page */
-init.sell=function(root){var $=function(i){return root.querySelector("#"+i)};var again=$("again"),aud=$("aud"),desc=$("desc"),files=$("files"),inc=$("inc"),link=$("link"),niche=$("niche"),own=$("own"),p1=$("p1"),rec=$("rec"),s1=$("s1"),s2=$("s2"),s3=$("s3"),title=$("title"),tos=$("tos");
+init.sell=function(root){var $=function(i){return root.querySelector("#"+i)};var again=$("again"),aud=$("aud"),desc=$("desc"),files=$("files"),inc=$("inc"),link=$("link"),niche=$("niche"),audc=$("audc"),own=$("own"),p1=$("p1"),rec=$("rec"),s1=$("s1"),s2=$("s2"),s3=$("s3"),title=$("title"),tos=$("tos");
 
 var f=$("f"),done=$("done"),price=$("price"),shots=$("shots");
 function money(n){return "$"+Math.round(n).toLocaleString("en-US")}
@@ -10,7 +10,7 @@ f.onsubmit=function(e){
   e.preventDefault();
   var r=[
     [$("p1"),!!f.querySelector("[name=p]:checked")],
-    [link,link.value.trim().length>2],[niche,!!niche.value],
+    [link,link.value.trim().length>2],[niche,!!niche.value],[audc,!!audc.value],
     [aud,aud.value!==""&&+aud.value>=0],[inc,inc.value!==""&&+inc.value>=0],
     [shots,shots.files.length>=2],
     [title,title.value.trim().length>4],[desc,desc.value.trim().length>20],
@@ -20,7 +20,7 @@ f.onsubmit=function(e){
   if(first){first.scrollIntoView({block:"center"});if(first.type!=="radio"&&first.id!=="shots")first.focus();return}
   if(!U||U.kyc!=="verified"){NAV.go("start-selling");return}
   if(f.dataset.busy)return;f.dataset.busy="1";f.style.opacity=".6";
-  SM.createListing({platform:f.querySelector("[name=p]:checked").value,niche:niche.value,title:title.value.trim(),description:desc.value.trim(),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:shots.files})
+  SM.createListing({platform:f.querySelector("[name=p]:checked").value,niche:niche.value,audience:audc.value,title:title.value.trim(),description:desc.value.trim(),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:shots.files})
    .then(function(){f.style.display="none";done.style.display="block";done.scrollIntoView({block:"start"})})
    .catch(function(x){alert("Could not send your listing: "+SM.msg(x))})
    .then(function(){delete f.dataset.busy;f.style.opacity=""});

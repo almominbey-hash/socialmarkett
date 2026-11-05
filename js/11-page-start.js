@@ -9,13 +9,13 @@ Facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r=
 All:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>'};
 var PL={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0"};
 var NOUN={YouTube:"channel",Instagram:"page",TikTok:"account",Facebook:"page"};
-var D=[];
+var D=[],ready=false;
 
 var plat="All",tagF=null,q="";
 var F={niche:"",price:"",subs:"",lang:""},trend=false;
 /* Trending score: more saves and more sold by the seller = higher. Verified seller, bigger audience and newer listings add a little. */
-function score(d){return (d[15]||0)*3+(d[16]||0)*5+(d[9]?2:0)+Math.log10((d[4]||0)+1)}
-var subsEl=$("subs"),exhEl=$("exh"),grid=$("grid"),sortEl=$("sort"),pv=$("pv"),nx=$("nx");
+function score(d){return (d[15]||0)*3+(d[16]||0)*5+(d[17]||0)+(d[9]?2:0)+Math.log10((d[4]||0)+1)}
+var subsEl=$("subs"),exhEl=$("exh"),exsEl=$("exs"),grid=$("grid"),sortEl=$("sort"),pv=$("pv"),nx=$("nx");
 var fp=$("fp"),fn=$("fn"),fa=$("fa"),fal=$("fal"),fpr=$("fpr"),fs=$("fs"),fap=$("fap"),frs=$("frs");
 var PLS=["YouTube","Instagram","TikTok","Facebook"];
 var PR=[["","Any price"],["0-100","Under $100"],["100-500","$100 - $500"],["500-1000","$500 - $1,000"],["1000-5000","$1,000 - $5,000"],["5000-","$5,000 and above"]];
@@ -26,13 +26,14 @@ fpr.innerHTML=opts(PR,"");fs.innerHTML=opts(SR,"");
 function inR(v,r){if(!r)return true;var a=r.split("-"),lo=+a[0]||0,hi=(a[1]===undefined||a[1]==="")?Infinity:+a[1];return v>=lo&&v<hi}
 function uniq(i,p){var m={};D.forEach(function(d){if((p==="All"||d[0]===p)&&d[i])m[d[i]]=1});return Object.keys(m).sort()}
 function fillNiche(p,sel){var l=uniq(1,p);fn.innerHTML=opts([["","All niches"]].concat(l.map(function(x){return[x,x]})),l.indexOf(sel)>-1?sel:"")}
-function fillLang(){var l=uniq(14,"All");var on=l.length>0;fa.hidden=fal.hidden=!on;if(on)fa.innerHTML=opts([["","Any language"]].concat(l.map(function(x){return[x,x]})),F.lang)}
+function fillLang(){var l=uniq(14,"All");var on=l.length>0;fa.hidden=fal.hidden=!on;if(on)fa.innerHTML=opts([["","Any audience"]].concat(l.map(function(x){return[x,x]})),F.lang)}
 function pend(){return{plat:fp.value,niche:fn.value,price:fpr.value,subs:fs.value,lang:fa.value}}
 function match(d,o,tag,qq){return (o.plat==="All"||d[0]===o.plat)&&(!o.niche||d[1]===o.niche)&&inR(d[8],o.price)&&inR(d[4],o.subs)&&(!o.lang||d[14]===o.lang)&&(!tag||(d[10]||[]).indexOf(tag)>-1)&&(!qq||(d[0]+" "+d[1]+" "+d[2]).toLowerCase().indexOf(qq)>-1)}
 function updCount(){var o=pend(),n=D.filter(function(d){return match(d,o,o.plat===plat?tagF:null,q)}).length;fap.textContent="Apply filters \u00b7 "+n+" result"+(n===1?"":"s")}
 function setPlat(p,t){trend=!!window.TREND&&p==="All"&&!t;window.TREND=false;plat=p;tagF=t||null;fp.value=p;fillNiche(p,F.niche);if(!fn.value)F.niche="";fn.value=F.niche;fpr.value=F.price;fs.value=F.subs;
   var g=SUB[p]||[];subsEl.innerHTML=g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+i[0]+'</button>'}).join("")}).join("");
-  exhEl.textContent=trend?"Trending on socialmarket":tagF?p+" \u00b7 "+subLabel(p,tagF):"Explore popular categories on socialmarket";
+  exhEl.textContent=trend?"Trending on socialmarket":tagF?p+" \u00b7 "+subLabel(p,tagF):"An audience worth building on.";
+  exsEl.textContent=trend?"The accounts people are viewing, saving and buying the most.":tagF?"Accounts that match this category.":"Featured accounts, ready for their next chapter.";
   render();updCount();grid.scrollLeft=0}window.setPlat=setPlat;
 fp.onchange=function(){fillNiche(fp.value,"");updCount()};
 [fn,fa,fpr,fs].forEach(function(e){e.onchange=updCount});
@@ -43,19 +44,27 @@ frs.onclick=function(){F={niche:"",price:"",subs:"",lang:""};q="";var fi=$("fi")
 subsEl.addEventListener("click",function(e){var b=e.target.closest(".sub");if(!b)return;var h=b.dataset.h;if(NAV.cur()===h){setPlat(plat,null);NAV.go(HK[plat])}else NAV.go(h)});
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function arrows(){pv.disabled=grid.scrollLeft<=4;nx.disabled=grid.scrollLeft+grid.clientWidth>=grid.scrollWidth-4}
+var GL='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg>';
+function card(d,k,on,dm){var im=d[12]&&d[12][0],tag=dm?"div":"a";
+  return '<article class="xc'+(dm?' dm':'')+'"'+(dm?'':' data-k="'+k+'"')+'><'+tag+(dm?'':' href="/account"')+'><div class="xm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'<span class="lg">'+LOGO[d[0]]+'</span>')+
+  (d[14]?'<span class="au">'+GL+esc(d[14])+'</span>':'')+(d[9]?'<span class="vb">\u2713 Verified</span>':'')+(dm?'<span class="sm">Sample</span>':'')+'</div>'+
+  '<div class="xi"><div class="xpf"><span class="pi">'+LOGO[d[0]]+'</span>'+esc(d[0])+'</div><h3>'+esc(d[2])+'</h3><p class="xt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p>'+
+  '<div class="xf"><b>$'+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
+  '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+!!on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}
+/* shown only while there are no real listings yet; they disappear as soon as the first seller posts */
+var SAMPLE=[["YouTube","Technology","Urdu Tech Reviews","Sample","42K","42K","subscribers",0,125000,1,[],"",[],"","Pakistan",0,0,0],
+["Instagram","Food","Lahore Food Diaries","Sample","68K","68K","followers",0,185000,0,[],"",[],"","Pakistan",0,0,0],
+["Facebook","Travel","Northern Routes","Sample","95K","95K","followers",0,210000,0,[],"",[],"","Pakistan",0,0,0],
+["TikTok","Lifestyle","Everyday Style PK","Sample","31K","31K","followers",0,85000,0,[],"",[],"","Pakistan",0,0,0]];
 function render(){
   var list=D.filter(function(d){return match(d,{plat:plat,niche:F.niche,price:F.price,subs:F.subs,lang:F.lang},tagF,q)});
   if(trend)list=list.slice().sort(function(x,y){return score(y)-score(x)});
-  if(!list.length){grid.innerHTML='<p class="xe">'+(q?"No accounts match your search. Try another platform or niche.":"No accounts available")+'</p>';arrows();return}
-  grid.innerHTML=list.map(function(d){
-    var k=D.indexOf(d),on=SV.indexOf(d[2])>-1;
-    return '<article class="xc" data-k="'+k+'"><a href="/account"><div class="xm" style="--c:'+PL[d[0]]+'"><span class="lg">'+LOGO[d[0]]+'</span><div class="st"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+(d[9]?'<span class="vb">✓ Verified</span>':'')+'</div>'+
-    '<div class="xi"><small>'+esc(d[0])+' · '+esc(d[1])+'</small><h3>'+esc(d[2])+'</h3><div class="pr"><span>From </span>$'+d[8].toLocaleString("en-US")+'</div></div></a>'+
-    '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+on+'" aria-label="Save this account">'+(on?"♥":"♡")+'</button></article>';
-  }).join("");
+  if(!D.length){if(!ready){grid.innerHTML="";arrows();return}grid.innerHTML=SAMPLE.map(function(d){return card(d,"",false,true)}).join("");arrows();return}
+  if(!list.length){grid.innerHTML='<p class="xe">'+(q?"No accounts match your search. Try another platform or niche.":"No accounts match these filters. Try a wider range.")+'</p>';arrows();return}
+  grid.innerHTML=list.map(function(d){var k=D.indexOf(d);return card(d,k,SV.indexOf(d[2])>-1,false)}).join("");
   arrows();
 }
-grid.addEventListener("click",function(e){var c=e.target.closest(".xc");if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2]);var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"♥":"♡"}});
+grid.addEventListener("click",function(e){var c=e.target.closest(".xc");if(c&&c.classList.contains("dm")){e.preventDefault();return}if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2]);var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"♥":"♡"}});
 var rg=$("recg");if(rg)rg.addEventListener("click",function(e){var c=e.target.closest(".xc");if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2]);var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"\u2665":"\u2661"}});
 grid.addEventListener("scroll",arrows,{passive:true});
 pv.onclick=function(){grid.scrollBy({left:-grid.clientWidth*.8,behavior:"smooth"})};
@@ -64,7 +73,8 @@ nx.onclick=function(){grid.scrollBy({left:grid.clientWidth*.8,behavior:"smooth"}
 function rkey(){return "sm_recent_"+(U&&U.id?U.id:"guest")}
 function rget(){try{var x=JSON.parse(localStorage.getItem(rkey())||"null");if(x&&x.q&&x.p)return x}catch(e){}return{q:[],p:{},n:{},v:[]}}
 function rput(x){try{localStorage.setItem(rkey(),JSON.stringify(x))}catch(e){}}
-function track(d,term,pl){var x=rget();
+function bump(d){if(!d||!d[13])return;var k="sm_v_"+d[13];try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}try{sb.rpc("bump_listing_view",{listing:d[13]}).then(function(){},function(){})}catch(e){}}
+function track(d,term,pl){var x=rget();bump(d);
  if(term){x.q=x.q.filter(function(t){return t!==term});x.q.unshift(term);x.q=x.q.slice(0,8)}
  if(pl)x.p[pl]=(x.p[pl]||0)+1;
  if(d){x.p[d[0]]=(x.p[d[0]]||0)+1;x.n[d[1]]=(x.n[d[1]]||0)+1;x.v=x.v.filter(function(i){return i!==d[13]});x.v.unshift(d[13]);x.v=x.v.slice(0,12)}
@@ -98,8 +108,8 @@ $("fq").onsubmit=function(e){e.preventDefault();var t=$("fi").value.trim().toLow
 $("sa").onclick=function(){q="";$("fi").value="";if(NAV.cur()==="start")setPlat("All");else NAV.go("start")};
 window.addEventListener("resize",arrows);
 SM.trending=function(){return sb.from("trending_scores").select("*").then(function(r){return r.data||[]},function(){return[]})};
-Promise.all([SM.listings(),SM.trending()]).then(function(res){var rows=res[0],tr={};res[1].forEach(function(t){tr[t.listing_id]=t});window.SMT=tr;rows.forEach(function(r){var t=tr[r.id]||{};r._s=Number(t.saves)||0;r._o=Number(t.seller_sold)||0});(function(rows){rows.forEach(function(r){var u=r.platform==="YouTube"?"subscribers":"followers";
- D.unshift([r.platform,r.niche,r.title,r.seller_name||"Seller",r.followers,SM.short(r.followers),u,Number(r.income)||0,Number(r.price),r.seller_verified?1:0,[],r.description||"",r.shots||[],r.id,r.language||"",r._s,r._o])});fillLang();fillNiche(plat,F.niche);render();updCount();recent()})(rows)});
+Promise.all([SM.listings(),SM.trending()]).then(function(res){var rows=res[0],tr={};res[1].forEach(function(t){tr[t.listing_id]=t});window.SMT=tr;rows.forEach(function(r){var t=tr[r.id]||{};r._s=Number(t.saves)||0;r._o=Number(t.seller_sold)||0});(function(rows){ready=true;rows.forEach(function(r){var u=r.platform==="YouTube"?"subscribers":"followers";
+ D.unshift([r.platform,r.niche,r.title,r.seller_name||"Seller",r.followers,SM.short(r.followers),u,Number(r.income)||0,Number(r.price),r.seller_verified?1:0,[],r.description||"",r.shots||[],r.id,r.audience||"",r._s,r._o,Number(r.views)||0])});fillLang();fillNiche(plat,F.niche);render();updCount();recent()})(rows)});
 window.SMD=D;window.renderStart=function(){welcome();seller();render();updCount();recent()};render();welcome();seller();
 
 };

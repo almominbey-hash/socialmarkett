@@ -69,3 +69,8 @@ body:not(.ready) .out-only{visibility:hidden}
 #cats .nxt{position:absolute;right:0;top:0;bottom:0;width:72px;border:0;padding:0 18px 0 0;display:flex;align-items:center;justify-content:flex-end;background:linear-gradient(90deg,transparent,var(--bg) 60%);color:var(--text);font-size:26px;line-height:1;cursor:pointer}
 #cats .nxt[hidden]{display:none}
 #cats #mm{top:100%}
+
+/* ===== Category drop-down: stays inside the page width (same edges as the cards), not edge to edge ===== */
+#mm{background:transparent;border:0;box-shadow:none;pointer-events:none}
+#mm .mi{pointer-events:auto;box-sizing:border-box;width:calc(100% - 48px);max-width:1352px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;box-shadow:0 14px 28px rgba(0,0,0,.10);padding:22px 24px 26px}
+@media (max-width:640px){#mm .mi{width:calc(100% - 28px)}}
