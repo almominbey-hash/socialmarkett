@@ -1,9 +1,28 @@
-<main class="wrap"><h1>Messages</h1>
+<main class="wrap">
 <div class="chat" id="chat">
-<aside class="list" id="list" aria-label="Conversations"></aside>
+<aside class="list" aria-label="Conversations">
+<div class="lh"><h1>Conversations</h1><button type="button" class="ib" id="sbtn" aria-label="Search conversations"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></div>
+<div class="sr" id="sr" hidden><input id="q" type="search" placeholder="Search conversations" autocomplete="off" aria-label="Search conversations"></div>
+<div class="lst" id="list"></div>
+</aside>
 <section class="thread" id="thread">
 <div class="th" id="th"></div>
 <div class="ms" id="ms" aria-live="polite"></div>
-<form id="f"><input id="mi" type="text" placeholder="Write a message..." autocomplete="off" aria-label="Write a message"><button class="btn" type="submit">Send</button></form>
+<div class="et" id="et"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg><b>Select a conversation to get started</b></div>
+<div class="fw" id="fw">
+<div class="fchip" id="fchip" hidden></div>
+<div class="emo" id="emo" hidden></div>
+<form id="f">
+<input id="mi" type="text" placeholder="Type a message..." autocomplete="off" aria-label="Type a message" maxlength="2000">
+<div class="tb">
+<button type="button" class="ib" id="att" aria-label="Attach a file" title="Attach a file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7L10 17.4a1.7 1.7 0 0 1-2.4-2.4L15 7.6"/></svg></button>
+<button type="button" class="ib" id="emb" aria-label="Add an emoji" title="Add an emoji"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></button>
+<input type="file" id="fi" hidden>
+<span class="gap"></span>
+<button class="btn" type="submit" id="sendb">Send</button>
+</div>
+</form>
+</div>
 </section>
+<aside class="ov" id="ov" aria-label="Overview"></aside>
 </div></main>
