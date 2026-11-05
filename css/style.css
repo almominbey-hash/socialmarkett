@@ -74,3 +74,6 @@ body:not(.ready) .out-only{visibility:hidden}
 #mm{background:transparent;border:0;box-shadow:none;pointer-events:none}
 #mm .mi{pointer-events:auto;box-sizing:border-box;width:calc(100% - 48px);max-width:1352px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;box-shadow:0 14px 28px rgba(0,0,0,.10);padding:22px 24px 26px}
 @media (max-width:640px){#mm .mi{width:calc(100% - 28px)}}
+
+/* New landing page has its own header: hide the shared header and category row there */
+body.on-landing #bar{display:none}

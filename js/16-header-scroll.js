@@ -2,7 +2,7 @@
 (function(){var c=document.getElementById('cats'),bar=document.getElementById('bar');if(!c||!bar)return;
 function u(){
  var pg=document.querySelector('#app .page.on'),sr=pg&&pg.shadowRoot,landing=sr&&sr.querySelector('#tiles'),hero=sr&&sr.querySelector('section.hero');
- bar.style.position=landing?'':'relative';
+ bar.style.position=landing?'':'relative';document.body.classList.toggle('on-landing',!!landing);
  var y=window.pageYOffset||document.documentElement.scrollTop,cur=c.classList.contains('show');
  if(sr&&sr.querySelector('#gg')){ /* login / sign-in page: no category row */
   bar.classList.remove('rs');c.classList.remove('static');c.classList.remove('show');return}

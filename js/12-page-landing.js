@@ -1,34 +1,14 @@
-/* First page (home) */
+/* First page (home) - design from Figma "Social Market homepage Desktop" */
 init.landing=function(root){var $=function(i){return root.querySelector("#"+i)};
-/* PICTURES AND VIDEOS: put a link (.mp4, .webm, .jpg, .png) between the quotes. Empty = grey slot. */
-var MEDIA={hero:"",promo1:"",promo2:"",pop0:"",pop1:"",pop2:"",pop3:"",pop4:"",pop5:"",pop6:"",pop7:"",gd0:"",gd1:"",gd2:"",gd3:""};
-function eh(s){return String(s).replace(/[&<>"]/g,"")}
-function fill(){[].forEach.call(root.querySelectorAll(".m[data-k]"),function(b){var u=MEDIA[b.dataset.k]||"";if(!u){b.insertAdjacentHTML("afterbegin","<span>Your picture or video here</span>");return}
- b.insertAdjacentHTML("afterbegin",/\.(mp4|webm)(\?|$)/i.test(u)?'<video src="'+eh(u)+'" autoplay muted loop playsinline></video>':'<img src="'+eh(u)+'" alt="">')})}
-var TL=[["YouTube","Channels",'<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="2" y="9" width="44" height="30" rx="9" fill="#ff0000"/><path d="M19.5 17.2 32 24l-12.5 6.8z" fill="#fff"/></svg>'],["Instagram","Pages",'<svg viewBox="0 0 48 48" aria-hidden="true"><defs><radialGradient id="igg" cx=".3" cy="1.05" r="1.15"><stop offset="0" stop-color="#ffd776"/><stop offset=".25" stop-color="#fa7e1e"/><stop offset=".5" stop-color="#d62976"/><stop offset=".75" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></radialGradient></defs><rect x="3" y="3" width="42" height="42" rx="12" fill="url(#igg)"/><rect x="12" y="12" width="24" height="24" rx="7.5" fill="none" stroke="#fff" stroke-width="3"/><circle cx="24" cy="24" r="5.8" fill="none" stroke="#fff" stroke-width="3"/><circle cx="31.6" cy="16.4" r="1.9" fill="#fff"/></svg>'],["TikTok","Accounts",'<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#000"/><g id="tkn"><path d="M26.6 11h4.1c.3 3 2 4.9 5 5.2v4.1c-1.9 0-3.6-.6-5-1.6v8.3a7.6 7.6 0 1 1-7.6-7.6c.4 0 .8 0 1.2.1v4.2a3.5 3.5 0 1 0 2.3 3.3z"/></g><use href="#tkn" fill="#25f4ee" transform="translate(-1.6 1.2)"/><use href="#tkn" fill="#fe2c55" transform="translate(1.6 -1.2)"/><use href="#tkn" fill="#fff"/></svg>'],["Facebook","Pages",'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1877f2"/><path fill="#fff" d="M16.671 15.469l.532-3.469h-3.328V9.75c0-.949.465-1.875 1.956-1.875h1.513V4.922s-1.373-.234-2.686-.234c-2.741 0-4.533 1.662-4.533 4.669V12H7.078v3.469h3.047v8.385a12.1 12.1 0 0 0 3.75 0v-8.385z"/></svg>']];
-$("tiles").innerHTML=TL.map(function(t){return '<a class="tile" href="#home" data-p="'+t[0]+'"><span class="lg">'+t[2]+'</span><b>'+t[0]+'</b></a>'}).join("");
-var PO=[["Tech reviews","YouTube","#3a1d5c"],["Fitness accounts","TikTok","#0b2f5c"],["Lifestyle pages","Instagram","#5c1d3a"],["Food &amp; recipes","Instagram","#5c3a0b"],["Home &amp; garden","Facebook","#0b3d4a"],["Creative &amp; art","TikTok","#2c2c5c"]];
-$("pop").innerHTML=PO.map(function(p,i){return '<a class="pc" href="#home" data-p="'+p[1]+'" style="--c:'+p[2]+'"><b>'+p[0]+'</b><small>'+p[1]+'</small><div class="m" data-k="pop'+i+'"></div></a>'}).join("");
-var IC={a:'<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="m9 12 2 2 4-4"/>',b:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',c:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',d:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>'};
-var BE=[["a","Verified accounts","Browse by platform, niche and price."],["b","Pay safely","Your money is held until you confirm the account."],["c","24 hours to check","Log in, check the stats, then confirm."],["d","Only pay when you are happy","Problem? Report it and the money stays held."]];
-$("ben").innerHTML=BE.map(function(b){return '<div><svg viewBox="0 0 24 24" aria-hidden="true">'+IC[b[0]]+'</svg><b>'+b[1]+'</b><span>'+b[2]+'</span></div>'}).join("");
-var GU=["How to buy an account safely","How to check followers and income","How to sell your account in 3 steps","How to spot a fake account"];
-$("gd").innerHTML=GU.map(function(g,i){return '<div class="gc"><div class="m" data-k="gd'+i+'"></div><b>'+g+'</b></div>'}).join("");
-var FC=[["Platforms",[["YouTube","#home","YouTube"],["Instagram","#home","Instagram"],["TikTok","#home","TikTok"],["Facebook","#home","Facebook"]]],
-["For sellers",[["Become a seller","#verify"],["List an account","#sell"],["Seller rules","#top"],["Verification","#verify"]]],
-["Support",[["Help centre","#top"],["Trust &amp; safety","#top"],["Terms of service","terms.html"],["Privacy policy","privacy.html"]]]];
-$("cols").innerHTML=FC.map(function(c){return '<div><b>'+c[0]+'</b>'+c[1].map(function(l){return '<a href="'+l[1]+'"'+(l[2]?' data-p="'+l[2]+'"':'')+'>'+l[0]+'</a>'}).join("")+'</div>'}).join("");
-fill();
-/* SOCIAL LINKS: put your page links between the quotes. Empty = icon shows but does not open anything. */
-var SOCIAL={facebook:"",instagram:"",tiktok:"",youtube:""};
-[].forEach.call(root.querySelectorAll("[data-soc]"),function(a){var u=SOCIAL[a.dataset.soc]||"";if(u){a.href=u;a.target="_blank";a.rel="noopener noreferrer"}});
+/* PICTURES: put your exported images in the /images folder (names below). Missing picture = soft grey box. */
+var IMG={hero:"/images/hero.jpg",cover1:"/images/cover1.jpg",cover2:"/images/cover2.jpg",cover3:"/images/cover3.jpg",cover4:"/images/cover4.jpg",cover5:"/images/cover5.jpg",cover6:"/images/cover6.jpg",cover7:"/images/cover7.jpg",cover8:"/images/cover8.jpg"};
+[].forEach.call(root.querySelectorAll("[data-img]"),function(b){var u=IMG[b.dataset.img];if(u)b.style.backgroundImage='url("'+u+'")'});
 $("yr").textContent=new Date().getFullYear();
-/* Search box: the hint text changes by itself (every PH_MS milliseconds) */
-var PH=["YouTube channels","Instagram pages","TikTok accounts","Facebook pages"],PH_MS=1000,pi=0;
-setInterval(function(){pi=(pi+1)%PH.length;$("sq").placeholder=PH[pi]},PH_MS);
-root.addEventListener("click",function(e){var n=e.target.closest(".nx");if(n){var r=$(n.dataset.n);r.scrollBy({left:r.clientWidth*.8,behavior:"smooth"});return}
- var a=e.target.closest("[data-p]");if(a){var h=document.querySelector('#cats a[data-p="'+a.dataset.p+'"]');if(h)h.click()}});
+/* Search box: sends the words to the real site search */
 $("sf").onsubmit=function(e){e.preventDefault();document.getElementById("hq").value=$("sq").value;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}))};
+/* Heart button on a card: stays on the page, does not open the card */
+root.addEventListener("click",function(e){if(e.target.closest(".sv")){e.preventDefault();e.stopPropagation();return}
+ var a=e.target.closest("[data-p]");if(a){var h=document.querySelector('#cats a[data-p="'+a.dataset.p+'"]');if(h)h.click()}});
 };
 
 
