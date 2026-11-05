@@ -3,6 +3,8 @@ init.landing=function(root){var $=function(i){return root.querySelector("#"+i)};
 /* PICTURES: put your exported images in the /images folder (names below). Missing picture = soft grey box. */
 var IMG={hero:"/images/hero.jpg",cover1:"/images/cover1.jpg",cover2:"/images/cover2.jpg",cover3:"/images/cover3.jpg",cover4:"/images/cover4.jpg",cover5:"/images/cover5.jpg",cover6:"/images/cover6.jpg",cover7:"/images/cover7.jpg",cover8:"/images/cover8.jpg"};
 [].forEach.call(root.querySelectorAll("[data-img]"),function(b){var u=IMG[b.dataset.img];if(u)b.style.backgroundImage='url("'+u+'")'});
+/* Optional hero video: save a file called hero.mp4 in the /images folder and it plays by itself behind the headline. No file = the picture stays. */
+fetch("/images/hero.mp4",{method:"HEAD"}).then(function(r){var ct=r.headers.get("content-type")||"";if(!r.ok||ct.indexOf("video")<0)return;var v=document.createElement("video");v.src="/images/hero.mp4";v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;v.setAttribute("playsinline","");root.querySelector(".hero .ph").appendChild(v);var pr=v.play();if(pr&&pr.catch)pr.catch(function(){})}).catch(function(){});
 $("yr").textContent=new Date().getFullYear();
 /* Hide the shared top bar only while THIS page is showing (this page has its own header). Nothing else is touched. */
 (function(){var st=document.createElement("style");st.textContent="body.on-landing #bar{display:none}";document.head.appendChild(st);

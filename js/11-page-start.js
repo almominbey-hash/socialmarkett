@@ -18,7 +18,7 @@ function score(d){return (d[15]||0)*3+(d[16]||0)*5+(d[17]||0)+(d[9]?2:0)+Math.lo
 var subsEl=$("subs"),exhEl=$("exh"),exsEl=$("exs"),grid=$("grid"),sortEl=$("sort"),pv=$("pv"),nx=$("nx");
 var fp=$("fp"),fn=$("fn"),fa=$("fa"),fal=$("fal"),fpr=$("fpr"),fs=$("fs"),fap=$("fap"),frs=$("frs");
 var PLS=["YouTube","Instagram","TikTok","Facebook"];
-var PR=[["","Any price"],["0-100","Under $100"],["100-500","$100 - $500"],["500-1000","$500 - $1,000"],["1000-5000","$1,000 - $5,000"],["5000-","$5,000 and above"]];
+var PR=[["","Any price"],["0-25000","Under Rs. 25,000"],["25000-100000","Rs. 25,000 - 100,000"],["100000-250000","Rs. 100,000 - 250,000"],["250000-500000","Rs. 250,000 - 500,000"],["500000-","Rs. 500,000 and above"]];
 var SR=[["","Any number"],["0-10000","Under 10K"],["10000-50000","10K - 50K"],["50000-100000","50K - 100K"],["100000-500000","100K - 500K"],["500000-","500K and above"]];
 function opts(list,sel){return list.map(function(o){return '<option value="'+esc(o[0])+'"'+(o[0]===sel?" selected":"")+'>'+esc(o[1])+'</option>'}).join("")}
 fp.innerHTML=opts([["All","All platforms"]].concat(PLS.map(function(p){return[p,p]})),"All");
@@ -26,7 +26,8 @@ fpr.innerHTML=opts(PR,"");fs.innerHTML=opts(SR,"");
 function inR(v,r){if(!r)return true;var a=r.split("-"),lo=+a[0]||0,hi=(a[1]===undefined||a[1]==="")?Infinity:+a[1];return v>=lo&&v<hi}
 function uniq(i,p){var m={};D.forEach(function(d){if((p==="All"||d[0]===p)&&d[i])m[d[i]]=1});return Object.keys(m).sort()}
 function fillNiche(p,sel){var l=uniq(1,p);fn.innerHTML=opts([["","All niches"]].concat(l.map(function(x){return[x,x]})),l.indexOf(sel)>-1?sel:"")}
-function fillLang(){var l=uniq(14,"All");var on=l.length>0;fa.hidden=fal.hidden=!on;if(on)fa.innerHTML=opts([["","Any audience"]].concat(l.map(function(x){return[x,x]})),F.lang)}
+var AUDL=["Pakistan","United Kingdom","United States","India","UAE","Saudi Arabia","Canada","Global","Other"];
+function fillLang(){var l=AUDL.concat(uniq(14,"All").filter(function(x){return AUDL.indexOf(x)<0}));fa.hidden=fal.hidden=false;fa.innerHTML=opts([["","Any audience"]].concat(l.map(function(x){return[x,x]})),F.lang)}
 function pend(){return{plat:fp.value,niche:fn.value,price:fpr.value,subs:fs.value,lang:fa.value}}
 function match(d,o,tag,qq){return (o.plat==="All"||d[0]===o.plat)&&(!o.niche||d[1]===o.niche)&&inR(d[8],o.price)&&inR(d[4],o.subs)&&(!o.lang||d[14]===o.lang)&&(!tag||(d[10]||[]).indexOf(tag)>-1)&&(!qq||(d[0]+" "+d[1]+" "+d[2]).toLowerCase().indexOf(qq)>-1)}
 function updCount(){var o=pend(),n=D.filter(function(d){return match(d,o,o.plat===plat?tagF:null,q)}).length;fap.textContent="Apply filters \u00b7 "+n+" result"+(n===1?"":"s")}
@@ -46,10 +47,12 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;
 function arrows(){pv.disabled=grid.scrollLeft<=4;nx.disabled=grid.scrollLeft+grid.clientWidth>=grid.scrollWidth-4}
 var GL='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg>';
 function card(d,k,on,dm){var im=d[12]&&d[12][0],tag=dm?"div":"a";
-  return '<article class="xc'+(dm?' dm':'')+'"'+(dm?'':' data-k="'+k+'"')+'><'+tag+(dm?'':' href="/account"')+'><div class="xm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'<span class="lg">'+LOGO[d[0]]+'</span>')+
-  (d[14]?'<span class="au">'+GL+esc(d[14])+'</span>':'')+(d[9]?'<span class="vb">\u2713 Verified</span>':'')+(dm?'<span class="sm">Sample</span>':'')+'</div>'+
-  '<div class="xi"><div class="xpf"><span class="pi">'+LOGO[d[0]]+'</span>'+esc(d[0])+'</div><h3>'+esc(d[2])+'</h3><p class="xt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p>'+
-  '<div class="xf"><b>$'+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
+  return '<article class="xc'+(dm?' dm':'')+'"'+(dm?'':' data-k="'+k+'"')+'><'+tag+(dm?'':' href="/account"')+'><div class="xm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'')+
+  '<div class="xtop"><span class="xpl" title="'+esc(d[0])+'">'+LOGO[d[0]]+'</span><span class="xn">'+esc(d[1])+'</span></div>'+
+  (dm?'<span class="sm">Sample</span>':'')+
+  '<div class="xsub"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+
+  (d[9]?'<span class="xvt" title="Verified"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>':'')+'</div>'+
+  '<div class="xi"><h3>'+esc(d[2])+'</h3><div class="xf"><b>Rs. '+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
   '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+!!on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}
 /* shown only while there are no real listings yet; they disappear as soon as the first seller posts */
 var SAMPLE=[["YouTube","Technology","Urdu Tech Reviews","Sample","42K","42K","subscribers",0,125000,1,[],"",[],"","Pakistan",0,0,0],
@@ -88,7 +91,7 @@ function recent(){var el=$("rec"),box=$("recg");if(!el||!box)return;var x=rget()
  box.innerHTML=sc.map(function(a){var d=D[a[1]],k=a[1],on=SV.indexOf(d[2])>-1,im=d[12]&&d[12][0];
   return '<article class="rc xc" data-k="'+k+'"><a href="/account"><div class="rm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'<span class="lg">'+LOGO[d[0]]+'</span>')+'</div>'+
   '<div class="rb"><div class="rs"><span class="ra">'+esc(String(d[3]).charAt(0).toUpperCase())+'</span><span class="rn">'+esc(d[3])+'</span><span class="rp">'+esc(d[0])+'</span></div>'+
-  '<h3>'+esc(d[2])+'</h3><p class="rt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p><p class="rf">From $'+d[8].toLocaleString("en-US")+'</p></div></a>'+
+  '<h3>'+esc(d[2])+'</h3><p class="rt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p><p class="rf">From Rs. '+d[8].toLocaleString("en-US")+'</p></div></a>'+
   '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}).join("");
  el.hidden=false}
 function welcome(){var t=$("wb"),x=$("hero");if(!t||!x)return;var n=U&&U.name&&U.name!=="Google user"?String(U.name).split(" ")[0]:"";t.textContent=U?"Welcome back"+(n?", "+n:""):"Buy and sell social media accounts safely";x.classList.add("wb")}
@@ -110,6 +113,6 @@ window.addEventListener("resize",arrows);
 SM.trending=function(){return sb.from("trending_scores").select("*").then(function(r){return r.data||[]},function(){return[]})};
 Promise.all([SM.listings(),SM.trending()]).then(function(res){var rows=res[0],tr={};res[1].forEach(function(t){tr[t.listing_id]=t});window.SMT=tr;rows.forEach(function(r){var t=tr[r.id]||{};r._s=Number(t.saves)||0;r._o=Number(t.seller_sold)||0});(function(rows){ready=true;rows.forEach(function(r){var u=r.platform==="YouTube"?"subscribers":"followers";
  D.unshift([r.platform,r.niche,r.title,r.seller_name||"Seller",r.followers,SM.short(r.followers),u,Number(r.income)||0,Number(r.price),r.seller_verified?1:0,[],r.description||"",r.shots||[],r.id,r.audience||"",r._s,r._o,Number(r.views)||0])});fillLang();fillNiche(plat,F.niche);render();updCount();recent()})(rows)});
-window.SMD=D;window.renderStart=function(){welcome();seller();render();updCount();recent()};render();welcome();seller();
+window.SMD=D;window.renderStart=function(){welcome();seller();render();updCount();recent()};fillLang();render();welcome();seller();
 
 };

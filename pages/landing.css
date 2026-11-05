@@ -17,7 +17,7 @@ h1,h2,h3,h4,p{margin:0}
 .hd.sc .hcats{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .2s,transform .2s}
 .hcats nav{height:56px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
 .hcats nav::-webkit-scrollbar{display:none}
-.hcats a{font-size:15px;color:var(--mut)}.hcats a:hover{color:var(--ink)}
+.hcats a{font-size:15px;color:var(--mut);display:inline-flex;align-items:center;height:100%;border-bottom:3px solid transparent;transition:border-color .15s,color .15s}.hcats a:hover,.hcats a:active,.hcats a:focus-visible{color:var(--ink);border-bottom-color:var(--blue)}
 .brand{display:flex;align-items:center;gap:6px;font-size:24px;letter-spacing:-.8px;font-weight:400}
 .brand i{width:12px;height:25px;background:var(--blue);border-radius:3px;display:block}
 .acc{margin-left:auto;flex:none;display:flex;align-items:center;gap:34px;font-size:16px;color:#000}
@@ -103,3 +103,5 @@ h1,h2,h3,h4,p{margin:0}
 /* tablet and phone */
 @media (max-width:1100px){.chips{flex-wrap:wrap}.tile{flex:0 0 150px}.hs{max-width:none}.hc h1{font-size:clamp(44px,5.4vw,84px);line-height:1.08;font-weight:400;letter-spacing:-.035em;max-width:none}.grid4{flex-wrap:wrap}.lc{flex:1 1 calc(50% - 10px)}.steps{flex-wrap:wrap}.step{flex:1 1 calc(50% - 16px)}.promo{flex-direction:column;align-items:stretch;gap:32px}.pcard{width:100%}.pc2 h2,.sh h2{font-size:40px}.sellcta h2{font-size:44px}.grid3{flex-wrap:wrap}.gcard{flex:1 1 calc(50% - 12px)}}
 @media (max-width:700px){.hs{display:none}.hcats nav{padding:0 20px}.hdi,.tiles,.body,.ft{padding-left:20px;padding-right:20px}.hdi{height:68px;gap:12px}.brand{font-size:20px}.acc{gap:14px}.acc .sell{display:none}.hero{height:auto}.hc{padding:80px 20px 40px;gap:28px}.hc h1{font-size:clamp(44px,5.4vw,84px);line-height:1.08;font-weight:400;letter-spacing:-.035em;max-width:none}.tiles{padding-top:24px;padding-bottom:24px}.body{gap:64px;padding-top:32px;padding-bottom:56px}.sh{flex-direction:column;align-items:flex-start}.sh h2,.h44,.pc2 h2{font-size:32px;letter-spacing:-1px}.lc,.step,.gcard{flex:1 1 100%}.promo{padding:28px 22px;min-height:0}.sellcta{padding:40px 22px}.sellcta h2{font-size:32px;letter-spacing:-1px}.cols{flex-direction:column;gap:28px}.fb2{flex-wrap:wrap;gap:10px}.fb2 .cp{flex:1 1 100%;order:3}}
+
+.hero .ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}

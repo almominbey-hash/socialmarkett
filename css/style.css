@@ -75,5 +75,32 @@ body:not(.ready) .out-only{visibility:hidden}
 #mm .mi{pointer-events:auto;box-sizing:border-box;width:calc(100% - 48px);max-width:1352px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;box-shadow:0 14px 28px rgba(0,0,0,.10);padding:22px 24px 26px}
 @media (max-width:640px){#mm .mi{width:calc(100% - 28px)}}
 
-/* New landing page has its own header: hide the shared header and category row there */
-body.on-landing #bar{display:none}
+
+/* ===== v6: blue line under a category on hover ===== */
+#cats a{position:relative}
+#cats a::after{content:"";position:absolute;left:22px;right:22px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--accent);opacity:0;transition:opacity .15s}
+#cats a:first-child::after{left:0}
+#cats a:hover::after{opacity:1}
+
+/* ===== v6: dropdown card - everything close together inside one card ===== */
+#mm .mi{display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px 56px;width:fit-content;max-width:calc(100% - 48px);margin:0 0 0 max(24px,calc((100% - 1400px)/2 + 24px))}
+#mm .mi>div{min-width:150px}
+@media (max-width:640px){#mm .mi{margin:0 14px;max-width:calc(100% - 28px);gap:10px 32px}}
+
+
+/* ===== v7: blue line stays under the category you clicked ===== */
+#cats a[aria-current]::after,#cats a.cur::after{opacity:1}
+
+/* ===== v7: same header spacing as the first page, on every page (desktop and tablet) ===== */
+@media (min-width:641px){
+#bar .in{max-width:none;margin:0;padding:0 48px;gap:36px}
+#bar .tools{gap:26px}
+#bar a.txt{padding:0;border-radius:0;font-size:16px;color:var(--text)}
+#bar a.cta{border:1.5px solid var(--text);border-radius:10px;padding:12px 22px;font-size:16px;font-weight:600;color:var(--text)}
+#bar a.cta:hover{border-color:var(--text);background:var(--text);color:var(--bg)}
+#bar a.join{border-radius:8px;padding:12px 26px;font-size:16px;font-weight:600}
+#cats .in{max-width:none;margin:0;padding:0 48px;justify-content:space-between;gap:24px}
+#cats a,#cats a[aria-current]{padding:0}
+#cats a::after,#cats a:first-child::after{left:0;right:0}
+#mm .mi{margin-left:48px}
+}
