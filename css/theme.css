@@ -9,11 +9,11 @@ h1,h2,h3,h4,h5,h6,b,strong,th{font-weight:600}
 body.no-cats #cats{display:none!important}
 
 /* signed-in welcome area: light blue gradient, soft curve, more space below */
-.hero.wb::before{background:linear-gradient(135deg,#e8f2ff 0%,#cfe4ff 50%,#b9d8ff 100%)!important;clip-path:ellipse(85% 100% at 50% 0)!important}
-.hero.wb{padding-bottom:110px!important}
+.hero.wb::before{background:linear-gradient(135deg,#f0f6ff 0%,#e1edff 55%,#d4e5ff 100%)!important;clip-path:ellipse(85% 100% at 50% 0)!important}
+.hero.wb{padding-bottom:30px!important}
 .hero.wb h1{margin-bottom:10px}
 .hero.wb .wsub{margin-bottom:22px}
-.exh{margin-top:64px!important}
+.exh{margin-top:40px!important}
 
 /* image arrows on listing cards */
 .xnv{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:#14181f;font-size:22px;line-height:1;cursor:pointer;z-index:3;display:grid;place-items:center;padding:0;opacity:0;transition:opacity .15s}
