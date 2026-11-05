@@ -15,4 +15,11 @@ window.renderAccount=function(){var d=window.SEL;if(!d)return;
  ["sv","sv2"].forEach(function(k){$(k).textContent=d[9]?"Verified seller":"Seller"});
  window.scrollTo(0,0)};
 ["cs","cs2"].forEach(function(k){$(k).addEventListener("click",function(){var d=window.SEL;if(d&&d[13])window.openChat(d[13])})});
+/* Buy now: makes the order (and its Order ID) in the database, then opens the Orders page */
+$("buy").addEventListener("click",function(){var d=window.SEL;if(!d||!d[13])return;
+ if(!U){window.GO="start";NAV.go("login");route();return}
+ var b=$("buy");b.disabled=true;b.textContent="Creating your order...";
+ sb.rpc("create_order",{p_listing:d[13]}).then(function(r){b.disabled=false;b.textContent="Buy now";
+  if(r.error){alert(SM.msg(r.error));return}
+  window.pendOrder=r.data;NAV.go("order");route()},function(){b.disabled=false;b.textContent="Buy now";alert("Something went wrong. Please try again.")})});
 };
