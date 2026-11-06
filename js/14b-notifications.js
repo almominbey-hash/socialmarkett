@@ -19,15 +19,15 @@ function unread(){return LIST.filter(function(n){return !n.read}).length}
 /* ---------- style (added from here, no CSS file to edit) ---------- */
 var st=document.createElement("style");
 st.textContent=
-"#ntf{position:fixed;z-index:1000;top:80px;right:16px;width:320px;max-width:calc(100vw - 24px);max-height:min(520px,calc(100vh - 110px));display:none;flex-direction:column;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.18);font:16px/1.4 Inter,sans-serif;overflow:hidden}"+
+"#ntf{position:fixed;z-index:1000;top:80px;right:16px;width:270px;max-width:calc(100vw - 24px);max-height:min(440px,calc(100vh - 110px));display:none;flex-direction:column;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.18);font:16px/1.4 Inter,sans-serif;overflow:hidden}"+
 "#ntf.on{display:flex}"+
-"#ntf .nh{display:flex;align-items:center;gap:12px;padding:20px 22px;border-bottom:1px solid var(--line)}"+
+"#ntf .nh{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}"+
 "#ntf .nh svg{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}"+
 "#ntf .nh b{font-size:17px;font-weight:600;flex:1}"+
 "#ntf .nh button{border:0;background:none;color:var(--muted);font:400 13px inherit;font-family:inherit;cursor:pointer;padding:6px 8px;border-radius:8px}"+
 "#ntf .nh button:hover{background:var(--soft);color:var(--text)}"+
 "#ntf .nl{overflow-y:auto;flex:1}"+
-"#ntf .ni{display:flex;align-items:center;gap:18px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:var(--bg);color:var(--text);padding:20px 22px;cursor:pointer;font:inherit}"+
+"#ntf .ni{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:var(--bg);color:var(--text);padding:14px 16px;cursor:pointer;font:inherit}"+
 "#ntf .ni:last-child{border-bottom:0}"+
 "#ntf .ni:hover{background:var(--soft)}"+
 "#ntf .ic2{position:relative;flex:none;width:64px;height:64px;border-radius:50%;background:var(--soft);color:var(--muted);display:grid;place-items:center}"+
