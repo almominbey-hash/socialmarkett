@@ -54,11 +54,10 @@ function draw(){
   '<div class="ps"></div>'+
   '<button type="button" class="pi" role="menuitem" data-a="out">'+IC.out+'Sign out</button></div>'}
 
-function place(){var r=av.getBoundingClientRect();
+function place(){var r=av.getBoundingClientRect(),w=Math.min(320,window.innerWidth-24);
  panel.style.top=Math.round(r.bottom+10)+"px";
- panel.style.right=Math.max(12,Math.round(window.innerWidth-r.right-4))+"px"}
-function open(){OPEN=true;draw();place();panel.classList.add("on");av.setAttribute("aria-expanded","true")}
-function close(){OPEN=false;panel.classList.remove("on");av.setAttribute("aria-expanded","false")}
+ panel.style.right="auto";
+ panel.style.left=Math.max(12,Math.min(window.innerWidth-w-12,Math.round(r.left+r.width/2-w/2)))+"px"}
 
 av.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();if(!U)return;OPEN?close():open()});
 document.addEventListener("click",function(e){if(OPEN&&!panel.contains(e.target)&&!av.contains(e.target))close()});
