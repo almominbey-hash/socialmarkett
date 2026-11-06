@@ -4,7 +4,7 @@ function u(){
  var pg=document.querySelector('#app .page.on'),sr=pg&&pg.shadowRoot,landing=sr&&sr.querySelector('#tiles'),hero=sr&&sr.querySelector('section.hero');
  bar.style.position=landing?'':'relative';document.body.classList.toggle('on-landing',!!landing);
  var y=window.pageYOffset||document.documentElement.scrollTop,cur=c.classList.contains('show');
- if(sr&&sr.querySelector('#gg')){ /* login / sign-in page: no category row */
+if(sr&&(sr.querySelector('#gg')||(!landing&&!sr.querySelector('#browse')))){ /* login page and every page except the landing page and the Welcome back page: no category row */
   bar.classList.remove('rs');c.classList.remove('static');c.classList.remove('show');return}
  if(!landing){ /* signed-in page and other pages: row visible at the top, disappears on the first little scroll */
   bar.classList.toggle('rs',!(sr&&sr.querySelector('#browse')));c.classList.remove('static'); /* start page: the row sits over the top of the page, so nothing is left empty when it hides */
