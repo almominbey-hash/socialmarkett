@@ -17,9 +17,9 @@ var IC={
 /* ---------- style ---------- */
 var st=document.createElement("style");
 st.textContent=
-"#pm{position:fixed;z-index:1000;top:80px;right:16px;width:270px;max-width:calc(100vw - 24px);display:none;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.18);font:16px/1.4 Inter,sans-serif;overflow:hidden}"+
+"#pm{position:fixed;z-index:1000;top:80px;right:16px;width:320px;max-width:calc(100vw - 24px);display:none;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.18);font:16px/1.4 Inter,sans-serif;overflow:hidden}"+
 "#pm.on{display:block}"+
-"#pm .ph{padding:14px 16px 10px}"+
+"#pm .ph{padding:18px 20px 14px}"+
 "#pm .ph b{display:block;font-size:18px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"+
 "#pm .ph span{display:block;margin-top:2px;color:var(--muted);font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"+
 "#pm .pl{padding:0 8px 8px}"+
