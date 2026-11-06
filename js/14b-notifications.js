@@ -19,7 +19,7 @@ function unread(){return LIST.filter(function(n){return !n.read}).length}
 /* ---------- style (added from here, no CSS file to edit) ---------- */
 var st=document.createElement("style");
 st.textContent=
-"#ntf{position:fixed;z-index:1000;top:80px;right:16px;width:440px;max-width:calc(100vw - 24px);max-height:min(620px,calc(100vh - 110px));display:none;flex-direction:column;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.18);font:16px/1.4 Inter,sans-serif;overflow:hidden}"+
+"#ntf{position:fixed;z-index:1000;top:80px;right:16px;width:320px;max-width:calc(100vw - 24px);max-height:min(520px,calc(100vh - 110px));display:none;flex-direction:column;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.18);font:16px/1.4 Inter,sans-serif;overflow:hidden}"+
 "#ntf.on{display:flex}"+
 "#ntf .nh{display:flex;align-items:center;gap:12px;padding:20px 22px;border-bottom:1px solid var(--line)}"+
 "#ntf .nh svg{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}"+
@@ -53,9 +53,10 @@ badge=document.createElement("span");badge.className="cnt";badge.hidden=true;bel
 panel=document.createElement("div");panel.id="ntf";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Notifications");
 document.body.appendChild(panel);
 
-function place(){var r=bell.getBoundingClientRect();
+function place(){var r=bell.getBoundingClientRect(),w=Math.min(320,window.innerWidth-24);
  panel.style.top=Math.round(r.bottom+10)+"px";
- panel.style.right=Math.max(12,Math.round(window.innerWidth-r.right-6))+"px"}
+ panel.style.right="auto";
+ panel.style.left=Math.max(12,Math.min(window.innerWidth-w-12,Math.round(r.left+r.width/2-w/2)))+"px"}
 
 function paintBadge(){var n=unread();badge.hidden=!n;badge.textContent=n>9?"9+":String(n);
  bell.setAttribute("aria-label",n?"Notifications ("+n+" unread)":"Notifications")}
