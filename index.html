@@ -1,35 +1,107 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>socialmarket</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<script>if(/\/index\.html$/.test(location.pathname))history.replaceState(null,"","/"+location.search);else if(/\.html$/.test(location.pathname))history.replaceState(null,"",location.pathname.replace(/\.html$/,"")+location.search)</script>
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/theme.css">
-</head>
-<body>
-<div id="bar"><nav class="in" aria-label="Main">
-<a class="logo" href="/">socialmarket<b>.</b></a>
-<form id="hs" role="search"><input id="hq" type="search" placeholder="What account are you looking for today?" aria-label="Search accounts" autocomplete="off"><button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button></form>
-<div class="tools">
-<a href="/sell" data-r="sell" class="cta hide-m">Become a Seller &#8599;</a>
-<span class="in-only">
-<a href="/dash" class="ic hide-m" aria-label="Notifications" title="Notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg><i></i></a>
-<a href="/messages" data-r="messages" class="ic" aria-label="Messages" title="Messages"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></a>
-<a href="/saved" class="ic" id="hl" aria-label="Saved accounts" title="Saved accounts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/></svg><span class="cnt" id="sc" hidden></span></a>
-<a href="/order" data-r="order" class="txt">Orders</a>
-<button type="button" class="av" id="av" aria-label="Log out" title="Log out"></button>
-</span>
-<span class="out-only"><a href="/login" id="auth" data-r="login" class="txt">Sign in</a><a href="/login" class="join">Join</a></span>
-</div>
-</nav>
-<div id="cats"><nav class="in" aria-label="Categories"><a href="/browse" data-p="All">Trending <span aria-hidden="true">🔥</span></a>
-<a href="/youtube" data-p="YouTube">YouTube</a><a href="/instagram" data-p="Instagram">Instagram</a><a href="/tiktok" data-p="TikTok">TikTok</a><a href="/facebook" data-p="Facebook">Facebook</a>
-<a href="#" data-s="E-commerce">E-commerce</a><a href="#" data-s="Gaming">Gaming</a><a href="#" data-s="Websites">Websites</a><a href="#" data-s="AdSense">AdSense accounts</a>
-</nav><div id="mm"></div></div></div>
-<main id="app"></main>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin – socialmarket</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#14171f;--mut:#6b7280;--line:#e5e7eb;--side:#10131a;--acc:#4f46e5;--ok:#15803d;--bad:#b91c1c;--warn:#b45309}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1016;--card:#161a23;--ink:#e8eaf0;--mut:#9aa3b2;--line:#262c39;--side:#080a0f}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+#login{max-width:340px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px}
+#app{display:none;min-height:100vh}#side{position:fixed;inset:0 auto 0 0;width:210px;background:var(--side);color:#cbd0db;padding:18px 12px;overflow:auto}
+#side b{display:block;color:#fff;font-size:16px;padding:4px 10px 16px}#side a{display:flex;justify-content:space-between;padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;cursor:pointer}
+#side a.on,#side a:hover{background:#1d2230;color:#fff}#side i{font-style:normal;background:var(--bad);color:#fff;border-radius:9px;padding:0 7px;font-size:11px}
+#main{margin-left:210px;padding:24px;max-width:1200px}h1{font-size:20px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}.k small{color:var(--mut)}.k div{font-size:22px;font-weight:600}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:auto}table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:12px;color:var(--mut);font-weight:500}tr:last-child td{border:0}
+input,select,button,textarea{font:inherit;color:inherit}input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}.bar input,.bar select{width:auto;min-width:180px}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 12px;cursor:pointer}button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}button.r{background:var(--bad)}button.o{background:var(--ok)}
+.t{display:inline-block;padding:1px 8px;border-radius:9px;font-size:12px;background:var(--line)}.t.ok{color:var(--ok)}.t.bad{color:var(--bad)}.t.w{color:var(--warn)}
+#m{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px}#m>div{background:var(--card);border-radius:14px;max-width:720px;width:100%;max-height:90vh;overflow:auto;padding:20px}
+.imgs{display:flex;gap:8px;flex-wrap:wrap}.imgs img{height:170px;border-radius:8px;border:1px solid var(--line)}.kv{display:grid;grid-template-columns:140px 1fr;gap:4px 10px;margin:12px 0}.kv span:nth-child(odd){color:var(--mut)}
+#toast{position:fixed;bottom:18px;right:18px;background:#111;color:#fff;padding:10px 14px;border-radius:9px;display:none}
+@media(max-width:760px){#side{position:static;width:auto;display:flex;overflow:auto}#side b{display:none}#main{margin:0;padding:14px}}
+</style></head><body>
+<div id="login"><h1>socialmarket admin</h1><p style="color:var(--mut)">Sign in with your admin account.</p>
+<input id="em" type="email" placeholder="Email" autocomplete="username"><br><br><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><br><br>
+<button id="go" style="width:100%">Sign in</button><p id="le" style="color:var(--bad)"></p></div>
+<div id="app"><nav id="side"></nav><div id="main"><h1 id="h"></h1><div id="v"></div></div></div>
+<div id="m"><div id="mc"></div></div><div id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="/js/loader.js"></script>
-</body></html>
+<script>
+var URL_="https://jghgpncepmcmppefybvn.supabase.co",KEY="sb_publishable__bdTHwvUBt7QE5wuCimz-w_MYJqTtR8";
+var sb=supabase.createClient(URL_,KEY,{auth:{persistSession:true,autoRefreshToken:true}}),$=function(s){return document.querySelector(s)},ME=null,ST={};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var money=function(n,c){return(c||"$")+(+n||0).toLocaleString(undefined,{maximumFractionDigits:2})},dt=function(s){return s?new Date(s).toLocaleString():"—"};
+function toast(t,bad){var e=$("#toast");e.textContent=t;e.style.background=bad?"#b91c1c":"#111";e.style.display="block";setTimeout(function(){e.style.display="none"},3500)}
+function rpc(n,a){return sb.rpc(n,a||{}).then(function(r){if(r.error){toast(r.error.message,1);throw r.error}return r.data})}
+function tag(s){var c={verified:"ok",live:"ok",completed:"ok",paid:"ok",released:"ok",pending:"w",in_progress:"w",delivered:"w",held:"w",awaiting_payment:"w",rejected:"bad",cancelled:"bad",refunded:"bad",sold:"ok"}[s]||"";return'<span class="t '+c+'">'+esc(s)+"</span>"}
+function tbl(h,rows){if(!rows.length)return'<div class="box" style="padding:20px;color:var(--mut)">Nothing here yet.</div>';
+  return'<div class="box"><table><tr>'+h.map(function(x){return"<th>"+x+"</th>"}).join("")+"</tr>"+rows.map(function(r){return"<tr>"+r.map(function(c){return"<td>"+c+"</td>"}).join("")+"</tr>"}).join("")+"</table></div>"}
+function modal(h){$("#mc").innerHTML=h;$("#m").style.display="flex"}function closeM(){$("#m").style.display="none"}
+$("#m").onclick=function(e){if(e.target.id==="m")closeM()};
+
+var TABS=[["overview","Overview"],["kyc","Seller verification"],["listings","Listings"],["orders","Orders & payouts"],["chats","Chats"],["users","Users"],["log","Audit log"]];
+function nav(){$("#side").innerHTML="<b>socialmarket admin</b>"+TABS.map(function(t){var n=t[0]==="kyc"?ST.kyc_pending:t[0]==="listings"?ST.listings_pending:t[0]==="orders"?ST.attention+ST.ready:0;
+  return'<a data-t="'+t[0]+'" class="'+(cur()===t[0]?"on":"")+'">'+t[1]+(n?"<i>"+n+"</i>":"")+"</a>"}).join("")+'<a id="out" style="margin-top:20px">Sign out ('+esc(ME.level)+")</a>"}
+function cur(){return location.hash.slice(1)||"overview"}
+$("#side").onclick=function(e){var a=e.target.closest("a");if(!a)return;if(a.id==="out"){sb.auth.signOut().then(function(){location.reload()});return}location.hash=a.dataset.t};
+window.onhashchange=show;
+
+var P={
+overview:function(){return rpc("admin_stats").then(function(s){ST=s;nav();var k=function(a,b){return'<div class="k"><small>'+a+"</small><div>"+b+"</div></div>"};
+  return'<div class="grid">'+k("Users",s.users)+k("Verified sellers",s.sellers)+k("KYC waiting",s.kyc_pending)+k("Listings waiting",s.listings_pending)+k("Live listings",s.listings_live)+k("Active orders",s.active||s.orders_active)+k("Total paid",money(s.paid_total))+k("Money held",money(s.held))+k("Fees earned",money(s.fees_total))+k("Ready to pay sellers",s.ready)+k("Need attention",s.attention)+"</div>"+
+  '<div class="box" style="padding:16px"><b>Today\'s routine</b><ol><li>Seller verification: approve or reject new IDs.</li><li>Listings: check each account before making it live.</li><li>Orders: pay sellers whose 24-hour hold ended, handle complaints and refunds.</li></ol></div>'})},
+kyc:function(){var f=ST.f_kyc==null?"pending":ST.f_kyc;return rpc("admin_kyc",{p_status:f||null}).then(function(d){ST.kd=d;
+  return'<div class="bar"><select id="f" data-k="f_kyc">'+["pending","verified","rejected",""].map(function(x){return'<option value="'+x+'"'+(x===f?" selected":"")+">"+(x||"all")+"</option>"}).join("")+"</select></div>"+
+  tbl(["Name","Email","ID","Status","Sent",""],d.map(function(r,i){return[esc(r.full_name),esc(r.email),esc((r.id_type||"")+" "+(r.id_number||"")),tag(r.kyc_status),dt(r.submitted_at),'<button data-kyc="'+i+'">Review</button>']}))})},
+listings:function(){var f=ST.f_l==null?"pending":ST.f_l;return rpc("admin_listings",{p_status:f||null}).then(function(d){ST.ld=d;
+  return'<div class="bar"><select data-k="f_l">'+["pending","live","sold","rejected",""].map(function(x){return'<option value="'+x+'"'+(x===f?" selected":"")+">"+(x||"all")+"</option>"}).join("")+"</select></div>"+
+  tbl(["Title","Platform","Seller","Price","Followers","Status",""],d.map(function(r,i){return[esc(r.title),esc(r.platform),esc(r.seller_name||r.seller_email),money(r.price),r.followers,tag(r.status),'<button data-ls="'+i+'">Open</button>']}))})},
+orders:function(){return rpc("admin_orders").then(function(d){ST.od=d;var f=ST.f_o||"all",now=Date.now();
+  var ok=function(o){return f==="all"||(f==="attention"&&(o.disputed||o.needs_refund))||(f==="release"&&o.payout_status==="held"&&!o.disputed&&o.release_at&&new Date(o.release_at)<=now)||(f==="unpaid"&&o.status==="awaiting_payment")||o.status===f};
+  var rows=d.map(function(o,i){return[o,i]}).filter(function(x){return ok(x[0])}).map(function(x){var o=x[0],i=x[1],b="";
+    if(o.status==="awaiting_payment")b+='<button class="g" data-oa="paid" data-i="'+i+'">Mark paid</button> ';
+    if(o.payout_status==="held"&&!o.disputed&&o.release_at&&new Date(o.release_at)<=now)b+='<button class="o" data-oa="release" data-i="'+i+'">Pay seller</button> ';
+    if(o.disputed)b+='<button class="g" data-oa="dismiss" data-i="'+i+'">Dismiss complaint</button> ';
+    if(o.payment_status==="paid")b+='<button class="r" data-oa="refund" data-i="'+i+'">Refund</button>';
+    return["SM-"+o.order_no,esc(o.listing_title),esc(o.buyer_name)+" → "+esc(o.seller_name),money(o.amount,o.currency==="USD"?"$":o.currency+" "),tag(o.status)+" "+tag(o.payment_status),(o.disputed?'<span class="t bad">complaint</span> ':"")+(o.needs_refund?'<span class="t bad">refund?</span> ':"")+esc(o.dispute_note||o.payout_note||""),b]});
+  return'<div class="bar"><select data-k="f_o">'+[["all","All"],["attention","Need attention"],["release","Ready to pay seller"],["unpaid","Unpaid"],["in_progress","In progress"],["delivered","Delivered"],["completed","Completed"],["cancelled","Cancelled"]].map(function(x){return'<option value="'+x[0]+'"'+(x[0]===f?" selected":"")+">"+x[1]+"</option>"}).join("")+"</select></div>"+
+  tbl(["Order","Account","Buyer → Seller","Amount","Status","Notes","Action"],rows)})},
+chats:function(){return rpc("admin_chats").then(function(d){return tbl(["Account","Buyer","Seller","Last message",""],d.map(function(c){return[esc(c.listing_title),esc(c.buyer_name),esc(c.seller_name),dt(c.updated_at),'<button class="g" data-ch="'+c.id+'">Read</button>']}))})},
+users:function(){return rpc("admin_users",{p_q:ST.q||null}).then(function(d){return'<div class="bar"><input id="q" placeholder="Search name or email" value="'+esc(ST.q||"")+'"><button id="qb">Search</button></div>'+
+  tbl(["Name","Email","Phone","Type","KYC","Listings","Bought","Sold","Joined"],d.map(function(u){return[esc(u.full_name),esc(u.email),esc(u.phone),esc(u.role),tag(u.kyc_status),u.listings,u.bought,u.sold,dt(u.created_at)]}))})},
+log:function(){return rpc("admin_logs").then(function(d){return tbl(["When","Admin","Action","Target","Note"],d.map(function(g){return[dt(g.created_at),esc(g.admin_email),esc(g.action),esc(g.target),esc(g.note)]}))})}};
+
+function show(){var t=cur();if(!P[t])t="overview";$("#h").textContent=(TABS.filter(function(x){return x[0]===t})[0]||[0,""])[1];$("#v").innerHTML="Loading…";
+  P[t]().then(function(h){$("#v").innerHTML=h;nav()},function(){$("#v").innerHTML=""});if(t!=="overview")rpc("admin_stats").then(function(s){ST=Object.assign(ST,s);nav()})}
+
+document.addEventListener("change",function(e){var k=e.target.dataset&&e.target.dataset.k;if(k){ST[k]=e.target.value;show()}});
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var d=b.dataset;
+  if(b.id==="qb"){ST.q=$("#q").value.trim();show()}
+  if(d.kyc!=null)openKyc(ST.kd[d.kyc]);
+  if(d.ls!=null)openListing(ST.ld[d.ls]);
+  if(d.oa){var o=ST.od[d.i],n=prompt({paid:"Payment note (e.g. JazzCash transaction ID):",release:"Note (e.g. paid via bank, ref no.):",refund:"Reason for refund (send the money back first!):",dismiss:"Why is the complaint dismissed?"}[d.oa],"");if(n===null)return;
+    rpc("admin_order_act",{p_order:o.id,p_act:d.oa,p_note:n}).then(function(){toast("Done");show()})}
+  if(d.ch)rpc("admin_chat_messages",{p_conv:d.ch}).then(function(m){modal("<h3>Conversation</h3>"+(m.length?m.map(function(x){return"<p><b>"+esc(x.sender)+"</b> <small>"+dt(x.at)+"</small><br>"+esc(x.body)+"</p>"}).join(""):"<p>No messages.</p>")+'<button class="g" onclick="closeM()">Close</button>')});
+  if(d.dec){var n2=d.dec==="no"?prompt("Reason (the seller will see this):",""):"";if(n2===null)return;
+    rpc("admin_kyc_decide",{p_user:d.u,p_ok:d.dec==="yes",p_note:n2}).then(function(){closeM();toast("Saved");show()})}
+  if(d.lst){var n3=d.lst==="rejected"?prompt("Reason (the seller will see this):",""):"";if(n3===null)return;
+    rpc("admin_listing_decide",{p_id:d.id,p_status:d.lst,p_note:n3}).then(function(){closeM();toast("Saved");show()})}});
+
+function openKyc(r){var imgs=[],kv="";Object.keys(r).forEach(function(k){var v=r[k];if(v==null||v==="")return;if(/_path$/.test(k))imgs.push([k,v]);else kv+="<span>"+esc(k.replace(/_/g," "))+"</span><span>"+esc(Array.isArray(v)?v.join(", "):v)+"</span>"});
+  modal("<h3>"+esc(r.full_name)+" "+tag(r.kyc_status)+'</h3><div class="kv">'+kv+'</div><div class="imgs" id="im">Loading photos…</div><p style="margin-top:16px"><button class="o" data-dec="yes" data-u="'+esc(r.user_id)+'">Approve</button> <button class="r" data-dec="no" data-u="'+esc(r.user_id)+'">Reject</button> <button class="g" onclick="closeM()">Close</button></p>');
+  Promise.all(imgs.map(function(p){return sb.storage.from("kyc").createSignedUrl(p[1],300).then(function(x){return x.data?'<a href="'+x.data.signedUrl+'" target="_blank"><img alt="'+esc(p[0])+'" src="'+x.data.signedUrl+'"></a>':""})})).then(function(h){$("#im").innerHTML=h.join("")||"No photos."})}
+function openListing(r){modal("<h3>"+esc(r.title)+" "+tag(r.status)+'</h3><div class="kv"><span>Seller</span><span>'+esc(r.seller_name)+" ("+esc(r.seller_email)+")</span><span>Platform</span><span>"+esc(r.platform)+" · "+esc(r.niche)+"</span><span>Followers</span><span>"+r.followers+"</span><span>Income</span><span>"+money(r.income)+"</span><span>Price</span><span>"+money(r.price)+'</span><span>Account link</span><span><a href="'+esc(r.account_link)+'" target="_blank" rel="noopener">'+esc(r.account_link)+"</a></span><span>Description</span><span>"+esc(r.description)+'</span></div><div class="imgs">'+(r.shots||[]).map(function(u){return'<a href="'+esc(u)+'" target="_blank"><img src="'+esc(u)+'"></a>'}).join("")+'</div><p style="margin-top:16px">'+
+  (r.status!=="live"?'<button class="o" data-lst="live" data-id="'+r.id+'">Make live</button> ':"")+(r.status!=="rejected"?'<button class="r" data-lst="rejected" data-id="'+r.id+'">Reject</button> ':"")+'<button class="g" onclick="closeM()">Close</button></p>')}
+
+function start(){rpc("admin_me").then(function(m){if(!m){toast("This account is not an admin.",1);sb.auth.signOut();$("#login").style.display="block";$("#app").style.display="none";return}
+  ME=m;$("#login").style.display="none";$("#app").style.display="block";show()},function(){})}
+$("#go").onclick=function(){sb.auth.signInWithPassword({email:$("#em").value.trim(),password:$("#pw").value}).then(function(r){if(r.error){$("#le").textContent=r.error.message;return}start()})};
+$("#pw").onkeydown=function(e){if(e.key==="Enter")$("#go").click()};
+sb.auth.getSession().then(function(r){if(r.data.session)start()});
+</script></body></html>
