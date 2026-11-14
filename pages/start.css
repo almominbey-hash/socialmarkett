@@ -327,5 +327,5 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 
 /* Filters pop-up: Search, Account age and Sort by are hidden (their code stays so nothing breaks). Size, buttons and the rest are as before. */
 label[for="fk"],#fk,label[for="fg"],#fg,label[for="fso"],#fso{display:none!important}
-.fbox select{height:52px;font-size:16px}
-.fbox .pr input{height:44px}
+#fmod .fbox select{height:58px!important;font-size:17px!important}
+#fmod .fbox .pr input{height:38px!important;font-size:14px!important}
