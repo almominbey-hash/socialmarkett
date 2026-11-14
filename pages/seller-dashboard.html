@@ -1,2 +1,15 @@
-<main class="wrap"><div class="hd"><div><p class="ok">&#10003; Approved seller</p><h1>Seller Dashboard</h1><p class="m">Welcome, <span id="sn"></span>.</p></div><div class="acts"><a class="btn" href="/sell">+ Create listing</a><a class="btn line" href="/">Browse accounts</a></div></div>
-<div class="soon"><b>Your full dashboard is coming soon.</b><span>Listings, orders, messages and earnings will all be here.</span></div></main>
+<main class="wrap">
+<div class="hd"><div><p class="ok">&#10003; Approved seller</p><h1>Seller Dashboard</h1><p class="m">Welcome, <span id="sn"></span>. Here is everything about your sales.</p></div>
+<div class="acts"><button class="btn line" id="rf" type="button">Refresh</button><a class="btn line" href="/order">My orders</a><a class="btn" href="/sell">+ Create listing</a></div></div>
+<div id="st" class="state" role="status"></div>
+<div id="body" hidden>
+<div id="todo"></div>
+<h2>Orders</h2><div class="grid" id="og"></div>
+<h2>Money</h2><div class="grid g3" id="mg"></div>
+<div class="two">
+<section class="card"><div class="ch"><h2>Recent orders</h2><a href="/order">View all &rarr;</a></div><div class="tw" id="ot"></div></section>
+<section class="card"><div class="ch"><h2>Messages</h2><a href="/messages">Open inbox &rarr;</a></div><div id="mc"></div></section>
+</div>
+<section class="card"><div class="ch"><h2>My listings</h2><a href="/sell">+ New listing</a></div><div class="chips" id="lc"></div><div class="tw" id="lt"></div></section>
+</div>
+</main>
