@@ -1,5 +1,5 @@
-<main class="wrap">
-  <h1>Sell your account</h1>
+<main class="wrap" id="wrap">
+  <h1>Create a new listing</h1>
   <p class="sub">Free to list. You only pay a fee when it sells.</p>
 
   <div class="layout">
@@ -9,32 +9,20 @@
           <legend>1. About the account</legend>
           <div class="f" data-g>
             <span class="t" style="display:block;font-weight:500;font-size:15px;margin-bottom:6px" id="pl">Platform</span>
-            <div class="plat" role="radiogroup" aria-labelledby="pl">
-              <input type="radio" name="p" id="p1" value="YouTube"><label for="p1">YouTube</label>
-              <input type="radio" name="p" id="p2" value="Instagram"><label for="p2">Instagram</label>
-              <input type="radio" name="p" id="p3" value="TikTok"><label for="p3">TikTok</label>
-              <input type="radio" name="p" id="p4" value="Facebook"><label for="p4">Facebook</label>
-              <input type="radio" name="p" id="p5" value="Gaming"><label for="p5">Gaming</label>
-              
-            </div>
+            <div class="plat" id="plat" role="radiogroup" aria-labelledby="pl"></div>
             <div class="err">Choose a platform.</div>
+          </div>
+          <div id="qs"><p class="hint" style="margin-top:14px">Choose a platform to see its categories.</p></div>
+          <div class="f" data-g>
+            <label class="t" for="niche">Niche</label>
+            <select id="niche"></select>
+            <div class="err">Choose a niche.</div>
           </div>
           <div class="f" data-g>
             <label class="t" for="link">Account link or username</label>
             <input type="text" id="link" placeholder="e.g. youtube.com/@yourchannel">
             <div class="hint">Only our team sees this. Buyers do not.</div>
             <div class="err">Add the link or username.</div>
-          </div>
-          <div class="f" data-g>
-            <label class="t" for="niche">Niche</label>
-            <select id="niche"><option value="">Choose one</option><option>Lifestyle</option><option>Fitness</option><option>Technology</option><option>Food</option><option>Travel</option><option>Creative</option><option>Other</option></select>
-            <div class="err">Choose a niche.</div>
-          </div>
-          <div class="f" data-g>
-            <label class="t" for="audc">Audience</label>
-            <select id="audc"><option value="">Choose one</option><option>Pakistan</option><option>United Kingdom</option><option>United States</option><option>India</option><option>UAE</option><option>Saudi Arabia</option><option>Canada</option><option>Global</option><option>Other</option></select>
-            <div class="hint">Where most of your followers or viewers live.</div>
-            <div class="err">Choose the audience.</div>
           </div>
         </fieldset>
 
@@ -47,18 +35,18 @@
               <div class="err">Enter a number.</div>
             </div>
             <div class="f" data-g>
-              <label class="t" for="inc">Income per month (USD)</label>
-              <input type="number" id="inc" min="0" placeholder="1800">
+              <label class="t" for="inc">Income per month (PKR)</label>
+              <input type="number" id="inc" min="0" placeholder="150000">
               <div class="hint">Enter 0 if it earns nothing.</div>
               <div class="err">Enter a number.</div>
             </div>
           </div>
-          <div class="f" data-g>
+          <div class="f" data-g id="shg">
             <span class="t" style="display:block;font-weight:500;font-size:15px;margin-bottom:6px">Analytics screenshots</span>
-            <label class="drop" for="shots">Tap to add screenshots of your followers, views and income<br><small>PNG or JPG. At least 2.</small></label>
+            <label class="drop" for="shots"><span id="dt">Tap to add screenshots of your followers, views and income</span><br><small id="dh">PNG or JPG. 3 to 5 pictures. The first picture is your main picture on the listing, so use the one that shows your account name and subscribers or followers.</small></label>
             <input type="file" id="shots" accept="image/*" multiple style="position:absolute;opacity:0;width:1px;height:1px">
-            <ul class="files" id="files"></ul>
-            <div class="err">Add at least 2 screenshots.</div>
+            <div class="thumbs" id="thumbs"></div>
+            <div class="err" id="she">Add at least 3 screenshots.</div>
           </div>
         </fieldset>
 
@@ -66,17 +54,19 @@
           <legend>3. Description and price</legend>
           <div class="f" data-g>
             <label class="t" for="title">Title</label>
-            <input type="text" id="title" maxlength="80" placeholder="e.g. Gaming channel with an engaged English audience">
-            <div class="err">Add a short title.</div>
+            <input type="text" id="title" placeholder="e.g. Gaming channel, 80K subs">
+            <div class="hint"><span id="tc">0</span> characters</div>
+            <div class="err" id="te">Title must be 10 to 20 characters.</div>
           </div>
           <div class="f" data-g>
             <label class="t" for="desc">Description</label>
-            <textarea id="desc" rows="4" placeholder="What is the account about? Where is the audience from? Why are you selling?"></textarea>
-            <div class="err">Write a few sentences about the account.</div>
+            <textarea id="desc" rows="5" placeholder="What is the account about? Where is the audience from? Why are you selling?"></textarea>
+            <div class="hint"><span id="dc">0</span> words</div>
+            <div class="err" id="de">Write a few sentences about the account.</div>
           </div>
           <div class="f" data-g>
-            <label class="t" for="price">Your price (USD)</label>
-            <input type="number" id="price" min="1" placeholder="1250">
+            <label class="t" for="price">Your price (PKR)</label>
+            <input type="number" id="price" min="1" placeholder="350000">
             <div class="err">Enter a price.</div>
           </div>
         </fieldset>
@@ -92,7 +82,7 @@
             <div class="err">Please confirm.</div>
           </div>
           <div data-g>
-            <label class="chk"><input type="checkbox" id="tos"> I understand that some platforms do not allow selling accounts, and I accept this risk.</label>
+            <label class="chk"><input type="checkbox" id="tos"> <span>I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
             <div class="err">Please confirm.</div>
           </div>
         </fieldset>
@@ -109,12 +99,6 @@
     </div>
 
     <aside class="side">
-      <div class="card">
-        <h2>What you will get</h2>
-        <div class="sum"><span>Your price</span><span id="s1">$0</span></div>
-        <div class="sum"><span>Our fee (5%)</span><span id="s2">$0</span></div>
-        <div class="sum t"><span>You receive</span><span id="s3">$0</span></div>
-      </div>
       <div class="card">
         <h2>What happens next</h2>
         <ol><li>We review your listing.</li><li>A buyer pays. We hold the money.</li><li>You send the account.</li><li>The buyer confirms and you are paid.</li></ol>

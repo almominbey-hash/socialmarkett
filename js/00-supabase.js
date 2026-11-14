@@ -57,9 +57,11 @@ SM.createListing=function(d){
     var urls=paths.map(function(p){return sb.storage.from("listing-shots").getPublicUrl(p).data.publicUrl});
     var row={seller_id:U.id,platform:d.platform,niche:d.niche,title:d.title,description:d.description,
       followers:d.followers,income:d.income,price:d.price,account_link:d.link,shots:urls};
-    return sb.from("listings").insert(d.audience?Object.assign({audience:d.audience},row):row).then(function(r){
-      /* the audience column is added by supabase/audience-and-views.sql; until then save without it */
-      if(r.error&&d.audience&&/audience/i.test(r.error.message||""))return sb.from("listings").insert(row);
+    var full=Object.assign({},row,d.audience?{audience:d.audience}:{},(d.tags&&d.tags.length)?{tags:d.tags}:{});
+    var ins=function(x){return sb.from("listings").insert(x)};
+    return ins(full).then(function(r){
+      /* audience / tags columns come from supabase/audience-and-views.sql and supabase/listing-categories.sql; until then save without them */
+      if(r.error&&/audience|tags/i.test(r.error.message||""))return ins(row);
       return r});
   }).then(function(r){if(r.error)throw r.error});
 };
