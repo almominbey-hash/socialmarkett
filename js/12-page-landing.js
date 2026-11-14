@@ -15,7 +15,7 @@ $("sf").onsubmit=function(e){e.preventDefault();document.getElementById("hq").va
 /* Sign in / Join buttons in the header open the popup (the page is in a shadow box, so the popup's global click catcher cannot see them) */
 root.addEventListener("click",function(e){var a=e.target.closest("[data-auth]");if(!a||!window.SMAuth)return;e.preventDefault();e.stopPropagation();window.SMAuth.open(a.dataset.auth)},true);
 /* The hint text in the big search box changes by itself (every PH_MS milliseconds) */
-var PH=["YouTube channels","Instagram pages","TikTok accounts","Facebook pages","E-commerce shops","Gaming accounts","Websites","AdSense accounts"],PH_MS=1500,pi=0;
+var PH=["YouTube channels","Instagram pages","TikTok accounts","Facebook pages","X (Twitter) accounts","E-commerce shops","Gaming accounts","Websites","AdSense accounts"],PH_MS=1500,pi=0;
 setInterval(function(){pi=(pi+1)%PH.length;$("sq").placeholder=PH[pi]},PH_MS);
 /* Search boxes (big one and the one in the header after you scroll) */
 function go(inp){document.getElementById("hq").value=inp.value;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}))}
@@ -26,6 +26,24 @@ window.addEventListener("scroll",sc,{passive:true});window.addEventListener("res
 /* Categories that do not have their own page yet (E-commerce, Gaming, Websites, AdSense): search for the word */
 root.addEventListener("click",function(e){var a=e.target.closest("[data-s]");if(!a)return;e.preventDefault();var q=a.dataset.s;$("sq").value=q;go($("sq"))});
 /* Heart button on a card: stays on the page, does not open the card */
+/* ===== Featured accounts: REAL listings only (no sample accounts) =====
+   Few listings: all of them are shown. Many listings: the most popular ones (saves, sales, views, newest) fill the 4 places. */
+(function(){
+var ICONS={"X": "<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 5l14 14M19 5L5 19\"/></svg>", "YouTube": "<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17\"/><path d=\"m10 15 5-3-5-3z\"/></svg>", "Instagram": "<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect width=\"20\" height=\"20\" x=\"2\" y=\"2\" rx=\"5\"/><path d=\"M16 11.4a4 4 0 1 1-7.4 2.2 4 4 0 0 1 7.4-2.2\"/><path d=\"M17.5 6.5h.01\"/></svg>", "Facebook": "<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z\"/></svg>", "TikTok": "<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 18V5l12-2v13\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><circle cx=\"18\" cy=\"16\" r=\"3\"/></svg>"},HEART="<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z\"/></svg>",ARROW="<svg class=\"i \" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg>";
+var feat=$("feat"),pcard=$("pcard");if(!feat)return;
+function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function card(r){var p=r.platform,u=p==="YouTube"?"subscribers":"followers",im=r.shots&&r.shots[0],cv=im?' style="background-image:url(\''+E(im)+'\')"':"";
+ var meta=[SM.short(r.followers)+" "+u,r.niche,r.audience].filter(Boolean).map(E).join(" \u00b7 ");
+ return '<a class="lc" href="/'+(HK[p]||"browse")+'" data-p="'+E(p)+'"><div class="cv"'+cv+'><button class="sv" type="button" aria-label="Save">'+HEART+'</button></div><div class="li"><div class="pl">'+(ICONS[p]||"")+'<span>'+E(p)+'</span></div><h3>'+E(r.title)+'</h3><p>'+meta+'</p><div class="pr2"><b>Rs. '+Number(r.price).toLocaleString("en-US")+'</b>'+ARROW+'</div></div></a>'}
+function score(r,t){t=t||{};var ag=r.created_at?(Date.now()-new Date(r.created_at).getTime())/864e5:99;return (Number(t.saves)||0)*3+(Number(t.seller_sold)||0)*5+(Number(r.views)||0)+(ag<14?(14-ag)*0.6:0)+(r.seller_verified?2:0)+Math.log10((Number(r.followers)||0)+1)}
+function draw(rows,tr){
+ var top=rows.slice().sort(function(a,b){return score(b,tr[b.id])-score(a,tr[a.id])}).slice(0,4);
+ if(!top.length){feat.innerHTML='<p class="empty">New accounts appear here as soon as sellers list them. <a href="#" data-auth="join">Become a seller</a></p>';if(pcard)pcard.hidden=true;return}
+ feat.innerHTML=top.map(card).join("");
+ if(pcard){var old=pcard.querySelector(".lc");if(old)old.remove();pcard.insertAdjacentHTML("afterbegin",card(top[0]));pcard.hidden=false}}
+var tp=(SM.trending?SM.trending():Promise.resolve([])).catch(function(){return[]});
+Promise.all([SM.listings(),tp]).then(function(res){var tr={};(res[1]||[]).forEach(function(t){tr[t.listing_id]=t});draw(res[0]||[],tr)},function(){draw([],{})});
+})();
 root.addEventListener("click",function(e){if(e.target.closest(".sv")){e.preventDefault();e.stopPropagation();return}
  var a=e.target.closest("[data-p]");if(a){var h=document.querySelector('#cats a[data-p="'+a.dataset.p+'"]');if(h)h.click()}});
 };

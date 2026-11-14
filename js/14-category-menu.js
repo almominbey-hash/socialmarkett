@@ -1,4 +1,5 @@
 /* Category bar and hover menu */
+(function(){var n=document.querySelector("#cats nav");if(!n||n.querySelector('a[data-p="X"]'))return;var a=document.createElement("a");a.href="/x";a.dataset.p="X";a.textContent="X (Twitter)";var e=n.querySelector("a[data-s]");if(e)n.insertBefore(a,e);else n.appendChild(a)})();
 [].forEach.call(document.querySelectorAll("#cats nav a"),function(a){a.addEventListener("click",function(e){e.preventDefault();[].forEach.call(document.querySelectorAll("#cats nav a.cur"),function(x){x.classList.remove("cur")});if(a.dataset.s){var q=document.getElementById("hq");q.value=a.dataset.s;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}));[].forEach.call(document.querySelectorAll("#cats nav a"),function(x){x.classList.remove("cur");x.removeAttribute("aria-current")});a.classList.add("cur");return}window.TREND=/^\s*Trending/.test(a.textContent);var h=HK[a.dataset.p]||"start";if(NAV.cur()===h)route();else NAV.go(h);window.scrollTo(0,0)})});
 (function(){var mm=document.getElementById("mm"),ce=document.getElementById("cats"),mt=null;
 function mmClose(){clearTimeout(mt);mm.classList.remove("on")}

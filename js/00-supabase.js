@@ -58,8 +58,12 @@ SM.createListing=function(d){
     var row={seller_id:U.id,platform:d.platform,niche:d.niche,title:d.title,description:d.description,
       followers:d.followers,income:d.income,price:d.price,account_link:d.link,shots:urls};
     var full=Object.assign({},row,d.audience?{audience:d.audience}:{},(d.tags&&d.tags.length)?{tags:d.tags}:{});
+    var extra=Object.assign({},d.monetization?{monetization:d.monetization}:{},d.age?{account_age:d.age}:{});
     var ins=function(x){return sb.from("listings").insert(x)};
-    return ins(full).then(function(r){
+    return ins(Object.assign({},full,extra)).then(function(r){
+      /* monetization / account_age columns come from supabase/filters.sql; until then save without them */
+      if(r.error&&/monetization|account_age/i.test(r.error.message||""))return ins(full);
+      return r}).then(function(r){
       /* audience / tags columns come from supabase/audience-and-views.sql and supabase/listing-categories.sql; until then save without them */
       if(r.error&&/audience|tags/i.test(r.error.message||""))return ins(row);
       return r});

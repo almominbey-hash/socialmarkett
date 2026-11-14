@@ -14,6 +14,8 @@ function bad(el,on){var g=el.closest("[data-g]");if(g)g.classList.toggle("bad",o
 var PL=sellPlatforms();
 plat.innerHTML=PL.map(function(p,i){return '<input type="radio" name="p" id="p'+i+'" value="'+E(p)+'"><label for="p'+i+'">'+E(p)+'</label>'}).join("");
 niche.innerHTML='<option value="">Choose one</option>'+NICHES.map(function(n){return "<option>"+E(n)+"</option>"}).join("");
+$("mon").innerHTML='<option value="">Choose one</option>'+MON.map(function(o){return '<option value="'+o[0]+'">'+E(o[1])+"</option>"}).join("");
+$("age").innerHTML='<option value="">Choose one</option>'+AGE.map(function(o){return '<option value="'+o[0]+'">'+E(o[1])+"</option>"}).join("");
 title.maxLength=LIM.titleMax;
 title.placeholder="e.g. Gaming channel, 80K subs";
 $("te").textContent="Title must be "+LIM.titleMin+" to "+LIM.titleMax+" characters.";
@@ -25,12 +27,17 @@ $("dh").textContent="PNG or JPG. "+LIM.shotsMin+" to "+LIM.shotsMax+" pictures. 
 function drawQs(p){
  QS=sellQuestions(p);
  qs.innerHTML=QS.map(function(q,i){
+  if(!q.aud){var cb=q.groups[0][1].map(function(it){return '<label class="ck"><input type="checkbox" value="'+E(it[1])+'"><span>'+E(it[0])+"</span></label>"}).join("");
+   return '<div class="f" data-g><span class="t" style="display:block;font-weight:500;font-size:15px;margin-bottom:6px">'+E(q.label)+'</span><div class="chk" id="q'+i+'">'+cb+'</div><div class="hint">Tick every one that is true for your account.</div><div class="err">Tick at least one.</div></div>'}
   var o='<option value="">Choose one</option>';
   q.groups.forEach(function(g){
-   var items=g[1].map(function(it){return '<option value="'+(q.aud?"t:":"")+E(it[1])+'">'+E(it[0])+"</option>"}).join("");
+   var items=g[1].filter(function(it){return it[1]!=="other"}).map(function(it){return '<option value="'+(q.aud?"t:":"")+E(it[1])+'">'+E(it[0])+"</option>"}).join("");
    o+=g[0]?'<optgroup label="'+E(g[0])+'">'+items+"</optgroup>":items});
   if(q.aud)o+='<optgroup label="'+(q.groups.length?"Other countries":"Country")+'">'+(q.groups.length?[]:Object.keys(AUD_NAME).map(function(k){return AUD_NAME[k]})).concat(AUD_MORE).map(function(n){return '<option value="n:'+E(n)+'">'+E(n)+"</option>"}).join("")+"</optgroup>";
   return '<div class="f" data-g><label class="t" for="q'+i+'">'+E(q.label)+'</label><select id="q'+i+'">'+o+'</select>'+(q.aud?'<div class="hint">Where most of your followers or viewers live.</div>':"")+'<div class="err">Choose one.</div></div>'}).join("")}
+/* Monetized and Non-Monetized can not both be true: ticking one un-ticks the other */
+qs.addEventListener("change",function(e){var t=e.target;if(!t||t.type!=="checkbox"||!t.checked)return;var o=t.value==="monetized"?"non-monetized":t.value==="non-monetized"?"monetized":"";if(!o)return;var x=t.closest(".chk").querySelector('input[value="'+o+'"]');if(x)x.checked=false});
+function qval(i){var el=$("q"+i);return el.tagName==="SELECT"?el.value:[].filter.call(el.querySelectorAll("input"),function(c){return c.checked}).map(function(c){return c.value})}
 plat.addEventListener("change",function(){var c=f.querySelector("[name=p]:checked");if(c){bad(plat,false);drawQs(c.value)}});
 
 /* counters */
@@ -65,9 +72,9 @@ f.onsubmit=function(e){
  e.preventDefault();
  var pc=f.querySelector("[name=p]:checked"),tl=title.value.trim().length,wd=words(desc.value),dl=desc.value.trim().length;
  var r=[[plat,!!pc]];
- QS.forEach(function(q,i){r.push([$("q"+i),!!$("q"+i).value])});
+ QS.forEach(function(q,i){var v=qval(i);r.push([$("q"+i),q.aud?!!v:v.length>0])});
  if(pc&&!QS.length)r.push([qs,false]);
- r=r.concat([[niche,!!niche.value],[link,link.value.trim().length>2],
+ r=r.concat([[niche,!!niche.value],[$("mon"),!!$("mon").value],[$("age"),!!$("age").value],[link,link.value.trim().length>2],
   [aud,aud.value!==""&&+aud.value>=0],[inc,inc.value!==""&&+inc.value>=0],
   [shots,FILES.length>=LIM.shotsMin&&FILES.length<=LIM.shotsMax],
   [title,tl>=LIM.titleMin&&tl<=LIM.titleMax],[desc,dl>=LIM.descMin&&wd<=LIM.descWords],
@@ -78,10 +85,10 @@ f.onsubmit=function(e){
  if(!U||U.kyc!=="verified"){NAV.go("start-selling");return}
  if(f.dataset.busy)return;f.dataset.busy="1";f.style.opacity=".6";
  var tags=[],audience="";
- QS.forEach(function(q,i){var v=$("q"+i).value;
-  if(q.aud){if(v.indexOf("t:")===0){var k=v.slice(2);tags.push(k);audience=audName(pc.value,k)}else audience=v.slice(2)}
-  else tags.push(v)});
- SM.createListing({platform:pc.value,niche:niche.value,audience:audience,tags:tags,title:title.value.trim(),description:desc.value.trim(),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:FILES})
+ QS.forEach(function(q,i){var v=qval(i);
+  if(q.aud){if(v.indexOf("t:")===0){var k=v.slice(2);tags.push(k);audience=audName(pc.value,k)}else{audience=v.slice(2);tags.push("other")}}
+  else v.forEach(function(x){tags.push(x)})});
+ SM.createListing({platform:pc.value,niche:niche.value,monetization:$("mon").value,age:$("age").value,audience:audience,tags:tags,title:title.value.trim(),description:desc.value.trim(),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:FILES})
   .then(function(){f.style.display="none";done.style.display="block";wrap.classList.add("sent");window.scrollTo(0,0)})
   .catch(function(x){alert("Could not send your listing: "+SM.msg(x))})
   .then(function(){delete f.dataset.busy;f.style.opacity=""});

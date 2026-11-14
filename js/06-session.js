@@ -1,7 +1,7 @@
 /* Login session, top bar buttons and header search */
 var U=null;
 function esc(x){return String(x).replace(/[<>&"]/g,"")}
-function setUser(u){U=u;setNav()}
+function setUser(u){U=u;try{if(u&&u.kyc)localStorage.setItem("sm_kyc",u.kyc);else localStorage.removeItem("sm_kyc")}catch(e){}setNav()}
 function setNav(){var av=document.getElementById("av");
  document.body.classList.toggle("in-user",!!U);
  var cta=document.querySelector("#bar a.cta");if(cta){var k=U&&U.kyc;if(k==="verified"){cta.textContent="Seller Dashboard";cta.setAttribute("href","/seller-dashboard");cta.dataset.r="seller-dashboard"}else{cta.innerHTML=k==="pending"?"Application in review":"Become a Seller &#8599;";cta.setAttribute("href","/start-selling");cta.dataset.r="start-selling"}}

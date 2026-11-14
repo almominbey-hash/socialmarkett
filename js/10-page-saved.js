@@ -73,7 +73,7 @@ function toggleSave(t,done){
 /* ---------- the Saved page: left side = Recently saved + Your lists, right side = the accounts ---------- */
 init.saved=function(root){
  var view="recent",adding=false;/* "recent" or the id of the list that is open */
- var PLC={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0"};
+ var PLC={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0",X:"#14181f"};
  var CLOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 4v4.5H8"/><path d="M12 7.5V12l3 2"/></svg>';
  var v=root.querySelector("#sv");
  function D(){return window.SMD||[]}
