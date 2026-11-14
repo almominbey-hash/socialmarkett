@@ -112,3 +112,13 @@ h1,h2,h3,h4,p{margin:0}
 .grid4 .empty a{text-decoration:underline;color:inherit}
 .pcard[hidden]{display:none}
 @media (max-width:1100px){.grid4 .lc{max-width:none}}
+
+/* Recommended grid (added) */
+.cv{background-size:cover;background-position:center;background-color:#e9ecf2}
+.pl svg{width:17px;height:17px}
+.grid4.many{flex-wrap:wrap}
+.grid4.many .lc{flex:0 0 calc((100% - 80px)/5)}
+.grid4.many .cv{height:150px}
+.grid4.many .li h3{font-size:16px}
+@media (max-width:1100px){.grid4.many .lc{flex:0 0 calc((100% - 40px)/3)}}
+@media (max-width:700px){.grid4.many .lc{flex:0 0 calc((100% - 20px)/2)}}

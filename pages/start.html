@@ -1,14 +1,8 @@
 <main id="top">
-  <section class="wrap hero" id="hero">
-    <h1 id="wb">Buy and sell social media accounts safely</h1>
-    <form class="search" role="search" id="sf">
-      <input id="q" type="search" placeholder="Search by niche, e.g. fitness, gaming, travel" aria-label="Search accounts">
-      <button class="btn" type="submit">Search</button>
-    </form>
-    <form class="fq" id="fq" role="search" hidden><input id="fi" type="search" placeholder="What kind of account are you looking for? e.g. a gaming channel" aria-label="What kind of account are you looking for?"><button type="submit" aria-label="Search">&uarr;</button></form>
-  </section>
+  
 
   <section class="wrap" id="browse">
+    <form class="fq" id="fq" role="search" hidden><input id="fi" type="search" aria-label="Search"><button type="submit" aria-label="Search">&uarr;</button></form>
     <div class="exh">
       <div class="exl"><h2 id="exh">An audience worth building on.</h2><p id="exs" hidden>Featured accounts, ready for their next chapter.</p></div>
       <div class="exr">
@@ -19,8 +13,20 @@
     </div>
     <select id="sort" aria-label="Sort by" hidden><option value="rec">Recommended</option></select>
     <div class="xp">
-      <aside class="fl" id="fl" aria-label="Refine your search">
-        <h3>Refine your search</h3>
+      
+      <div class="xr"><div class="fbar"><button type="button" class="fbt" id="fbtn" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg><span>Filters</span><i id="fcn" hidden></i></button><div class="subs" id="subs" aria-label="Sub categories"></div></div>
+      <div class="xrail" id="grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap rec" id="rec" hidden>
+    <h2 id="rech">More accounts like the ones you viewed</h2><p class="recs" id="recs">Because you looked at this kind of account, you may like these too.</p>
+    <div class="recr" id="recg"></div>
+  </section>
+  <div class="fmod" id="fmod" hidden><div class="fbox fl" role="dialog" aria-modal="true" aria-label="Filters">
+    <div class="fh"><h3>Filters</h3><button type="button" class="fx" id="fcl" aria-label="Close">&times;</button></div>
+        <label for="fk">Search</label><input id="fk" type="search" placeholder="Niche, name or keyword" autocomplete="off">
         <label for="fp">Platform</label><select id="fp"></select>
         <label for="fpmin">Price (Rs.)</label>
         <div class="pr"><input type="number" id="fpmin" min="0" inputmode="numeric" placeholder="Min" aria-label="Minimum price"><span aria-hidden="true">&ndash;</span><input type="number" id="fpmax" min="0" inputmode="numeric" placeholder="Max" aria-label="Maximum price"></div>
@@ -32,16 +38,6 @@
         <label for="fso">Sort by</label><select id="fso"></select>
         <button type="button" class="btn" id="fap">Apply filters</button>
         <button type="button" class="rst" id="frs">Reset all filters</button>
-      </aside>
-      <div class="xr"><div class="subs" id="subs" aria-label="Sub categories"></div>
-      <div class="xrail" id="grid"></div>
-      <div class="alt" id="alt" hidden><h3 id="alth"></h3><p id="alts"></p><div class="xrail" id="altg"></div></div></div>
-    </div>
-  </section>
-
-  <section class="wrap rec" id="rec" hidden>
-    <h2 id="rech">More accounts like the ones you viewed</h2><p class="recs" id="recs">Because you looked at this kind of account, you may like these too.</p>
-    <div class="recr" id="recg"></div>
-  </section>
+      </div></div>
 </main>
 
