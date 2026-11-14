@@ -285,3 +285,17 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .xi h3{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0;font-size:17px;line-height:1.3}
 .xf{margin-top:12px;padding-top:12px}
 @media (max-width:900px){.xm{height:240px}}
+
+/* price min - max and the extra filters */
+.fl .pr{display:flex;align-items:center;gap:8px}
+.fl .pr span{color:var(--muted)}
+.fl .pr input{flex:1;min-width:0;width:100%;height:46px;padding:0 12px;border:1px solid transparent;border-radius:12px;background-color:var(--soft);color:var(--text);font:400 15px inherit;font-family:inherit}
+.fl .pr input:hover{border-color:var(--line)}
+.fl .pr input:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 30%,transparent);outline-offset:0;border-color:var(--accent);background-color:var(--bg)}
+
+/* similar accounts below an empty category, and the line above recent activity */
+.alt{margin-top:36px}
+.alt[hidden]{display:none}
+.alt h3{margin:0 0 4px;font-size:clamp(20px,2.2vw,26px);font-weight:500;letter-spacing:-.01em}
+.alt p{margin:0 0 18px;color:var(--muted);font-size:15px}
+.rec .recs{margin:-14px 0 22px;color:var(--muted);font-size:15px}

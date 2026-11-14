@@ -58,3 +58,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);
 .th button.x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:#000a;color:#fff;font-size:16px;line-height:1;padding:0;text-align:center}
 .chk a{color:var(--accent);text-decoration:underline}
 optgroup{font-weight:600}
+
+/* tick-box categories */
+.chk{display:flex;flex-wrap:wrap;gap:8px}
+.ck{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font-size:15px;cursor:pointer}
+.ck input{width:18px;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
+.ck:has(input:checked){border-color:var(--accent);background:var(--soft)}

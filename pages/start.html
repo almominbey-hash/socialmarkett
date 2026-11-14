@@ -22,20 +22,25 @@
       <aside class="fl" id="fl" aria-label="Refine your search">
         <h3>Refine your search</h3>
         <label for="fp">Platform</label><select id="fp"></select>
+        <label for="fpmin">Price (Rs.)</label>
+        <div class="pr"><input type="number" id="fpmin" min="0" inputmode="numeric" placeholder="Min" aria-label="Minimum price"><span aria-hidden="true">&ndash;</span><input type="number" id="fpmax" min="0" inputmode="numeric" placeholder="Max" aria-label="Maximum price"></div>
+        <label for="fs">Followers</label><select id="fs"></select>
+        <label for="fa" id="fal">Country</label><select id="fa"></select>
+        <label for="fm">Monetization</label><select id="fm"></select>
+        <label for="fg">Account age</label><select id="fg"></select>
         <label for="fn">Niche</label><select id="fn"></select>
-        <label for="fa" id="fal">Audience</label><select id="fa"></select>
-        <label for="fpr">Price</label><select id="fpr"></select>
-        <label for="fs">Subscribers</label><select id="fs"></select>
+        <label for="fso">Sort by</label><select id="fso"></select>
         <button type="button" class="btn" id="fap">Apply filters</button>
         <button type="button" class="rst" id="frs">Reset all filters</button>
       </aside>
       <div class="xr"><div class="subs" id="subs" aria-label="Sub categories"></div>
-      <div class="xrail" id="grid"></div></div>
+      <div class="xrail" id="grid"></div>
+      <div class="alt" id="alt" hidden><h3 id="alth"></h3><p id="alts"></p><div class="xrail" id="altg"></div></div></div>
     </div>
   </section>
 
   <section class="wrap rec" id="rec" hidden>
-    <h2>Inspired by your recent activity</h2>
+    <h2 id="rech">More accounts like the ones you viewed</h2><p class="recs" id="recs">Because you looked at this kind of account, you may like these too.</p>
     <div class="recr" id="recg"></div>
   </section>
 </main>
