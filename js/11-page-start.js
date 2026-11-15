@@ -43,7 +43,7 @@ function shortLbl(l){l=String(l);if(/^Criteria/i.test(l))return"Ready to monetiz
  var t=l.replace(/\s*\(.*\)\s*$/,"").replace(/^(Fresh|Monetized|Non-Monetized|Aged|Premium|Business|Verified)\s+(YouTube|Instagram|TikTok|Facebook)\s+(Channels|Accounts|Pages)$/i,"$1").replace(/^(YouTube|Instagram|TikTok|Facebook)\s+/i,"").replace(/\s+(Channels|Accounts|Pages|audience)$/i,"").replace(/\s+Enabled$/i,"");
  return t||l}
 function setPlat(p,t){trend=!!window.TREND&&p==="All"&&!t;window.TREND=false;plat=p;tagF=t||null;fp.value=p;fillNiche(p,F.niche);if(!fn.value)F.niche="";fn.value=F.niche;setPr(F.price);fs.value=F.subs;fm.value=F.mon;fg.value=F.age;fso.value=F.sort;fa.value=F.lang;
-  var g=SUB[p]||[];subsEl.innerHTML=g.length?'<button type="button" class="sub" data-h="'+HK[p]+'" aria-pressed="'+!tagF+'">All kinds</button>'+g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" title="'+esc(i[0])+'" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+esc(shortLbl(i[0]))+'</button>'}).join("")}).join(""):"";
+  var g=SUB[p]||[];subsEl.innerHTML=g.length?'<button type="button" class="sub" data-h="'+HK[p]+'" aria-pressed="'+!tagF+'">All kinds<i class="sc" hidden></i></button>'+g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" title="'+esc(i[0])+'" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+esc(shortLbl(i[0]))+'</button>'}).join("")}).join(""):"";
   exhEl.textContent=trend?"Trending on socialmarket":"An audience worth building on.";
   exsEl.textContent=trend?"The accounts people are viewing, saving and buying the most.":"Featured accounts, ready for their next chapter.";
   render();updCount();grid.scrollLeft=0}window.setPlat=setPlat;
@@ -73,7 +73,9 @@ function card(d,k,on,dm){var im=d[12]&&d[12][0],tag=dm?"div":"a";
   (isMon(d)?'<span class="xmo" title="Monetized"><i aria-hidden="true"></i>Monetized</span>':'')+'</div>'+
   '<div class="xi"><h3>'+esc(d[2])+'</h3><div class="xf"><b>Rs. '+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
   '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+!!on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}
-function render(){badge();
+/* blue number on "All kinds": how many accounts of this platform are listed right now (real count, it follows the listings) */
+function updKinds(){var b=subsEl.querySelector('.sub[data-h="'+HK[plat]+'"]');if(!b)return;var i=b.querySelector(".sc");if(!i)return;var n=D.filter(function(d){return d[0]===plat}).length;i.hidden=!n;i.textContent=n>999?SM.short(n):n}
+function render(){badge();updKinds();
   var list=D.filter(function(d){return match(d,{plat:plat,niche:F.niche,price:F.price,subs:F.subs,lang:F.lang,mon:F.mon,age:F.age},tagF,q)});
   if(trend)list=list.slice().sort(function(x,y){return score(y)-score(x)});
   else if(F.sort==="price")list=list.slice().sort(function(x,y){return x[8]-y[8]});
@@ -127,7 +129,6 @@ $("fq").onsubmit=function(e){e.preventDefault();var t=$("fi").value.trim().toLow
  if(t)track(null,t,hp);
  if(hp){q="";var h=HK[hp];if(NAV.cur()===h)setPlat(hp);else NAV.go(h);$("browse").scrollIntoView({behavior:"smooth",block:"start"});return}
  q=t;render();$("browse").scrollIntoView({behavior:"smooth",block:"start"})};
-$("sa").onclick=function(){q="";$("fi").value="";if(NAV.cur()==="start")setPlat("All");else NAV.go("start")};
 window.addEventListener("resize",arrows);
 SM.trending=function(){return sb.from("trending_scores").select("*").then(function(r){return r.data||[]},function(){return[]})};
 try{sb.rpc("top_searches").then(function(r){window.TS=r.data||[];if(trend)render()},function(){})}catch(e){}
