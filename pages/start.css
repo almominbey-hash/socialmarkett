@@ -355,7 +355,7 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 /* ===== Filters pop-up: every box the same size + big dropdown lists (added) =====
    Dropdown boxes (All platforms, Followers ...) and the Min / Max price boxes: same height, same text size, same padding.
    The list that opens under a dropdown is our own list, so its lines are big and the same size on every device. */
-#fmod .fbox .ddb,#fmod .fbox .pr input{box-sizing:border-box!important;height:52px!important;padding:0 14px!important;border:1px solid transparent!important;border-radius:12px!important;background-color:var(--soft)!important;color:var(--text)!important;font:400 16px/1.2 inherit!important;font-family:inherit!important}
+#fmod .fbox .ddb,#fmod .fbox .pr input{box-sizing:border-box!important;height:46px!important;padding:0 14px!important;border:1px solid transparent!important;border-radius:12px!important;background-color:var(--soft)!important;color:var(--text)!important;font:400 15px/1.2 inherit!important;font-family:inherit!important}
 #fmod .fbox .dd{position:relative;width:100%}
 #fmod .fbox .dd[hidden]{display:none}
 #fmod .fbox .ddn{display:none!important}
@@ -367,6 +367,8 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 #fmod .fbox .ddb:focus-visible,#fmod .fbox .dd.open .ddb,#fmod .fbox .pr input:focus-visible{border-color:var(--accent)!important;outline:none}
 #fmod .fbox .ddl{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;max-height:300px;overflow-y:auto;box-sizing:border-box;padding:6px;background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.2)}
 #fmod .fbox .dd.open .ddl{display:block}
-#fmod .fbox .ddi{display:flex;align-items:center;min-height:50px;padding:0 14px;border-radius:8px;font-size:16px;line-height:1.25;color:var(--text);cursor:pointer}
+#fmod .fbox .ddi{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;font-size:15px;line-height:1.25;color:var(--text);cursor:pointer}
 #fmod .fbox .ddi:hover{background:var(--soft)}
 #fmod .fbox .ddi.on{font-weight:600;color:var(--accent)}
+/* buttons under the boxes (Apply filters, Reset all filters): same height and text size as the boxes */
+#fmod .fbox .btn,#fmod .fbox .rst{box-sizing:border-box!important;height:46px!important;padding:0 16px!important;border-radius:12px!important;font-size:15px!important;line-height:1!important;display:flex;align-items:center;justify-content:center;width:100%}
