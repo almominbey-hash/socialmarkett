@@ -1,35 +1,55 @@
-/* Account details page (shows the account you clicked) */
+/* Account details page (shows the account you clicked). Everything the seller entered is shown here; empty things are left out. All money is PKR. */
 init.account=function(root){var $=function(i){return root.querySelector("#"+i)};
 function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function ini(n){return String(n).split(" ").map(function(w){return w.charAt(0)}).join("").slice(0,2).toUpperCase()}
-/* Stats box: only what a buyer really needs. Empty things are left out. [label, value, small text?] */
+function R(n){return "Rs. "+Number(n||0).toLocaleString("en-US")}
 function lab(list,k){var r="";(list||[]).forEach(function(x){if(x[0]===k)r=x[1]});return r}
-function has(t,k){return (t||[]).indexOf(k)>-1}
-function names(t,map){var r=[];Object.keys(map).forEach(function(k){if(has(t,k))r.push(map[k])});return r}
-function facts(d){var t=d[10]||[],p=d[0],f=[];
- f.push([String(d[6]).charAt(0).toUpperCase()+String(d[6]).slice(1),d[5]]);
- var mo=lab(typeof MON!=="undefined"?MON:[],d[19]);if(mo)f.push(["Monetization",mo,1]);
- if(d[7]>0)f.push(["Income / month","$"+Number(d[7]).toLocaleString("en-US")]);
- var ag=lab(typeof AGE!=="undefined"?AGE:[],d[20]);if(ag)f.push(["Account age",ag,1]);
- if(d[14])f.push(["Country",d[14],1]);
- var x;
- if(p==="YouTube"){if(has(t,"ypp"))f.push(["YouTube Partner Program","Yes",1]);x=names(t,{shorts:"Shorts","long-form":"Long-form",faceless:"Faceless"});if(x.length)f.push(["Content type",x.join(", "),1])}
- else if(p==="Instagram"){if(has(t,"verified"))f.push(["Blue tick","Yes",1]);x=names(t,{creator:"Creator",business:"Business",influencer:"Influencer"});if(x.length)f.push(["Account type",x.join(", "),1])}
- else if(p==="TikTok"){if(has(t,"creator-rewards"))f.push(["Creator Rewards","Yes",1]);x=names(t,{"shop-seller":"Seller","shop-affiliate":"Affiliate"});if(x.length)f.push(["TikTok Shop",x.join(", "),1])}
- else if(p==="Facebook"){x=names(t,{"content-monetization":"Content Monetization",stars:"Stars",subscriptions:"Subscriptions",eligible:"Monetization eligible",criteria:"Criteria completed"});if(x.length)f.push(["Monetization features",x.join(", "),1])}
- else if(p==="X"){x=names(t,{verified:"Blue tick","verified-gold":"Gold tick","verified-premium-plus":"Premium+"});if(x.length)f.push(["Verification",x.join(", "),1])}
- else{var c=[];t.forEach(function(k){if(k==="others")return;var l=typeof subLabel==="function"?subLabel(p,k):"";if(l)c.push(l)});if(c.length)f.push(["Category",c.join(", "),1])}
- if(d[9])f.push(["Seller","Verified",1]);
- return f}
-window.renderAccount=function(){var d=window.SEL;if(!d)return;
- $("c1").textContent=d[0]+" \u203a "+d[1];$("ico").textContent=d[0].charAt(0);
+var SOCIAL={YouTube:1,Instagram:1,TikTok:1,Facebook:1,X:1};
+var PC={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0",X:"#14181f",Gaming:"#6d28d9","E-commerce":"#0e7490",Websites:"#0f7a4a",AdSense:"#b45309"};
+/* category names the seller chose (Fresh, Monetized, YouTube Shorts ...). Country tags and "Others" are shown elsewhere */
+function topics(d){var out=[],t=d[10]||[],skip={others:1,usa:1,uk:1,pakistan:1,other:1};t.forEach(function(k){if(skip[k])return;var l=typeof subLabel==="function"?subLabel(d[0],k):"";if(l&&out.indexOf(l)<0)out.push(l)});return out}
+/* top boxes: the numbers a buyer looks at first. [label, value, small, highlighted?, text-style?] */
+function stats(d){var s=[],fol=Number(d[4])||0,social=!!SOCIAL[d[0]];
+ if(fol>0||social)s.push([social?(d[0]==="YouTube"?"Subscribers":"Followers"):"Audience size",d[5]||"0",fol>0?fol.toLocaleString("en-US")+" in total":"",1]);
+ if(d[7]>0)s.push(["Income / month",R(d[7]),"Stated by the seller",1]);
+ var ag=lab(typeof AGE!=="undefined"?AGE:[],d[20]);if(ag)s.push(["Account age",ag,"",0,1]);
+ var mo=lab(typeof MON!=="undefined"?MON:[],d[19]);if(mo)s.push(["Monetization",mo,"",0,1]);
+ if(d[14])s.push(["Audience country",d[14],"",0,1]);
+ if(d[1])s.push(["Niche",d[1],"",0,1]);
+ return s}
+function rows(d){var r=[],fol=Number(d[4])||0,ag=lab(typeof AGE!=="undefined"?AGE:[],d[20]),mo=lab(typeof MON!=="undefined"?MON:[],d[19]);
+ r.push(["Platform",d[0]]);
+ if(d[1])r.push(["Niche / topic",d[1]]);
+ if(fol>0||SOCIAL[d[0]])r.push([SOCIAL[d[0]]?(d[0]==="YouTube"?"Subscribers":"Followers"):"Audience size",fol.toLocaleString("en-US")]);
+ if(d[14])r.push(["Audience country",d[14]]);
+ if(mo)r.push(["Monetization",mo]);
+ if(ag)r.push(["Account age",ag]);
+ if(d[7]>0)r.push(["Income per month",R(d[7])]);
+ r.push(["Asking price",R(d[8])]);
+ if(d[17]>0)r.push(["Listing views",Number(d[17]).toLocaleString("en-US")]);
+ if(d[18])r.push(["Listed on",new Date(d[18]).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})]);
+ r.push(["Seller",E(d[3])+(d[9]?" (verified)":"")]);
+ return r}
+/* picture area: big picture, arrows, small pictures below. No picture = coloured panel with the platform sign. */
+var gi=0;
+function gallery(d){var sh=d[12]||[],g=$("gal"),c=PC[d[0]]||"#1d5fd6",lg=(window.SMX&&window.SMX.LOGO&&window.SMX.LOGO[d[0]])||"";
+ if(gi>=sh.length)gi=0;
+ var main=sh.length?'<a href="'+E(sh[gi])+'" target="_blank" rel="noopener"><img src="'+E(sh[gi])+'" alt="Picture '+(gi+1)+' of this account"></a>':'<div class="ph">'+lg+'<span>'+E(d[0])+(d[1]?' · '+E(d[1]):'')+'</span></div>';
+ g.innerHTML='<div class="gm" style="--c:'+c+'">'+main+(sh.length>1?'<button type="button" class="gn gp" data-d="-1" aria-label="Previous picture">&lsaquo;</button><button type="button" class="gn gx" data-d="1" aria-label="Next picture">&rsaquo;</button><span class="gc">'+(gi+1)+' / '+sh.length+'</span>':'')+'</div>'+
+ (sh.length>1?'<div class="th">'+sh.map(function(u,i){return '<button type="button" data-i="'+i+'" aria-label="Show picture '+(i+1)+'" aria-current="'+(i===gi)+'"><img src="'+E(u)+'" alt="" loading="lazy"></button>'}).join("")+'</div>':"")}
+$("gal").addEventListener("click",function(e){var d=window.SEL;if(!d)return;var sh=d[12]||[],n=e.target.closest(".gn"),t=e.target.closest(".th button");
+ if(n){e.preventDefault();gi=(gi+(+n.dataset.d)+sh.length)%sh.length;gallery(d)}else if(t){gi=+t.dataset.i;gallery(d)}});
+window.renderAccount=function(){var d=window.SEL;if(!d)return;gi=0;
+ $("c1").textContent=d[0]+(d[1]?" \u203a "+d[1]:"");
  $("ttl").textContent=d[2];
- $("tg").innerHTML=(d[9]?'<span class="ver">\u2713 Verified seller</span>':"")+'<span class="tag">'+E(d[0])+'</span><span class="tag">'+E(d[1])+'</span>';
- $("st").innerHTML=facts(d).map(function(f){return '<div'+(f[2]?' class="t"':'')+'><b>'+E(f[1])+'</b><span>'+E(f[0])+'</span></div>'}).join("");
- $("ds").textContent=d[11]||"";
- var sh=d[12]||[];$("shw").innerHTML=sh.length?'<h2>Screenshots</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">'+sh.map(function(u){return '<a href="'+E(u)+'" target="_blank" rel="noopener"><img src="'+E(u)+'" alt="Screenshot" style="width:100%;border-radius:8px;display:block"></a>'}).join("")+"</div>":"";
- $("dt").innerHTML='<tr><td>Platform</td><td>'+E(d[0])+'</td></tr><tr><td>Niche</td><td>'+E(d[1])+'</td></tr><tr><td>'+E(d[6].charAt(0).toUpperCase()+d[6].slice(1))+'</td><td>'+E(d[5])+'</td></tr>'+(d[7]>0?'<tr><td>Income per month</td><td>$'+Number(d[7]).toLocaleString("en-US")+'</td></tr>':"");
- $("pr").textContent="$"+Number(d[8]).toLocaleString("en-US");
+ $("tg").innerHTML=(d[9]?'<span class="ver">\u2713 Verified seller</span>':"")+'<span class="tag">'+E(d[0])+'</span>'+(d[1]?'<span class="tag">'+E(d[1])+'</span>':"");
+ gallery(d);
+ $("st").innerHTML=stats(d).map(function(f){return '<div class="'+(f[3]?"hl":"")+(f[4]?" t":"")+'"><span>'+E(f[0])+'</span><b>'+E(f[1])+'</b>'+(f[2]?'<small>'+E(f[2])+'</small>':"")+'</div>'}).join("");
+ var ds=String(d[11]||"").trim();$("ds").textContent=ds;$("dsw").hidden=!ds;
+ var tp=topics(d);$("tp").innerHTML=tp.map(function(x){return '<span class="chip ok">'+E(x)+'</span>'}).join("");$("tpw").hidden=!tp.length;
+ $("dt").innerHTML=rows(d).map(function(r){return '<tr><td>'+E(r[0])+'</td><td>'+(r[0]==="Seller"?r[1]:E(r[1]))+'</td></tr>'}).join("");
+ $("pr").textContent=R(d[8]);
+ var roi=$("roi");if(d[7]>0&&d[8]>0){var m=d[8]/d[7];roi.innerHTML='<b>About '+(m>=10?Math.round(m):(Math.round(m*10)/10))+' months of income</b>This price compared with the monthly income the seller listed.';roi.hidden=false}else roi.hidden=true;
  ["si","si2"].forEach(function(k){$(k).textContent=ini(d[3])});["sn","sn2"].forEach(function(k){$(k).textContent=d[3]});
  ["sv","sv2"].forEach(function(k){$(k).textContent=d[9]?"Verified seller":"Seller"});
  window.scrollTo(0,0)};
