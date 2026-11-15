@@ -114,12 +114,12 @@ function render(){badge();updKinds();
   else list=list.slice().sort(function(x,y){return (y[18]||0)-(x[18]||0)});
   if(!D.length){grid.innerHTML=ready?'<p class="xe">No accounts are listed yet. They will appear here as soon as sellers add them.</p>':"";arrows();return}
   if(!list.length){grid.innerHTML='<p class="xe">No accounts available here yet.</p>';arrows();return}
-  grid.innerHTML=list.map(function(d){var k=D.indexOf(d);return card(d,k,SV.indexOf(d[2])>-1,false)}).join("");
+  grid.innerHTML=list.map(function(d){var k=D.indexOf(d);return card(d,k,SV.indexOf(d[13])>-1,false)}).join("");
   arrows();
 }
-var gridClick=function(e){var nv=e.target.closest(".xnv");if(nv){e.preventDefault();e.stopPropagation();var cd=nv.closest(".xc"),sh=D[+cd.dataset.k][12],i=((+cd.dataset.i||0)+(+nv.dataset.d)+sh.length)%sh.length;cd.dataset.i=i;var im=cd.querySelector(".xm img");if(!im){im=document.createElement("img");im.alt="";cd.querySelector(".xm").insertBefore(im,cd.querySelector(".xm").firstChild)}im.src=sh[i];return}var c=e.target.closest(".xc");if(c&&c.classList.contains("dm")){e.preventDefault();return}if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2],function(){var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"♥":"♡"})}};
+var gridClick=function(e){var nv=e.target.closest(".xnv");if(nv){e.preventDefault();e.stopPropagation();var cd=nv.closest(".xc"),sh=D[+cd.dataset.k][12],i=((+cd.dataset.i||0)+(+nv.dataset.d)+sh.length)%sh.length;cd.dataset.i=i;var im=cd.querySelector(".xm img");if(!im){im=document.createElement("img");im.alt="";cd.querySelector(".xm").insertBefore(im,cd.querySelector(".xm").firstChild)}im.src=sh[i];return}var c=e.target.closest(".xc");if(c&&c.classList.contains("dm")){e.preventDefault();return}if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][13],function(){var on=SV.indexOf(D[+h.dataset.k][13])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"♥":"♡"})}};
 grid.addEventListener("click",gridClick);
-var rg=$("recg");if(rg)rg.addEventListener("click",function(e){var c=e.target.closest(".xc");if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][2],function(){var on=SV.indexOf(D[+h.dataset.k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"\u2665":"\u2661"})}});
+var rg=$("recg");if(rg)rg.addEventListener("click",function(e){var c=e.target.closest(".xc");if(c&&!e.target.closest(".xh")){window.SEL=D[+c.dataset.k];track(D[+c.dataset.k])}var h=e.target.closest(".xh");if(h){e.preventDefault();toggleSave(D[+h.dataset.k][13],function(){var on=SV.indexOf(D[+h.dataset.k][13])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"\u2665":"\u2661"})}});
 grid.addEventListener("scroll",arrows,{passive:true});
 pv.onclick=function(){grid.scrollBy({left:-grid.clientWidth*.8,behavior:"smooth"})};
 nx.onclick=function(){grid.scrollBy({left:grid.clientWidth*.8,behavior:"smooth"})};
@@ -140,7 +140,7 @@ function recent(){var el=$("rec"),box=$("recg");if(!el||!box)return;var x=rget()
  sc=sc.slice(0,8);
  if(!sc.length){el.hidden=true;return}
  var rh=$("rech");if(rh)rh.textContent="Inspired by your recent activity";
- box.innerHTML=sc.map(function(a){var d=D[a[1]],k=a[1],on=SV.indexOf(d[2])>-1,im=d[12]&&d[12][0];
+ box.innerHTML=sc.map(function(a){var d=D[a[1]],k=a[1],on=SV.indexOf(d[13])>-1,im=d[12]&&d[12][0];
   return '<article class="rc xc" data-k="'+k+'"><a href="/account"><div class="rm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'<span class="lg">'+LOGO[d[0]]+'</span>')+'</div>'+
   '<div class="rb"><div class="rs"><span class="ra">'+esc(String(d[3]).charAt(0).toUpperCase())+'</span><span class="rn">'+esc(d[3])+'</span><span class="rp">'+esc(d[0])+'</span></div>'+
   '<h3>'+esc(d[2])+'</h3><p class="rt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p><p class="rf">From Rs. '+d[8].toLocaleString("en-US")+'</p></div></a>'+

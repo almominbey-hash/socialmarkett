@@ -1,5 +1,6 @@
 /* Saved accounts: "Recently saved", your own lists, and the "Save to list" pop-up */
-var SV=[],SVT={},SVL=[];/* SV = saved account names (newest first), SVT = when saved, SVL = lists [{id,name,items:[names]}] */
+var SV=[],SVT={},SVL=[];/* SV = saved listing IDs (newest first), SVT = when saved, SVL = lists [{id,name,items:[listing ids]}]. The ID (not the title) is used, so two accounts with the same title are never mixed up. */
+function svTitle(k){var a=window.SMD||[];for(var i=0;i<a.length;i++)if(a[i][13]===k)return a[i][2];return k}
 function updSc(){var c=document.getElementById("sc");c.textContent=SV.length;c.hidden=!SV.length}
 function svx(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function svErr(r){if(r&&r.error)throw r.error;return r}
@@ -43,7 +44,7 @@ function svpDraw(){var t=svpKey,saved=SV.indexOf(t)>-1;
   return '<button type="button" class="svi'+(inn?' in':'')+'" data-id="'+svx(l.id)+'" aria-pressed="'+inn+'"><span>'+svx(l.name)+'<small>'+l.items.length+' account'+(l.items.length===1?'':'s')+'</small></span><i>'+(inn?'\u2713':'')+'</i></button>'}).join("")
   :'<p class="svz">You have no lists yet. Create your first one below.</p>';
  svp.innerHTML='<div class="svb" role="dialog" aria-modal="true" aria-label="Save to list"><div class="svh"><b>Save to list</b><button type="button" class="svk" data-a="x" aria-label="Close">\u00d7</button></div>'+
-  '<p class="svs">'+svx(t)+'</p>'+rows+
+  '<p class="svs">'+svx(svTitle(t))+'</p>'+rows+
   '<form class="svn"><input maxlength="40" placeholder="New list name" aria-label="New list name"><button class="svc" type="submit">Create</button></form>'+
   '<p class="sve" role="alert">'+svx(svpErr)+'</p>'+(saved?'<button type="button" class="svr" data-a="rm">Remove from saved</button>':'')+'</div>'}
 function svpClose(){if(!svp)return;svp.classList.remove("on");svp.innerHTML="";var f=svpDone;svpDone=null;if(f)f()}
@@ -73,11 +74,11 @@ function toggleSave(t,done){
 /* ---------- the Saved page: left side = Recently saved + Your lists, right side = the accounts ---------- */
 init.saved=function(root){
  var view="recent",adding=false;/* "recent" or the id of the list that is open */
- var PLC={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0",X:"#14181f"};
+ var PLC={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0"};
  var CLOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 4v4.5H8"/><path d="M12 7.5V12l3 2"/></svg>';
  var v=root.querySelector("#sv");
  function D(){return window.SMD||[]}
- function idx(t){var a=D();for(var i=0;i<a.length;i++)if(a[i][2]===t)return i;return -1}
+ function idx(t){var a=D(),i;for(i=0;i<a.length;i++)if(a[i][13]===t)return i;for(i=0;i<a.length;i++)if(a[i][2]===t)return i;return -1} /* the second loop only helps old saves that still hold a title */
  function media(d){var im=d[12]&&d[12][0];return '<div class="rm" style="--c:'+(PLC[d[0]]||"#566070")+'">'+(im?'<img src="'+svx(im)+'" alt="" loading="lazy">':'<span class="rl">'+svx(d[0])+'</span>')+'</div>'}
  function card(t,inList){var i=idx(t),d=D()[i];
   return '<article class="ac"><a class="al" href="/account" data-i="'+i+'">'+media(d)+'<div class="ab"><p class="ap">'+svx(d[0])+' \u00b7 '+svx(d[1])+'</p><h3>'+svx(d[2])+'</h3><p class="ar">Rs. '+d[8].toLocaleString("en-US")+'</p></div></a>'+

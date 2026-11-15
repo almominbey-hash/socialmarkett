@@ -4,11 +4,12 @@ init["seller-dashboard"]=function(root){
 var $=function(i){return root.querySelector("#"+i)};
 var LAST=0,LOADING=false,BUSY=false;
 var LAB={awaiting_payment:["Waiting for payment","warn"],in_progress:["Paid - deliver now","info"],delivered:["Delivered","info"],completed:["Completed","ok"],cancelled:["Cancelled","bad"]};
-var LST={pending:["Waiting for approval","warn"],live:["Live","ok"],sold:["Sold","info"],rejected:["Rejected","bad"]};
+var LST={pending:["Waiting for approval","warn"],live:["Live","ok"],sold:["Sold","info"],rejected:["Rejected","bad"],unlisted:["Unlisted","warn"]};
 function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function N(x){return Number(x||0).toLocaleString("en-US")}
-function amt(a){return "Rs. "+Number(a||0).toLocaleString("en-US",{maximumFractionDigits:0})}
-function mm(m,key){return amt((m||{})[key])}
+function cur(c){return c==="USD"?"$":"Rs. "}
+function amt(a,c){return cur(c)+Number(a||0).toLocaleString("en-US",{maximumFractionDigits:2})}
+function mm(map,key){var ks=Object.keys(map||{});if(!ks.length)return "Rs. 0";return ks.map(function(c){return amt(map[c][key],c)}).join(" + ")}
 function dt(t){if(!t)return "";try{return new Date(t).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}catch(e){return ""}}
 function chip(p){return '<span class="chip '+p[1]+'">'+E(p[0])+'</span>'}
 function card(l,n,h,c){return '<div class="k'+(c?" "+c:"")+'"><small>'+E(l)+'</small><b>'+n+'</b><span>'+E(h)+'</span></div>'}
@@ -41,7 +42,7 @@ function draw(d){
   var st=LAB[r.status]||[r.status,"info"];
   var sub=r.payout_status==="held"&&r.release_at?'<span class="sub">Payout after '+E(dt(r.release_at))+'</span>':(r.payout_status==="released"?'<span class="sub">Paid to you</span>':"");
   var act=(r.status==="in_progress"&&r.payment_status==="paid"&&!r.disputed)?'<button class="btn sm" type="button" data-del="'+E(r.id)+'">Mark delivered</button>':"";
-  return '<tr><td>SM-'+E(r.order_no)+'<span class="sub">'+E(dt(r.created_at))+'</span></td><td class="t">'+E(r.listing_title)+'<span class="sub">'+E(r.platform)+'</span></td><td>'+E(r.buyer_name)+'</td><td>'+amt(r.earning)+'</td><td>'+chip(st)+(r.disputed?' '+chip(["Problem","bad"]):"")+sub+'</td><td>'+act+'</td></tr>'}).join("")+'</table>':'<p class="none">No orders yet. When a buyer buys one of your accounts it will show here.</p>';
+  return '<tr><td>SM-'+E(r.order_no)+'<span class="sub">'+E(dt(r.created_at))+'</span></td><td class="t">'+E(r.listing_title)+'<span class="sub">'+E(r.platform)+'</span></td><td>'+E(r.buyer_name)+'</td><td>'+amt(r.earning,r.currency)+'</td><td>'+chip(st)+(r.disputed?' '+chip(["Problem","bad"]):"")+sub+'</td><td>'+act+'</td></tr>'}).join("")+'</table>':'<p class="none">No orders yet. When a buyer buys one of your accounts it will show here.</p>';
  /* messages */
  var rc=ms.recent||[];
  $("mc").innerHTML='<div class="ms"><div><b>'+N(ms.conversations)+'</b>Chats</div><div><b>'+N(ms.unread)+'</b>Unread</div></div>'+(rc.length?rc.map(function(c){
