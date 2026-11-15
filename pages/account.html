@@ -1,42 +1,52 @@
 <main class="wrap" id="top">
-  <div class="crumb"><a href="/">All accounts</a> › <span id="c1"></span></div>
+  <nav class="crumb" aria-label="Breadcrumb"><a href="/">All accounts</a><i aria-hidden="true">›</i><span id="c1"></span></nav>
   <div class="layout">
-    <div>
+    <div class="main">
+      <div class="gal" id="gal"></div>
+
       <div class="head">
-        <div class="av" id="ico" aria-hidden="true"></div>
-        <div>
-          <h1 id="ttl"></h1>
-          <div class="tags" id="tg"></div>
+        <h1 id="ttl"></h1>
+        <div class="tags" id="tg"></div>
+      </div>
+
+      <div class="stats" id="st" aria-label="Account stats"></div>
+
+      <section id="dsw" hidden>
+        <h2>About this account</h2>
+        <p id="ds" class="ds"></p>
+      </section>
+
+      <section id="tpw" hidden>
+        <h2>Topics &amp; features</h2>
+        <div class="chips" id="tp"></div>
+      </section>
+
+      <section>
+        <h2>Full details</h2>
+        <table class="det" id="dt"></table>
+      </section>
+
+      <section>
+        <h2 id="how">Buying</h2>
+        <p class="note">Ask the seller anything about this account using the Contact seller button. Online payment is being set up and is not open yet. All prices are in Pakistani Rupees (PKR).</p>
+      </section>
+
+      <section>
+        <h2>About the seller</h2>
+        <div class="sbx">
+          <i aria-hidden="true" id="si"></i>
+          <div><b id="sn"></b><small id="sv"></small><span>Have a question about this account? Ask the seller here. Chat stays inside socialmarket.</span></div>
+          <button type="button" class="btn" id="cs2">&#9993; Contact seller</button>
         </div>
-      </div>
-
-      <h2>Account stats</h2>
-      <div class="stats" id="st"></div>
-
-      <h2>About this account</h2>
-      <p id="ds" style="white-space:pre-line"></p>
-
-      <div id="shw"></div>
-
-      <h2>Details</h2>
-      <table class="det" id="dt"></table>
-
-      <h2 id="how">Buying</h2>
-      <p>Ask the seller anything about this account using the Contact seller button. Online payment is being set up and is not open yet.</p>
-
-      <h2>About the seller</h2>
-      <div class="sbx">
-        <i aria-hidden="true" id="si"></i>
-        <div><b id="sn"></b><small id="sv"></small><span>Have a question about this account? Ask the seller here. Chat stays inside socialmarket.</span></div>
-        <button type="button" class="btn" id="cs2">&#9993; Contact seller</button>
-      </div>
+      </section>
     </div>
 
     <aside class="buy" aria-label="Buy this account">
-      <div class="price"><span id="pr"></span><small>One-time price</small></div>
+      <div class="price"><span id="pr"></span><small>One-time price in PKR</small></div>
+      <div class="roi" id="roi" hidden></div>
       <button type="button" class="btn full" id="buy">Buy now</button>
+      <button type="button" class="btn line full" id="cs" style="margin-top:10px">&#9993; Contact seller</button>
       <div class="seller"><i id="si2"></i><div><b id="sn2"></b><small id="sv2"></small></div></div>
-      <button type="button" class="btn line full" id="cs" style="margin-top:14px">&#9993; Contact seller</button>
     </aside>
   </div>
 </main>
