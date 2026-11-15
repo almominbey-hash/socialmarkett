@@ -63,12 +63,14 @@ subsEl.addEventListener("click",function(e){var b=e.target.closest(".sub");if(!b
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function arrows(){pv.disabled=grid.scrollLeft<=4;nx.disabled=grid.scrollLeft+grid.clientWidth>=grid.scrollWidth-4}
 var GL='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg>';
+/* shown only when the account is monetized; fresh and non-monetized show nothing */
+function isMon(d){var t=d[10]||[];return d[19]==="enabled"||(t.indexOf("monetized")>-1&&t.indexOf("non-monetized")<0)}
 function card(d,k,on,dm){var im=d[12]&&d[12][0],tag=dm?"div":"a";
   return '<article class="xc'+(dm?' dm':'')+'"'+(dm?'':' data-k="'+k+'"')+'><'+tag+(dm?'':' href="/account"')+'><div class="xm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'')+((!dm&&d[12]&&d[12].length>1)?'<button type="button" class="xnv xpv" data-d="-1" aria-label="Previous image">&lsaquo;</button><button type="button" class="xnv xnx" data-d="1" aria-label="Next image">&rsaquo;</button>':'')+
   '<div class="xtop"><span class="xpl" title="'+esc(d[0])+'">'+LOGO[d[0]]+'</span><span class="xn">'+esc(d[1])+'</span></div>'+
   (dm?'<span class="sm">Sample</span>':'')+
   '<div class="xsub"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+
-  (d[9]?'<span class="xvt" title="Verified"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>':'')+'</div>'+
+  (isMon(d)?'<span class="xmo" title="Monetized"><i aria-hidden="true"></i>Monetized</span>':'')+'</div>'+
   '<div class="xi"><h3>'+esc(d[2])+'</h3><div class="xf"><b>Rs. '+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
   '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+!!on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}
 function render(){badge();
@@ -100,17 +102,11 @@ function track(d,term,pl){var x=rget();bump(d);if(term){try{sb.rpc("log_search",
  rput(x)}
 function recent(){var el=$("rec"),box=$("recg");if(!el||!box)return;var x=rget();
  if(!D.length){el.hidden=true;return}
- var hist=x.q.length||x.v.length;
- var w=[];x.q.forEach(function(t){t.split(/\s+/).forEach(function(k){if(k.length>2)w.push(k)})});
- var vt={};D.forEach(function(d){if(x.v.indexOf(d[13])>-1)(d[10]||[]).forEach(function(t){vt[d[0]+":"+t]=1})});
- var last=null;D.forEach(function(d){if(x.v[0]&&d[13]===x.v[0])last=d});
- var rh=$("rech"),rs=$("recs");
- if(last){var ti=String(last[2]);if(ti.length>34)ti=ti.slice(0,32)+"...";if(rh)rh.textContent="More "+last[0]+" "+NOUN[last[0]]+"s like \u201c"+ti+"\u201d";if(rs)rs.textContent="You viewed this "+NOUN[last[0]]+" recently. Here are similar ones from other sellers."}
- else{if(rh)rh.textContent="More accounts like the ones you viewed";if(rs)rs.textContent="Because you looked at this kind of account, you may like these too."}
- var sc=D.map(function(d,k){if(last&&d===last)return[0,k];var s=(last&&d[0]===last[0]?6:0)+(x.p[d[0]]||0)*2+(x.n[d[1]]||0)*3+(d[10]||[]).filter(function(t){return vt[d[0]+":"+t]}).length*2,h=(d[0]+" "+d[1]+" "+d[2]).toLowerCase();w.forEach(function(k2){if(h.indexOf(k2)>-1)s+=3});if(x.v.indexOf(d[13])>-1)s+=1;return[s,k]})
-  .filter(function(a){return a[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,8);
- if(!hist||!sc.length){sc=D.map(function(d,k){return[score(d),k]}).sort(function(a,b){return b[0]-a[0]}).slice(0,8);if(rh)rh.textContent="Popular on socialmarket";if(rs)rs.textContent="Good accounts from across all platforms."}
+ /* only the accounts this person really opened, newest first */
+ var sc=[];x.v.forEach(function(id){for(var k=0;k<D.length;k++){if(D[k][13]===id){sc.push([1,k]);break}}});
+ sc=sc.slice(0,8);
  if(!sc.length){el.hidden=true;return}
+ var rh=$("rech");if(rh)rh.textContent="Inspired by your recent activity";
  box.innerHTML=sc.map(function(a){var d=D[a[1]],k=a[1],on=SV.indexOf(d[2])>-1,im=d[12]&&d[12][0];
   return '<article class="rc xc" data-k="'+k+'"><a href="/account"><div class="rm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'<span class="lg">'+LOGO[d[0]]+'</span>')+'</div>'+
   '<div class="rb"><div class="rs"><span class="ra">'+esc(String(d[3]).charAt(0).toUpperCase())+'</span><span class="rn">'+esc(d[3])+'</span><span class="rp">'+esc(d[0])+'</span></div>'+

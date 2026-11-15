@@ -3,13 +3,15 @@
 [].forEach.call(document.querySelectorAll("#cats nav a"),function(a){a.addEventListener("click",function(e){e.preventDefault();[].forEach.call(document.querySelectorAll("#cats nav a.cur"),function(x){x.classList.remove("cur")});if(a.dataset.s){var q=document.getElementById("hq");q.value=a.dataset.s;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}));[].forEach.call(document.querySelectorAll("#cats nav a"),function(x){x.classList.remove("cur");x.removeAttribute("aria-current")});a.classList.add("cur");return}window.TREND=/^\s*Trending/.test(a.textContent);var h=HK[a.dataset.p]||"start";if(NAV.cur()===h)route();else NAV.go(h);window.scrollTo(0,0)})});
 (function(){var mm=document.getElementById("mm"),ce=document.getElementById("cats"),mt=null;
 function mmClose(){clearTimeout(mt);mm.classList.remove("on")}
-function mmOpen(p){clearTimeout(mt);var g=SUB[p];if(!g){mmClose();return}
- mm.innerHTML='<div class="mi"><div class="mh"><b>'+p+'</b><a href="/'+HK[p]+'">Browse all '+p+' &rarr;</a></div>'+g.map(function(c){return '<div><h4>'+c[0]+'</h4>'+c[1].map(function(i){return '<a href="/'+HK[p]+"-"+i[1]+'">'+i[0]+'</a>'}).join("")+'</div>'}).join("")+'</div>';
- mm.classList.add("on")}
+/* All menus sit on top of each other in one box, so every menu is exactly as tall as the tallest one. Only the chosen one is visible. */
+function mmBuild(){if(mm.dataset.b)return;var h="";
+ Object.keys(SUB).forEach(function(p){var g=SUB[p];h+='<div class="mp" data-p="'+p+'"><div class="mh"><b>'+p+'</b><a href="/'+HK[p]+'">Browse all '+p+' &rarr;</a></div>'+g.map(function(c){return '<div><h4>'+c[0]+'</h4>'+c[1].map(function(i){return '<a href="/'+HK[p]+"-"+i[1]+'">'+i[0]+'</a>'}).join("")+'</div>'}).join("")+'</div>'});
+ [].forEach.call(document.querySelectorAll("#cats nav a[data-s]"),function(a){var n=a.textContent.trim();h+='<div class="mp" data-s="'+n+'"><div class="mh"><b>'+n+'</b><p>Coming soon. Sellers, contact us to list your accounts here.</p><a href="/sell">Become a seller &rarr;</a></div></div>'});
+ mm.innerHTML='<div class="mi">'+h+'</div>';mm.dataset.b="1"}
+function mmShow(attr,v){clearTimeout(mt);mmBuild();[].forEach.call(mm.querySelectorAll(".mp"),function(x){x.classList.toggle("act",x.getAttribute(attr)===v)});mm.classList.add("on")}
+function mmOpen(p){var g=SUB[p];if(!g){mmClose();return}mmShow("data-p",p)}
 /* categories that have no sub categories yet (E-commerce, Gaming ...) open the same wide box with "Coming soon" */
-function mmSoon(a){clearTimeout(mt);
- mm.innerHTML='<div class="mi"><div class="mh"><b>'+a.textContent.trim()+'</b><p>Coming soon. Sellers, contact us to list your accounts here.</p><a href="/sell">Become a seller &rarr;</a></div></div>';
- mm.classList.add("on")}
+function mmSoon(a){mmShow("data-s",a.textContent.trim())}
 [].forEach.call(document.querySelectorAll("#cats nav a"),function(a){var p=a.dataset.p;
  a.addEventListener("mouseenter",function(){if(!window.matchMedia("(hover:hover)").matches){mmClose();return}if(SUB[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()});
  a.addEventListener("focus",function(){if(SUB[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()})});
