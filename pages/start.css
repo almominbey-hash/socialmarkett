@@ -344,3 +344,9 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .fbar .subs{padding-top:12px}
 .sub .sc{position:absolute;top:-10px;right:-6px;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--accent);color:#fff;font:600 11.5px/20px inherit;font-family:inherit;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg)}
 .sub .sc[hidden]{display:none}
+
+/* Filters pop-up: no Search box (hidden, code stays so nothing breaks), so it starts with All platforms.
+   Every dropdown has the same size; the Min / Max price boxes are a little smaller. */
+#fmod .fbox label[for="fk"],#fmod #fk{display:none}
+#fmod .fbox select{height:56px;font-size:16px}
+#fmod .fbox .pr input{height:50px;font-size:16px}
