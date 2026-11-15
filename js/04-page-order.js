@@ -17,7 +17,7 @@ var EVL={created:"Order placed",paid:"Payment received",delivered:"Order deliver
 var COL=["#1d5fd6","#0f7a4a","#9a3b6b","#b45309","#6d28d9","#0e7490"];
 
 function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function cur(o){return o.currency==="PKR"?"Rs. ":"$"}
+function cur(o){return "PKR "}
 function moneyN(n,o){return cur(o)+Number(n).toLocaleString("en-US")}
 function money(o){return moneyN(o.amount,o)}
 function dfull(t){if(!t)return"";try{return new Date(t).toLocaleString([],{dateStyle:"medium",timeStyle:"short"})}catch(e){return new Date(t).toLocaleString()}}

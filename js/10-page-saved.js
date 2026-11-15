@@ -81,7 +81,7 @@ init.saved=function(root){
  function idx(t){var a=D(),i;for(i=0;i<a.length;i++)if(a[i][13]===t)return i;for(i=0;i<a.length;i++)if(a[i][2]===t)return i;return -1} /* the second loop only helps old saves that still hold a title */
  function media(d){var im=d[12]&&d[12][0];return '<div class="rm" style="--c:'+(PLC[d[0]]||"#566070")+'">'+(im?'<img src="'+svx(im)+'" alt="" loading="lazy">':'<span class="rl">'+svx(d[0])+'</span>')+'</div>'}
  function card(t,inList){var i=idx(t),d=D()[i];
-  return '<article class="ac"><a class="al" href="/account" data-i="'+i+'">'+media(d)+'<div class="ab"><p class="ap">'+svx(d[0])+' \u00b7 '+svx(d[1])+'</p><h3>'+svx(d[2])+'</h3><p class="ar">Rs. '+d[8].toLocaleString("en-US")+'</p></div></a>'+
+  return '<article class="ac"><a class="al" href="/account" data-i="'+i+'">'+media(d)+'<div class="ab"><p class="ap">'+svx(d[0])+' \u00b7 '+svx(d[1])+'</p><h3>'+svx(d[2])+'</h3><p class="ar">PKR '+d[8].toLocaleString("en-US")+'</p></div></a>'+
   '<button type="button" class="hh" data-t="'+svx(t)+'" aria-label="Saved. Choose a list">\u2665</button>'+
   (inList?'<button type="button" class="btn line rmv" data-l="'+svx(inList)+'" data-t="'+svx(t)+'">Remove from list</button>':'')+'</article>'}
  function have(a){return a.filter(function(t){return idx(t)>-1})}

@@ -36,7 +36,7 @@ function recRender(){var D=window.SMD,X=window.SMX;if(!RG||!D||!D.length||!X)ret
  var list=D.map(function(d,k){return[d,k]}).sort(function(a,b){return X.score(b[0])-X.score(a[0])||(b[0][18]||0)-(a[0][18]||0)}).slice(0,15);
  RG.classList.add("many");
  RG.innerHTML=list.map(function(a){var d=a[0],im=d[12]&&d[12][0];
-  return '<a class="lc" href="/account" data-k="'+a[1]+'"><div class="cv"'+(im?' style="background-image:url(\''+E(im)+'\')"':'')+'></div><div class="li"><div class="pl">'+(X.LOGO[d[0]]||"")+'<span>'+E(d[0])+'</span></div><h3>'+E(d[2])+'</h3><p>'+E(d[5])+' '+E(d[6])+' \u00b7 '+E(d[1])+(d[14]?' \u00b7 '+E(d[14]):'')+'</p><div class="pr2"><b>Rs. '+(+d[8]).toLocaleString("en-US")+'</b>'+ARW+'</div></div></a>'}).join("")}
+  return '<a class="lc" href="/account" data-k="'+a[1]+'"><div class="cv"'+(im?' style="background-image:url(\''+E(im)+'\')"':'')+'></div><div class="li"><div class="pl">'+(X.LOGO[d[0]]||"")+'<span>'+E(d[0])+'</span></div><h3>'+E(d[2])+'</h3><p>'+E(d[5])+' '+E(d[6])+' \u00b7 '+E(d[1])+(d[14]?' \u00b7 '+E(d[14]):'')+'</p><div class="pr2"><b>PKR '+(+d[8]).toLocaleString("en-US")+'</b>'+ARW+'</div></div></a>'}).join("")}
 window.addEventListener("smdata",function(){recRender();if(RG&&window.SMD&&!window.SMD.length)RG.innerHTML='<p class="empty">New accounts appear here as soon as sellers list them.</p>'});recRender();
 root.addEventListener("click",function(e){var c=e.target.closest&&e.target.closest("[data-k]");if(c&&window.SMD&&window.SMD[+c.dataset.k]){window.SEL=window.SMD[+c.dataset.k];if(window.SMX&&window.SMX.track)window.SMX.track(window.SEL)}},true);
 };
@@ -121,8 +121,7 @@ root.addEventListener("click",function(e){var c=e.target.closest&&e.target.close
   var HTML =
     '<div class="sma-dlg" role="dialog" aria-modal="true" aria-labelledby="sma-h">' +
     '<aside class="sma-side"><h2>Your next account starts here</h2>' +
-    '<ul><li>Verified accounts on every platform</li><li>Your money is held until you confirm</li><li>24 hours to check before you pay</li></ul>' +
-    '<div class="sma-ic">' + ICONS + '</div></aside>' +
+        '<div class="sma-ic">' + ICONS + '</div></aside>' +
     '<div class="sma-main">' +
     '<button type="button" class="sma-x" aria-label="Close">&times;</button>' +
 

@@ -5,7 +5,7 @@ function draw(){if(!U)return;
  var v=root.querySelector("#dv"),n=esc(U.name||U.email);
  var c=function(a,b){return '<div class="c"><b>'+a+'</b><span>'+b+'</span></div>'};
  v.innerHTML='<div class="hd"><div><h1>Hi, '+n+'</h1><p class="m" style="margin:0">Your account</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn line" href="/">Browse accounts</a><a class="btn" href="/sell">+ List an account</a></div></div>'+
- '<div class="cards">'+c('<span id="oa">0</span>',"Active orders")+c('<span id="oc">0</span>',"Completed orders")+c('<span id="nl">0</span>',"Active listings")+c('$<span id="os">0</span>',"Sales this month")+c('$<span id="op">0</span>',"Pending payout")+'</div>'+
+ '<div class="cards">'+c('<span id="oa">0</span>',"Active orders")+c('<span id="oc">0</span>',"Completed orders")+c('<span id="nl">0</span>',"Active listings")+c('PKR <span id="os">0</span>',"Sales this month")+c('PKR <span id="op">0</span>',"Pending payout")+'</div>'+
  '<h2>My orders (buying)</h2><div class="tb" id="ob"><p class="m" style="margin:0">Loading...</p></div>'+
  '<h2>My listings (selling)</h2><div class="tb" id="lt"><p class="m" style="margin:0">Loading...</p></div>'+
  '<h2>Orders to deliver</h2><div class="tb" id="od"><p class="m" style="margin:0">Loading...</p></div>';
@@ -19,7 +19,7 @@ function draw(){if(!U)return;
   v.querySelector("#oc").textContent=O.filter(function(o){return o.status==="completed"}).length;
   v.querySelector("#os").textContent=sum(sold.filter(function(o){return o.payment_status==="paid"&&o.paid_at&&new Date(o.paid_at)>=m0})).toLocaleString("en-US");
   v.querySelector("#op").textContent=sum(sold.filter(function(o){return o.payout_status==="held"})).toLocaleString("en-US");
-  var tbl=function(a){return '<table><tr><th>Order</th><th>Account</th><th>Amount</th><th>Status</th></tr>'+a.slice(0,5).map(function(o){return"<tr><td>SM-"+o.order_no+"</td><td>"+esc(o.platform)+" \u00b7 "+esc(o.listing_title)+"</td><td>Rs. "+Number(o.amount).toLocaleString("en-US")+'</td><td><span class="pill'+(o.status==="completed"?" ok":"")+'">'+LB[o.status]+"</span></td></tr>"}).join("")+"</table><p style=\"margin:8px 0 0\"><a href=\"/order\">See all orders</a></p>"};
+  var tbl=function(a){return '<table><tr><th>Order</th><th>Account</th><th>Amount</th><th>Status</th></tr>'+a.slice(0,5).map(function(o){return"<tr><td>SM-"+o.order_no+"</td><td>"+esc(o.platform)+" \u00b7 "+esc(o.listing_title)+"</td><td>PKR "+Number(o.amount).toLocaleString("en-US")+'</td><td><span class="pill'+(o.status==="completed"?" ok":"")+'">'+LB[o.status]+"</span></td></tr>"}).join("")+"</table><p style=\"margin:8px 0 0\"><a href=\"/order\">See all orders</a></p>"};
   ob.innerHTML=mine.length?tbl(mine):'<p class="m" style="margin:0">No orders yet.</p>';
   var dv=sold.filter(function(o){return o.status==="in_progress"});od.innerHTML=dv.length?tbl(dv):'<p class="m" style="margin:0">No orders to deliver.</p>'});
  sb.from("listings").select("title,price,status,platform").eq("seller_id",U.id).order("created_at",{ascending:false}).then(function(r){
@@ -27,4 +27,4 @@ function draw(){if(!U)return;
   v.querySelector("#nl").textContent=L.filter(function(x){return x.status==="live"}).length;
   if(!L.length){lt.innerHTML='<p class="m" style="margin:0">You have no listings yet.</p>';return}
   var lab={pending:"In review",live:"Live",sold:"Sold",rejected:"Rejected"};
-  lt.innerHTML='<table><tr><th>Account</th><th>Price</th><th>Status</th></tr>'+L.map(function(x){return "<tr><td>"+esc(x.platform)+" · "+esc(x.title)+"</td><td>Rs. "+Number(x.price).toLocaleString("en-US")+'</td><td><span class="pill'+(x.status==="live"?" ok":"")+'">'+lab[x.status]+"</span></td></tr>"}).join("")+"</table>"})}};
+  lt.innerHTML='<table><tr><th>Account</th><th>Price</th><th>Status</th></tr>'+L.map(function(x){return "<tr><td>"+esc(x.platform)+" · "+esc(x.title)+"</td><td>PKR "+Number(x.price).toLocaleString("en-US")+'</td><td><span class="pill'+(x.status==="live"?" ok":"")+'">'+lab[x.status]+"</span></td></tr>"}).join("")+"</table>"})}};

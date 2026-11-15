@@ -21,7 +21,7 @@ function agoLong(t){var s=Math.max(0,(Date.now()-new Date(t).getTime())/1000);
 function online(id){var t=pres[id];return !!t&&Date.now()-new Date(t).getTime()<150000}
 function status(id){if(online(id))return{on:true,t:"Online"};var t=pres[id];return{on:false,t:t?"Offline · last seen "+agoLong(t):"Offline"}}
 function size(n){n=+n||0;return n>=1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB"}
-function money(n){return "Rs. "+(+n||0).toLocaleString("en-US")}
+function money(n){return "PKR "+(+n||0).toLocaleString("en-US")}
 function get(id){return cache.filter(function(c){return c.id===id})[0]}
 
 function fetchAll(){

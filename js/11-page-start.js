@@ -29,7 +29,7 @@ var subsEl=$("subs"),exhEl=$("exh"),exsEl=$("exs"),grid=$("grid"),sortEl=$("sort
 var fp=$("fp"),fn=$("fn"),fa=$("fa"),fal=$("fal"),fpmin=$("fpmin"),fpmax=$("fpmax"),fs=$("fs"),fm=$("fm"),fg=$("fg"),fso=$("fso"),fap=$("fap"),frs=$("frs");
 var fmod=$("fmod"),fk=$("fk"),fbtn=$("fbtn"),fcn=$("fcn");
 var PLS=["YouTube","Instagram","TikTok","Facebook","X"];
-var PR=[["","Any price"],["0-25000","Under Rs. 25,000"],["25000-100000","Rs. 25,000 - 100,000"],["100000-250000","Rs. 100,000 - 250,000"],["250000-500000","Rs. 250,000 - 500,000"],["500000-","Rs. 500,000 and above"]];
+var PR=[["","Any price"],["0-25000","Under PKR 25,000"],["25000-100000","PKR 25,000 - 100,000"],["100000-250000","PKR 100,000 - 250,000"],["250000-500000","PKR 250,000 - 500,000"],["500000-","PKR 500,000 and above"]];
 var SR=[["","Any number"],["0-1000","0 - 1K"],["1000-10000","1K - 10K"],["10000-100000","10K - 100K"],["100000-","100K+"]];
 var CT=["United States","United Kingdom","Pakistan"],CTL=[["United States","USA"],["United Kingdom","UK"],["Pakistan","Pakistan"],["Other","Other"]];
 var SO=[["new","Newest"],["price","Price: Low to High"],["subs","Followers: High to Low"]];
@@ -102,7 +102,7 @@ function card(d,k,on,dm){var im=d[12]&&d[12][0],tag=dm?"div":"a";
   (dm?'<span class="sm">Sample</span>':'')+
   '<div class="xsub"><b>'+d[5]+'</b><span>'+esc(d[6])+'</span></div>'+
   (isMon(d)?'<span class="xmo" title="Monetized"><i aria-hidden="true"></i>Monetized</span>':'')+'</div>'+
-  '<div class="xi"><h3>'+esc(d[2])+'</h3><div class="xf"><b>Rs. '+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
+  '<div class="xi"><h3>'+esc(d[2])+'</h3><div class="xf"><b>PKR '+d[8].toLocaleString("en-US")+'</b><span class="xa" aria-hidden="true">\u2197</span></div></div></'+tag+'>'+
   '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+!!on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}
 /* blue number on "All kinds": how many accounts of this platform are listed right now (real count, it follows the listings) */
 function updKinds(){var b=subsEl.querySelector('.sub[data-h="'+HK[plat]+'"]');if(!b)return;var i=b.querySelector(".sc");if(!i)return;var n=D.filter(function(d){return d[0]===plat}).length;i.hidden=!n;i.textContent=n>999?SM.short(n):n}
@@ -143,7 +143,7 @@ function recent(){var el=$("rec"),box=$("recg");if(!el||!box)return;var x=rget()
  box.innerHTML=sc.map(function(a){var d=D[a[1]],k=a[1],on=SV.indexOf(d[13])>-1,im=d[12]&&d[12][0];
   return '<article class="rc xc" data-k="'+k+'"><a href="/account"><div class="rm" style="--c:'+PL[d[0]]+'">'+(im?'<img src="'+esc(im)+'" alt="" loading="lazy">':'<span class="lg">'+LOGO[d[0]]+'</span>')+'</div>'+
   '<div class="rb"><div class="rs"><span class="ra">'+esc(String(d[3]).charAt(0).toUpperCase())+'</span><span class="rn">'+esc(d[3])+'</span><span class="rp">'+esc(d[0])+'</span></div>'+
-  '<h3>'+esc(d[2])+'</h3><p class="rt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p><p class="rf">From Rs. '+d[8].toLocaleString("en-US")+'</p></div></a>'+
+  '<h3>'+esc(d[2])+'</h3><p class="rt">'+d[5]+' '+esc(d[6])+' \u00b7 '+esc(d[1])+'</p><p class="rf">From PKR '+d[8].toLocaleString("en-US")+'</p></div></a>'+
   '<button type="button" class="xh" data-k="'+k+'" aria-pressed="'+on+'" aria-label="Save this account">'+(on?"\u2665":"\u2661")+'</button></article>'}).join("");
  el.hidden=false}
 function welcome(){var t=$("wb"),x=$("hero");if(!t||!x)return;var n=U&&U.name&&U.name!=="Google user"?String(U.name).split(" ")[0]:"";t.textContent=U?"Welcome back"+(n?", "+n:""):"Buy and sell social media accounts safely";x.classList.add("wb")}
