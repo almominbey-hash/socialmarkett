@@ -64,3 +64,28 @@ optgroup{font-weight:600}
 .ck{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font-size:15px;cursor:pointer}
 .ck input{width:18px;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
 .ck:has(input:checked){border-color:var(--accent);background:var(--soft)}
+
+/* screenshot box: icon and one short line inside */
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:22px 18px}
+.drop .up{width:30px;height:30px}
+.drop #dt{font-size:14px}
+/* the three tick boxes: box first, the line starts right next to it, wrapped lines stay beside the box */
+label.chk{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:10px}
+label.chk input{margin-top:2px}
+label.chk>span{flex:1;min-width:0}
+/* category menu (same look as the top menu, one choice) */
+.cm{position:relative}
+.cmb{width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;padding:11px 40px 11px 12px;font:inherit;background:var(--bg);color:var(--muted);cursor:pointer;position:relative}
+.cmb::after{content:"";position:absolute;right:16px;top:50%;width:7px;height:7px;border-right:1.8px solid var(--muted);border-bottom:1.8px solid var(--muted);transform:translateY(-70%) rotate(45deg)}
+.cm.has .cmb{color:var(--text)}
+.cmb[aria-expanded=true]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.bad .cmb{border-color:var(--bad)}
+.cmp{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 6px);background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 28px rgba(0,0,0,.14);padding:16px 18px 18px;max-height:70vh;overflow:auto}
+.cmp[hidden]{display:none}
+.cmh b{font-size:20px;letter-spacing:-.01em}
+.cmc{display:flex;flex-wrap:wrap;gap:12px 36px;margin-top:10px}
+.cmg{flex:1 1 170px;min-width:150px}
+.cmg h4{margin:0 0 4px;font-size:12.5px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.cmi{display:block;width:100%;text-align:left;border:0;background:none;font:500 15px inherit;color:var(--text);padding:6px 0;cursor:pointer}
+.cmi:hover{color:var(--accent)}
+.cmi.on{color:var(--accent)}
