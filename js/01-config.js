@@ -28,7 +28,7 @@ function subLabel(p,t){var r=null;(SUB[p]||[]).forEach(function(g){g[1].forEach(
    Add or remove an item there and the listing form follows by itself (nothing else to edit).
    Only for a NEW platform name also run supabase/listing-categories.sql once (it allows any platform name). */
 var LIM={titleMin:10,titleMax:20,descMin:20,descWords:500,shotsMin:3,shotsMax:5}; /* limits used by the listing form */
-var EXTRA_PLATFORMS=["Gaming"]; /* platforms that have no sub categories above; delete the name to hide it from the form */
+var EXTRA_PLATFORMS=[]; /* platforms that have no sub categories above; delete the name to hide it from the form */
 var NICHES=["Gaming","Tech","Beauty","Education","Lifestyle","Fitness","Food","Travel","Creative","Other"];
 /* listing form + browse filter: monetization and account age (value, label) */
 var MON=[["eligible","Fresh"],["enabled","Monetized"],["none","Non-Monetized"]]; /* the saved value stays the same (eligible / enabled / none), only the name changed */

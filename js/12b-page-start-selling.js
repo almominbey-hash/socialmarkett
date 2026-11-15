@@ -33,7 +33,7 @@ function check(s){var r=[];
  if(s===1)r=[mk("vn",$("vn").value.trim().length>1),mk("dn",$("dn").value.trim().length>=3),mk("co",!!$("co").value),mk("ci",$("ci").value.trim().length>1),mk("bio",$("bio").value.trim().length>=20)];
  if(s===2)r=[mk("ph",phOK())];
  if(s===3)r=[mk("in",idOK()),mk("fr",$("fr").files.length>0),mk("bk2",$("bk2").files.length>0)];
- if(s===4)r=[mk("c1",$("c1").checked),mk("c2",$("c2").checked),mk("c3",$("c3").checked)];
+ if(s===4)r=[mk("c1",$("c1").checked),mk("c3",$("c3").checked),mk("c4",$("c4").checked)];
  var i=r.indexOf(false);if(i>-1){var b=root.querySelector(".p.on .bad input,.p.on .bad select,.p.on .bad textarea");if(b)b.focus();return false}return true}
 function summary(){var R=[["Full name",$("vn").value.trim(),1],["Seller name",$("dn").value.trim(),1],["Location",$("ci").value.trim()+", "+$("co").value,1],["Phone",phFull(),2],["ID",$("it").value+" \u00b7 "+$("in").value.trim(),3],["Photos","ID front and back added",3]];
  $("sum").innerHTML=R.map(function(x){return '<div><dt>'+x[0]+'</dt><dd>'+esc(x[1])+'<button type="button" data-e="'+x[2]+'">Edit</button></dd></div>'}).join("")}
