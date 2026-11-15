@@ -37,3 +37,4 @@ body.no-cats #cats{display:none!important}
 #mm .mp.act{visibility:visible;pointer-events:auto}
 #mm .mp>div{flex:1 1 170px;min-width:150px}
 @media (max-width:640px){#mm .mp{gap:10px 24px}}
+#mm .mp h4:not(:first-child){margin-top:16px}
