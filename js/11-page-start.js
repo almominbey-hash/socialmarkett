@@ -12,7 +12,7 @@ var PL={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0
 var NOUN={YouTube:"channel",Instagram:"page",TikTok:"account",Facebook:"page",X:"account"};
 var D=[],ready=false;
 
-var plat="All",tagF=null,q="";
+var plat="All",tagF=null,q="",popPlat="All",popGo=false;
 var F={niche:"",price:"",subs:"",lang:"",mon:"",age:"",sort:"new"},trend=false;
 /* Trending score: more saves and more sold by the seller = higher. Verified seller, bigger audience and newer listings add a little. */
 function srch(d){var h=0,t=((d[0]||"")+" "+(d[1]||"")+" "+(d[2]||"")).toLowerCase();(window.TS||[]).forEach(function(x){if(x.term&&t.indexOf(x.term)>-1)h+=Math.min(+x.hits||0,10)});return Math.min(h,12)*0.8}
@@ -36,29 +36,31 @@ function uniq(i,p){var m={};D.forEach(function(d){if((p==="All"||d[0]===p)&&d[i]
 function fillNiche(p,sel){var m={};NICHES.forEach(function(x){m[x]=1});uniq(1,p).forEach(function(x){m[x]=1});var l=Object.keys(m);fn.innerHTML=opts([["","All niches"]].concat(l.map(function(x){return[x,x]})),l.indexOf(sel)>-1?sel:"")}
 function fillLang(){fa.hidden=fal.hidden=false;fa.innerHTML=opts([["","Any country"]].concat(CTL),F.lang)}
 function pend(){return{plat:fp.value,niche:fn.value,price:getPr(),subs:fs.value,lang:fa.value,mon:fm.value,age:fg.value,sort:fso.value}}
-function match(d,o,tag,qq){return (o.plat==="All"||d[0]===o.plat)&&(!o.niche||d[1]===o.niche)&&inP(d[8],o.price)&&inR(d[4],o.subs)&&(!o.lang||(o.lang==="Other"?(!!d[14]&&CT.indexOf(d[14])<0):d[14]===o.lang))&&(!o.mon||d[19]===o.mon)&&(!o.age||d[20]===o.age)&&(!tag||(d[10]||[]).indexOf(tag)>-1)&&(!qq||(d[0]+" "+d[1]+" "+d[2]).toLowerCase().indexOf(qq)>-1)}
-function updCount(){var o=pend(),qq=fmod.hidden?q:fk.value.trim().toLowerCase(),n=D.filter(function(d){return match(d,o,o.plat===plat?tagF:null,qq)}).length;fap.textContent="Apply filters \u00b7 "+n+" result"+(n===1?"":"s")}
+/* top menu words (Gaming, E-commerce ...) are PLATFORMS: they match only listings whose platform is that word, never a YouTube or TikTok channel whose niche is Gaming */
+var CATQ=["gaming","e-commerce","websites","adsense"];
+function match(d,o,tag,qq){return (o.plat==="All"||d[0]===o.plat)&&(!o.niche||d[1]===o.niche)&&inP(d[8],o.price)&&inR(d[4],o.subs)&&(!o.lang||(o.lang==="Other"?(!!d[14]&&CT.indexOf(d[14])<0):d[14]===o.lang))&&(!o.mon||d[19]===o.mon)&&(!o.age||d[20]===o.age)&&(!tag||(d[10]||[]).indexOf(tag)>-1)&&(!qq||(CATQ.indexOf(qq)>-1?String(d[0]).toLowerCase()===qq:qq.split(/\s+/).every(function(w){return (d[0]+" "+d[1]+" "+d[2]).toLowerCase().indexOf(w)>-1})))}
+function updCount(){var o=pend(),ep=o.plat==="All"?plat:o.plat,oo=Object.assign({},o,{plat:ep}),n=D.filter(function(d){return match(d,oo,ep===plat?tagF:null,q)}).length;fap.textContent="Apply filters \u00b7 "+n+" result"+(n===1?"":"s")}
 /* sub category buttons: shorter names (the repeated words are dropped) so they fit in one line */
 function shortLbl(l){l=String(l);if(/^Criteria/i.test(l))return"Ready to monetize";if(/^Monetization Criteria/i.test(l))return"Criteria completed";
  var t=l.replace(/\s*\(.*\)\s*$/,"").replace(/^(Fresh|Monetized|Non-Monetized|Aged|Premium|Business|Verified)\s+(YouTube|Instagram|TikTok|Facebook)\s+(Channels|Accounts|Pages)$/i,"$1").replace(/^(YouTube|Instagram|TikTok|Facebook)\s+/i,"").replace(/\s+(Channels|Accounts|Pages|audience)$/i,"").replace(/\s+Enabled$/i,"");
  return t||l}
-function setPlat(p,t){trend=!!window.TREND&&p==="All"&&!t;window.TREND=false;plat=p;tagF=t||null;fp.value=p;fillNiche(p,F.niche);if(!fn.value)F.niche="";fn.value=F.niche;setPr(F.price);fs.value=F.subs;fm.value=F.mon;fg.value=F.age;fso.value=F.sort;fa.value=F.lang;
+function setPlat(p,t){trend=!!window.TREND&&p==="All"&&!t;window.TREND=false;plat=p;tagF=t||null;if(!popGo)popPlat="All";popGo=false;fp.value=popPlat;fillNiche(popPlat,F.niche);if(!fn.value)F.niche="";fn.value=F.niche;setPr(F.price);fs.value=F.subs;fm.value=F.mon;fg.value=F.age;fso.value=F.sort;fa.value=F.lang;
   var g=SUB[p]||[];subsEl.innerHTML=g.length?'<button type="button" class="sub" data-h="'+HK[p]+'" aria-pressed="'+!tagF+'">All kinds<i class="sc" hidden></i></button>'+g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" title="'+esc(i[0])+'" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+esc(shortLbl(i[0]))+'</button>'}).join("")}).join(""):"";
   exhEl.textContent=trend?"Trending on socialmarket":"An audience worth building on.";
   exsEl.textContent=trend?"The accounts people are viewing, saving and buying the most.":"Featured accounts, ready for their next chapter.";
   render();updCount();grid.scrollLeft=0}window.setPlat=setPlat;
 fp.onchange=function(){fillNiche(fp.value,"");updCount()};
 [fn,fa,fs,fm,fg,fso].forEach(function(e){e.onchange=updCount});[fpmin,fpmax].forEach(function(e){e.oninput=updCount});
-fap.onclick=function(){var o=pend();q=fk.value.trim().toLowerCase();var _fi=$("fi");if(_fi)_fi.value=q;closeF();F.niche=o.niche;F.price=o.price;F.subs=o.subs;F.lang=o.lang;F.mon=o.mon;F.age=o.age;F.sort=o.sort;
-  if(o.plat!==plat){var h=HK[o.plat]||"start";if(NAV.cur()===h||(h==="start"&&NAV.cur()===""))setPlat(o.plat);else NAV.go(h)}else{render();updCount()}
+fap.onclick=function(){var o=pend();closeF();F.niche=o.niche;F.price=o.price;F.subs=o.subs;F.lang=o.lang;F.mon=o.mon;F.age=o.age;F.sort=o.sort;
+  popPlat=o.plat;if(o.plat!=="All"&&o.plat!==plat){popGo=true;var h=HK[o.plat]||"start";if(NAV.cur()===h)setPlat(o.plat);else NAV.go(h)}else{render();updCount()}
   grid.scrollIntoView({behavior:"smooth",block:"nearest"})};
-frs.onclick=function(){F={niche:"",price:"",subs:"",lang:"",mon:"",age:"",sort:"new"};q="";fk.value="";closeF();var fi=$("fi");if(fi)fi.value="";fa.value="";if(NAV.cur()==="start"||NAV.cur()==="")setPlat("All");else NAV.go("start")};
-function syncF(){fp.value=plat;fillNiche(plat,F.niche);fn.value=F.niche;setPr(F.price);fs.value=F.subs;fm.value=F.mon;fg.value=F.age;fso.value=F.sort;fa.value=F.lang;fk.value=q}
+frs.onclick=function(){F={niche:"",price:"",subs:"",lang:"",mon:"",age:"",sort:"new"};popPlat="All";closeF();syncF();render();updCount()};
+function syncF(){fp.value=popPlat;fillNiche(popPlat,F.niche);fn.value=F.niche;setPr(F.price);fs.value=F.subs;fm.value=F.mon;fg.value=F.age;fso.value=F.sort;fa.value=F.lang;fk.value=q}
 function closeF(){fmod.hidden=true}
 fbtn.onclick=function(){syncF();fmod.hidden=false;updCount();fk.focus()};
 $("fcl").onclick=closeF;fmod.addEventListener("click",function(e){if(e.target===fmod)closeF()});
 fk.oninput=updCount;root.addEventListener("keydown",function(e){if(e.key==="Escape"&&!fmod.hidden)closeF()});
-function badge(){var n=(F.niche?1:0)+(F.price?1:0)+(F.subs?1:0)+(F.lang?1:0)+(F.mon?1:0)+(F.age?1:0)+(q?1:0);fcn.hidden=!n;fcn.textContent=n}
+function badge(){var n=(F.niche?1:0)+(F.price?1:0)+(F.subs?1:0)+(F.lang?1:0)+(F.mon?1:0)+(F.age?1:0);fcn.hidden=!n;fcn.textContent=n}
 subsEl.addEventListener("click",function(e){var b=e.target.closest(".sub");if(!b)return;var h=b.dataset.h;if(NAV.cur()===h){setPlat(plat,null);NAV.go(HK[plat])}else NAV.go(h)});
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function arrows(){pv.disabled=grid.scrollLeft<=4;nx.disabled=grid.scrollLeft+grid.clientWidth>=grid.scrollWidth-4}
@@ -124,7 +126,7 @@ function seller(){var a=$("spx"),t=$("spt"),d=$("spd");if(!a)return;var old=a.qu
  t.parentNode.insertAdjacentHTML("beforeend",'<div class="pg" aria-hidden="true"><i style="width:'+Math.round(n/3*100)+'%"></i></div>');
  t.parentNode.appendChild(d)}
 /* Typing the first letters of a platform (i, ins, y, yo, you, t, f, g ...) opens that platform */
-function findPlat(t){if(!t)return null;var r=null;PLS.forEach(function(p){var l=p.toLowerCase();if(!r&&(l.indexOf(t)===0||t.indexOf(l)===0))r=p});return r}
+function findPlat(t){if(!t)return null;var r=null;PLS.forEach(function(p){var l=p.toLowerCase();if(!r&&l.indexOf(t)===0)r=p});return r}
 $("fq").onsubmit=function(e){e.preventDefault();var t=$("fi").value.trim().toLowerCase(),hp=findPlat(t);
  if(t)track(null,t,hp);
  if(hp){q="";var h=HK[hp];if(NAV.cur()===h)setPlat(hp);else NAV.go(h);$("browse").scrollIntoView({behavior:"smooth",block:"start"});return}
