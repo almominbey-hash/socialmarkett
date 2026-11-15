@@ -30,3 +30,10 @@ body.no-cats #cats{display:none!important}
 #mm .mi>div{flex:1 1 170px;min-width:150px}
 #mm .mh p{margin:0 0 6px;font-size:15px;color:var(--muted);line-height:1.5}
 @media (max-width:640px){#mm .mi{width:calc(100% - 28px);margin:0 14px;gap:10px 24px}}
+
+/* category menus: all the same size (the tallest one decides), the rest stays empty below */
+#mm .mi{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:0}
+#mm .mp{grid-area:1/1;display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px 40px;visibility:hidden;pointer-events:none}
+#mm .mp.act{visibility:visible;pointer-events:auto}
+#mm .mp>div{flex:1 1 170px;min-width:150px}
+@media (max-width:640px){#mm .mp{gap:10px 24px}}
