@@ -89,3 +89,8 @@ label.chk>span{flex:1;min-width:0}
 .cmi{display:block;width:100%;text-align:left;border:0;background:none;font:500 15px inherit;color:var(--text);padding:6px 0;cursor:pointer}
 .cmi:hover{color:var(--accent)}
 .cmi.on{color:var(--accent)}
+
+/* typed box that opens when "Other" is chosen */
+.oth{margin-top:8px}
+.oth[hidden]{display:none}
+.bad .oth{border-color:var(--bad)}
