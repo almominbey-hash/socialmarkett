@@ -60,6 +60,25 @@ function closeF(){fmod.hidden=true}
 fbtn.onclick=function(){syncF();fmod.hidden=false;updCount();fk.focus()};
 $("fcl").onclick=closeF;fmod.addEventListener("click",function(e){if(e.target===fmod)closeF()});
 fk.oninput=updCount;root.addEventListener("keydown",function(e){if(e.key==="Escape"&&!fmod.hidden)closeF()});
+/* Filters pop-up: big dropdown lists. Each real <select> stays (hidden) so filtering works as before; we only draw a bigger box and list on top of it. */
+(function(){var vd=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,"value"),cur=null;
+ function shut(){if(cur){cur.classList.remove("open");cur.firstChild.nextSibling.setAttribute("aria-expanded","false");cur=null}}
+ [fp,fs,fa,fm,fg,fn,fso].forEach(function(s){
+  var w=document.createElement("div"),b=document.createElement("button"),t=document.createElement("span"),l=document.createElement("div");
+  w.className="dd";b.type="button";b.className="ddb";b.setAttribute("aria-haspopup","listbox");b.setAttribute("aria-expanded","false");b.appendChild(t);
+  l.className="ddl";l.setAttribute("role","listbox");
+  s.parentNode.insertBefore(w,s);w.appendChild(s);w.appendChild(b);w.appendChild(l);s.classList.add("ddn");
+  function draw(){var o=s.options,i,h="";for(i=0;i<o.length;i++)h+='<div class="ddi'+(i===s.selectedIndex?" on":"")+'" role="option" data-i="'+i+'">'+esc(o[i].text)+'</div>';
+   l.innerHTML=h;t.textContent=s.selectedIndex>-1?o[s.selectedIndex].text:"";w.hidden=s.hidden}
+  Object.defineProperty(s,"value",{configurable:true,get:function(){return vd.get.call(s)},set:function(v){vd.set.call(s,v);draw()}});
+  new MutationObserver(draw).observe(s,{childList:true,attributes:true,attributeFilter:["hidden"]});
+  b.onclick=function(){var was=w.classList.contains("open");shut();if(was)return;w.classList.add("open");b.setAttribute("aria-expanded","true");cur=w;
+   var on=l.querySelector(".on");if(on)l.scrollTop=Math.max(0,on.offsetTop-60);l.scrollIntoView({block:"nearest"})};
+  l.onclick=function(e){var it=e.target.closest(".ddi");if(!it)return;s.selectedIndex=+it.dataset.i;draw();shut();s.dispatchEvent(new Event("change",{bubbles:true}))};
+  draw()});
+ fmod.addEventListener("click",function(e){if(!e.target.closest(".dd"))shut()});
+ fmod.addEventListener("keydown",function(e){if(e.key==="Escape"&&cur){shut();e.stopPropagation()}},true);
+ fbtn.addEventListener("click",shut)})();
 function badge(){var n=(F.niche?1:0)+(F.price?1:0)+(F.subs?1:0)+(F.lang?1:0)+(F.mon?1:0)+(F.age?1:0);fcn.hidden=!n;fcn.textContent=n}
 subsEl.addEventListener("click",function(e){var b=e.target.closest(".sub");if(!b)return;var h=b.dataset.h;if(NAV.cur()===h){setPlat(plat,null);NAV.go(HK[plat])}else NAV.go(h)});
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
