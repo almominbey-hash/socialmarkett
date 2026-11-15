@@ -57,6 +57,8 @@ function setPlat(p,t){trend=!!window.TREND&&p==="All"&&!t;window.TREND=false;var
   exhEl.textContent=trend?"Trending on socialmarket":"An audience worth building on.";
   exsEl.textContent=trend?"The accounts people are viewing, saving and buying the most.":"Featured accounts, ready for their next chapter.";
   render();updCount();grid.scrollLeft=0}window.setPlat=setPlat;
+/* "All" in the top bar: forget the old search (Gaming ...) and old filters, show every account again */
+window.resetBrowse=function(){q="";var _fi=$("fi");if(_fi)_fi.value="";var _hq=document.getElementById("hq");if(_hq)_hq.value="";F={niche:"",price:"",subs:"",lang:"",mon:"",age:"",sort:"new"};popPlat="All";if(plat==="All"){tagF=null;syncF();render();updCount()}};
 fp.onchange=function(){fillNiche(fp.value,"");updCount()};
 [fn,fa,fs,fm,fg,fso].forEach(function(e){e.onchange=updCount});[fpmin,fpmax].forEach(function(e){e.oninput=updCount});
 fap.onclick=function(){var o=pend();closeF();F.niche=o.niche;F.price=o.price;F.subs=o.subs;F.lang=o.lang;F.mon=o.mon;F.age=o.age;F.sort=o.sort;

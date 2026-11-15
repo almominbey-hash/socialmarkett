@@ -1,17 +1,20 @@
 /* Category bar and hover menu */
 (function(){var n=document.querySelector("#cats nav");if(!n||n.querySelector('a[data-p="X"]'))return;var a=document.createElement("a");a.href="/x";a.dataset.p="X";a.textContent="X (Twitter)";var e=n.querySelector("a[data-s]");if(e)n.insertBefore(a,e);else n.appendChild(a)})();
-[].forEach.call(document.querySelectorAll("#cats nav a"),function(a){a.addEventListener("click",function(e){e.preventDefault();[].forEach.call(document.querySelectorAll("#cats nav a.cur"),function(x){x.classList.remove("cur")});if(a.dataset.s){var q=document.getElementById("hq");q.value=a.dataset.s;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}));[].forEach.call(document.querySelectorAll("#cats nav a"),function(x){x.classList.remove("cur");x.removeAttribute("aria-current")});a.classList.add("cur");return}window.TREND=/^\s*Trending/.test(a.textContent);var h=HK[a.dataset.p]||"start";if(NAV.cur()===h)route();else NAV.go(h);window.scrollTo(0,0)})});
+/* Gaming, E-commerce, Websites, AdSense work exactly like YouTube now: a real page, a menu with their categories, and All kinds + categories under the title */
+[].forEach.call(document.querySelectorAll("#cats nav a[data-s]"),function(a){var p=a.dataset.s;if(typeof EXTRA_SUB!=="undefined"&&EXTRA_SUB[p]&&HK[p]){a.dataset.p=p;a.removeAttribute("data-s");a.setAttribute("href","/"+HK[p])}});
+[].forEach.call(document.querySelectorAll("#cats nav a"),function(a){a.addEventListener("click",function(e){e.preventDefault();[].forEach.call(document.querySelectorAll("#cats nav a.cur"),function(x){x.classList.remove("cur")});if(a.dataset.s){var q=document.getElementById("hq");q.value=a.dataset.s;document.getElementById("hs").dispatchEvent(new Event("submit",{cancelable:true}));[].forEach.call(document.querySelectorAll("#cats nav a"),function(x){x.classList.remove("cur");x.removeAttribute("aria-current")});a.classList.add("cur");return}var tr=/^\s*Trending/.test(a.textContent);window.TREND=tr;var h=HK[a.dataset.p]||"start";if(NAV.cur()===h)route();else NAV.go(h);if(a.dataset.p==="All"&&!tr&&window.resetBrowse)window.resetBrowse();window.scrollTo(0,0)})});
 (function(){var mm=document.getElementById("mm"),ce=document.getElementById("cats"),mt=null;
 function mmClose(){clearTimeout(mt);mm.classList.remove("on")}
 /* All menus sit on top of each other in one box, so every menu is exactly as tall as the tallest one. Only the chosen one is visible. */
-function mmBuild(){if(mm.dataset.b)return;var h="";
- Object.keys(SUB).forEach(function(p){var g=SUB[p],cols=[],au=null;
+function GS(){return Object.assign({},SUB,typeof EXTRA_SUB!=="undefined"?EXTRA_SUB:{})}
+function mmBuild(){if(mm.dataset.b)return;var h="",A=GS();
+ Object.keys(A).forEach(function(p){var g=A[p],cols=[],au=null;
   g.forEach(function(c){if(AUD.indexOf(c)>-1){if(!au){au=[];cols.push(au)}au.push(c)}else cols.push([c])}); /* Premium audience and Local audience share one column */
   h+='<div class="mp" data-p="'+p+'"><div class="mh"><b>'+p+'</b><a href="/'+HK[p]+'">Browse all '+p+' &rarr;</a></div>'+cols.map(function(col){return '<div>'+col.map(function(c){return '<h4>'+c[0]+'</h4>'+c[1].map(function(i){return '<a href="/'+HK[p]+"-"+i[1]+'">'+i[0]+'</a>'}).join("")}).join("")+'</div>'}).join("")+'</div>'});
  [].forEach.call(document.querySelectorAll("#cats nav a[data-s]"),function(a){var n=a.textContent.trim();h+='<div class="mp" data-s="'+n+'"><div class="mh"><b>'+n+'</b><p>Coming soon. Sellers, contact us to list your accounts here.</p><a href="/sell">Become a seller &rarr;</a></div></div>'});
  mm.innerHTML='<div class="mi">'+h+'</div>';mm.dataset.b="1"}
 function mmShow(attr,v){clearTimeout(mt);mmBuild();[].forEach.call(mm.querySelectorAll(".mp"),function(x){x.classList.toggle("act",x.getAttribute(attr)===v)});mm.classList.add("on")}
-function mmOpen(p){var g=SUB[p];if(!g){mmClose();return}mmShow("data-p",p)}
+function mmOpen(p){var g=GS()[p];if(!g){mmClose();return}mmShow("data-p",p)}
 /* categories that have no sub categories yet (E-commerce, Gaming ...) open the same wide box with "Coming soon" */
 /* Gaming / E-commerce / Websites / AdSense stay "Coming soon" until a seller lists an account there. Then "Coming soon" goes by itself and the categories sellers really used appear. If anything goes wrong it just stays "Coming soon". */
 var SOON=null;
@@ -22,8 +25,8 @@ function soonFill(a){try{var tx=a.textContent.trim(),p=a.dataset.s||tx,pn=mm.que
   pn.innerHTML='<div class="mh"><b>'+p+'</b><a href="/'+h+'">Browse all '+p+' &rarr;</a></div>'+cols;pn.dataset.live="1"}).catch(function(){})}catch(e){}}
 function mmSoon(a){mmShow("data-s",a.textContent.trim());soonFill(a)}
 [].forEach.call(document.querySelectorAll("#cats nav a"),function(a){var p=a.dataset.p;
- a.addEventListener("mouseenter",function(){if(!window.matchMedia("(hover:hover)").matches){mmClose();return}if(SUB[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()});
- a.addEventListener("focus",function(){if(SUB[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()})});
+ a.addEventListener("mouseenter",function(){if(!window.matchMedia("(hover:hover)").matches){mmClose();return}if(GS()[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()});
+ a.addEventListener("focus",function(){if(GS()[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()})});
 ce.addEventListener("mouseleave",function(){mt=setTimeout(mmClose,180)});
 ce.addEventListener("mouseenter",function(){clearTimeout(mt)});
 mm.addEventListener("click",function(e){if(e.target.closest("a"))mmClose()});
