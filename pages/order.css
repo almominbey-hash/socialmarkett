@@ -90,3 +90,10 @@ hr{border:0;border-top:1px solid var(--line);margin:18px 0}
  .xp{padding-left:16px}
  h1{font-size:26px}
 }
+
+/* review box */
+.rsr{display:flex;gap:4px;margin:8px 0 12px}
+.rs{border:0;background:none;padding:0;font-size:32px;line-height:1;color:var(--line);cursor:pointer}
+span.rs{cursor:default;font-size:24px}
+.rs.on{color:#e8a200}
+#rvt{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;background:var(--bg);color:var(--text);resize:vertical}

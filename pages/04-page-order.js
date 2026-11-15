@@ -7,7 +7,7 @@ init.order=function(root){
 var $=function(i){return root.querySelector("#"+i)};
 var COLS="id,order_no,listing_id,listing_image,listing_title,platform,buyer_id,seller_id,buyer_name,seller_name,amount,currency,status,payment_status,paid_at,delivered_at,completed_at,cancelled_at,release_at,payout_status,disputed,created_at";
 var LATE_HOURS=72; /* a paid order that is not delivered after this many hours shows as "Late" */
-var ORD=[],STAR={},EV={},EARN={},TAB=null,Q="",VIEW=null,OPENROW=null,BUSY=false,LOADED=false,ERR="";
+var ORD=[],STAR={},EV={},EARN={},REV={},RD={},TAB=null,Q="",VIEW=null,OPENROW=null,BUSY=false,LOADED=false,ERR="";
 var TABS=[["priority","Priority"],["active","Active"],["incomplete","Incomplete"],["late","Late"],["delivered","Delivered"],["completed","Completed"],["cancelled","Cancelled"],["starred","Starred"]];
 var EMPTY={priority:"Nothing needs your attention right now.",active:"No orders in progress.",incomplete:"No orders waiting for payment.",late:"No late orders.",delivered:"No delivered orders waiting.",completed:"No completed orders yet.",cancelled:"No cancelled orders.",starred:"You have not starred any order. Tap the star on an order to find it here quickly."};
 var LAB={awaiting_payment:"Incomplete",in_progress:"In progress",delivered:"Delivered",completed:"Completed",cancelled:"Cancelled",late:"Late"};
@@ -111,6 +111,17 @@ function titleOf(o){var r=role(o);
         sell:{awaiting_payment:"Waiting for payment",in_progress:"Deliver this account",delivered:"Waiting for the buyer",completed:"Order completed",cancelled:"Order cancelled"}};
  return T[r][o.status]}
 
+/* buyer rates the seller after the order is completed */
+function reviewCard(o){if(role(o)!=="buy"||o.status!=="completed")return"";var v=REV[o.id];
+ if(v===undefined)return'<section class="card"><p class="m">Loading...</p></section>';
+ function st(n,f){var t="";for(var i=1;i<=5;i++)t+=(f?'<button type="button" class="rs'+(i<=n?" on":"")+'" data-rate="'+i+'" data-id="'+o.id+'" aria-label="'+i+' star'+(i>1?"s":"")+'">\u2605</button>':'<span class="rs'+(i<=n?" on":"")+'">\u2605</span>');return t}
+ if(v)return'<section class="card"><p class="kick">Your review</p><div class="rsr">'+st(v.rating,0)+"</div>"+(v.comment?'<p style="margin:10px 0 0">'+E(v.comment)+"</p>":"")+"</section>";
+ var d=RD[o.id]||(RD[o.id]={rating:0,comment:""});
+ return'<section class="card"><p class="kick">Rate the seller</p><h2 class="big" style="font-size:20px">How was your experience with '+E(o.seller_name)+'?</h2><div class="rsr">'+st(d.rating,1)+'</div><textarea id="rvt" maxlength="500" rows="3" placeholder="Write a short review (optional)">'+E(d.comment)+'</textarea><div class="acts" style="padding:10px 0 0"><button type="button" class="btn" data-rv="'+o.id+'"'+(BUSY||!d.rating?" disabled":"")+'>Submit review</button></div></section>'}
+function loadRev(id){sb.rpc("my_review",{p_order:id}).then(function(r){REV[id]=(r&&!r.error&&r.data)?r.data:null;if(VIEW===id)drawDetail()},function(){REV[id]=null;if(VIEW===id)drawDetail()})}
+function sendRev(id){var d=RD[id];if(!d||!d.rating||BUSY)return;BUSY=true;drawDetail();
+ sb.rpc("leave_review",{p_order:id,p_rating:d.rating,p_comment:d.comment||null}).then(function(r){BUSY=false;if(r.error){alert(SM.msg(r.error));drawDetail();return}delete RD[id];delete REV[id];loadRev(id);drawDetail()},function(){BUSY=false;alert("Something went wrong. Please try again.");drawDetail()})}
+
 function drawDetail(){var d=$("dv"),o=byId(VIEW);if(!d)return;
  if(!o){VIEW=null;d.hidden=true;$("lv").hidden=false;return}
  var r=role(o),nm=other(o),ev=EV[o.id],bt=btns(o),kick;
@@ -126,7 +137,7 @@ function drawDetail(){var d=$("dv"),o=byId(VIEW);if(!d)return;
   '<ol class="tl">'+ev.map(function(x){return"<li><small>"+E(dtag(x.created_at))+"</small><b>"+E(EVL[x.kind]||x.kind)+"</b>"+(x.kind==="dispute"&&x.note?"<span>"+E(x.note)+"</span>":"")+"</li>"}).join("")+"</ol>";
  d.innerHTML='<button type="button" class="back" data-back="1">\u2190 Back to orders</button>'+
  '<div class="dg"><div class="mn">'+
-  '<section class="card"><p class="kick">'+E(kick)+'</p><h2 class="big">'+E(titleOf(o))+'</h2><p class="hint" style="padding:0">'+E(hint(o))+"</p>"+(bt?'<div class="acts" style="padding:14px 0 0">'+bt+"</div>":"")+"</section>"+
+  '<section class="card"><p class="kick">'+E(kick)+'</p><h2 class="big">'+E(titleOf(o))+'</h2><p class="hint" style="padding:0">'+E(hint(o))+"</p>"+(bt?'<div class="acts" style="padding:14px 0 0">'+bt+"</div>":"")+"</section>"+reviewCard(o)+
   '<details class="card" open><summary>Your order details</summary><div class="inner">'+det+"</div></details></div>"+
   '<aside class="sd"><section class="card"><div class="sm">'+thumb(o)+'<div><b class="ttl">'+E(o.listing_title)+"</b>"+badge(o)+"</div></div>"+
    '<hr><div class="who">'+av(nm,true)+"<div><b>"+E(nm)+"</b><small>"+(r==="buy"?"Seller":"Buyer")+'</small></div></div><button type="button" class="btn line full" data-conv="'+o.id+'">\u2709 View conversation</button><hr>'+
@@ -139,6 +150,7 @@ function drawDetail(){var d=$("dv"),o=byId(VIEW);if(!d)return;
 function openOrder(id){VIEW=id;var o=byId(id);if(!o)return;
  $("lv").hidden=true;$("dv").hidden=false;
  if(!EV[id])loadEv(id);
+ if(role(o)==="buy"&&o.status==="completed"&&REV[id]===undefined)loadRev(id);
  if(role(o)==="sell"&&EARN[id]===undefined)loadEarn(id);
  drawDetail();window.scrollTo(0,0)}
 function closeOrder(){VIEW=null;$("dv").hidden=true;$("lv").hidden=false;draw();window.scrollTo(0,0)}
@@ -182,7 +194,7 @@ function run(a,id){if(BUSY)return;
  BUSY=true;draw();
  sb.rpc(fn,args).then(function(r){BUSY=false;if(r.error)alert(SM.msg(r.error));
   delete EV[id];delete EARN[id];
-  load().then(function(){if(VIEW===id){loadEv(id);if(byId(id)&&role(byId(id))==="sell")loadEarn(id)}})},
+  load().then(function(){if(VIEW===id){delete REV[id];loadEv(id);if(byId(id)&&role(byId(id))==="buy"&&byId(id).status==="completed")loadRev(id);if(byId(id)&&role(byId(id))==="sell")loadEarn(id)}})},
   function(){BUSY=false;alert("Something went wrong. Please try again.");draw()})}
 
 function star(id){var on=!STAR[id];if(on)STAR[id]=true;else delete STAR[id];draw();
@@ -204,6 +216,8 @@ root.addEventListener("click",function(e){var t=e.target,x;
  if(!t||!t.closest)return;
  if(x=t.closest("[data-star]")){star(x.dataset.star);return}
  if(x=t.closest("[data-chev]")){var i=x.dataset.chev;OPENROW=OPENROW===i?null:i;drawList();return}
+ if(x=t.closest("[data-rate]")){var rid=x.dataset.id;(RD[rid]||(RD[rid]={rating:0,comment:""})).rating=+x.dataset.rate;drawDetail();return}
+ if(x=t.closest("[data-rv]")){sendRev(x.dataset.rv);return}
  if(x=t.closest("[data-a]")){run(x.dataset.a,x.dataset.id);return}
  if(x=t.closest("[data-conv]")){conv(x.dataset.conv);return}
  if(t.closest("[data-back]")){closeOrder();return}
@@ -212,7 +226,8 @@ root.addEventListener("click",function(e){var t=e.target,x;
 root.addEventListener("keydown",function(e){
  if(e.key!=="Enter"&&e.key!==" ")return;var x=e.target.closest&&e.target.closest("[data-open]");
  if(x&&e.target===x){e.preventDefault();openOrder(x.dataset.open)}});
-root.addEventListener("input",function(e){if(e.target&&e.target.id==="q"){Q=e.target.value.trim().toLowerCase();drawList()}});
+root.addEventListener("input",function(e){if(e.target&&e.target.id==="rvt"&&VIEW){(RD[VIEW]||(RD[VIEW]={rating:0,comment:""})).comment=e.target.value;return}
+ if(e.target&&e.target.id==="q"){Q=e.target.value.trim().toLowerCase();drawList()}});
 
 window.renderOrders=function(){if(!U)return;
  VIEW=null;OPENROW=null;shell();var d=$("dv");if(d)d.hidden=true;var l=$("lv");if(l)l.hidden=false;
