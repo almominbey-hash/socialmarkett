@@ -325,9 +325,22 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .xrail .xe{grid-column:1/-1}
 .exr .ar{display:none}
 
-/* filter popup: every box has the same size as the price boxes */
+/* Filters button sits next to the heading, bigger and blue so it stands out */
+.exr .fbt{height:48px;padding:0 24px;gap:10px;font-size:16px;font-weight:600;border:1.5px solid var(--accent);border-radius:999px;background:var(--bg);color:var(--accent)}
+.exr .fbt svg{width:22px;height:22px}
+.exr .fbt:hover{background:color-mix(in srgb,var(--accent) 9%,var(--bg))}
+.exr .fbt i{min-width:20px;height:20px;border-radius:10px;background:var(--accent);color:#fff;font-size:12px}
+/* filter popup: all four corners round, every box the same size */
+.fmod .fbox,.fmod .fbox.fl{border-radius:18px;overflow-x:hidden;overflow-y:auto;scrollbar-width:none;max-height:calc(100vh - 32px)}
+.fmod .fbox::-webkit-scrollbar{display:none}
 .fmod .fbox select,.fmod .fbox .pr input,.fmod .fbox input[type=search],.fmod .fbox .rst{box-sizing:border-box;height:46px;border-radius:12px;font-size:15px;line-height:normal}
 .fmod .fbox select,.fmod .fbox input[type=search],.fmod .fbox .rst{width:100%}
-.fmod .fbox .pr input{flex:1;min-width:0;width:auto}
+.fmod .fbox .pr input{flex:1;min-width:0;width:auto;padding:0 14px}
 .fmod .fbox .rst{display:block;margin-top:10px;padding:0 16px;border:1px solid var(--line);background:var(--soft);color:var(--text);font-weight:500;font-family:inherit;text-align:center;text-decoration:none;cursor:pointer}
 .fmod .fbox .rst:hover{border-color:var(--accent);color:var(--accent)}
+
+/* blue count on "All kinds" */
+.sub{position:relative}
+.fbar .subs{padding-top:12px}
+.sub .sc{position:absolute;top:-10px;right:-6px;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--accent);color:#fff;font:600 11.5px/20px inherit;font-family:inherit;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg)}
+.sub .sc[hidden]{display:none}
