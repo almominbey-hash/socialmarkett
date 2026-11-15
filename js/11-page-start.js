@@ -10,6 +10,14 @@ Facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r=
 All:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>'};
 var PL={YouTube:"#d33a2f",Instagram:"#c13584",TikTok:"#2a2a33",Facebook:"#2f6fd0",X:"#14181f"};
 var NOUN={YouTube:"channel",Instagram:"page",TikTok:"account",Facebook:"page",X:"account"};
+/* the four extra platforms (Gaming, E-commerce, Websites, AdSense): a small icon, a colour and a word, so their cards look right too */
+var _ic=function(d){return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg>'};
+LOGO.Gaming=_ic('<rect x="2.5" y="7" width="19" height="10.5" rx="5"/><path d="M7.5 10.5v3.5M5.75 12.25h3.5"/><circle cx="15.5" cy="11.2" r=".6"/><circle cx="17.7" cy="13.3" r=".6"/>');
+LOGO["E-commerce"]=_ic('<path d="M3 4h2.2l2.1 10.2h9.6L19 7.5H6.1"/><circle cx="9" cy="18.5" r="1.3"/><circle cx="16.5" cy="18.5" r="1.3"/>');
+LOGO.Websites=_ic('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/>');
+LOGO.AdSense=_ic('<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 16.5l4-9 4 9M9.5 13.5h5"/>');
+Object.assign(PL,{Gaming:"#6d28d9","E-commerce":"#0e7490",Websites:"#0f7a4a",AdSense:"#b45309"});
+Object.assign(NOUN,{Gaming:"account","E-commerce":"store",Websites:"website",AdSense:"account"});
 var D=[],ready=false;
 
 var plat="All",tagF=null,q="",popPlat="All",popGo=false;
@@ -45,7 +53,7 @@ function shortLbl(l){l=String(l);if(/^Criteria/i.test(l))return"Ready to monetiz
  var t=l.replace(/\s*\(.*\)\s*$/,"").replace(/^(Fresh|Monetized|Non-Monetized|Aged|Premium|Business|Verified)\s+(YouTube|Instagram|TikTok|Facebook)\s+(Channels|Accounts|Pages)$/i,"$1").replace(/^(YouTube|Instagram|TikTok|Facebook)\s+/i,"").replace(/\s+(Channels|Accounts|Pages|audience)$/i,"").replace(/\s+Enabled$/i,"");
  return t||l}
 function setPlat(p,t){trend=!!window.TREND&&p==="All"&&!t;window.TREND=false;var chg=(p!==plat)||((t||null)!==tagF);plat=p;tagF=t||null;if(chg&&!popGo){popPlat="All";F={niche:"",price:"",subs:"",lang:"",mon:"",age:"",sort:"new"};q="";var _fi=$("fi");if(_fi)_fi.value="";var _hq=document.getElementById("hq");if(_hq)_hq.value=""}popGo=false;fp.value=popPlat;fillNiche(popPlat,F.niche);if(!fn.value)F.niche="";fn.value=F.niche;setPr(F.price);fs.value=F.subs;fm.value=F.mon;fg.value=F.age;fso.value=F.sort;fa.value=F.lang;
-  var g=SUB[p]||[];subsEl.innerHTML=g.length?'<button type="button" class="sub" data-h="'+HK[p]+'" aria-pressed="'+!tagF+'">All kinds<i class="sc" hidden></i></button>'+g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" title="'+esc(i[0])+'" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+esc(shortLbl(i[0]))+'</button>'}).join("")}).join(""):"";
+  var g=SUB[p]||(typeof EXTRA_SUB!=="undefined"&&EXTRA_SUB[p])||[];subsEl.innerHTML=g.length?'<button type="button" class="sub" data-h="'+HK[p]+'" aria-pressed="'+!tagF+'">All kinds<i class="sc" hidden></i></button>'+g.map(function(grp){return grp[1].map(function(i){return '<button type="button" class="sub" title="'+esc(i[0])+'" data-h="'+HK[p]+"-"+i[1]+'" aria-pressed="'+(i[1]===tagF)+'">'+esc(shortLbl(i[0]))+'</button>'}).join("")}).join(""):"";
   exhEl.textContent=trend?"Trending on socialmarket":"An audience worth building on.";
   exsEl.textContent=trend?"The accounts people are viewing, saving and buying the most.":"Featured accounts, ready for their next chapter.";
   render();updCount();grid.scrollLeft=0}window.setPlat=setPlat;

@@ -91,11 +91,11 @@ f.onsubmit=function(e){
  if(first){first.scrollIntoView({block:"center"});if(first.focus&&first.type!=="radio"&&first.id!=="shots"&&first!==plat&&first!==qs)first.focus();return}
  if(!U||U.kyc!=="verified"){NAV.go("start-selling");return}
  if(f.dataset.busy)return;f.dataset.busy="1";f.style.opacity=".6";
- var tags=[],audience="",catOther="";
+ var tags=[],audience="",catOther=[];
  QS.forEach(function(q,i){var v=qval(i);
   if(q.aud){var k=v.slice(2);tags.push(k);audience=k==="other"?root.querySelector("#qo"+i).value.trim():audName(pc.value,k)}
-  else if(typeof v==="string"){if(v==="others"){tags.push("others");catOther=root.querySelector("#qo"+i).value.trim()}else if(v)tags.push(v)}else v.forEach(function(x){tags.push(x)})});
- SM.createListing({platform:pc.value,niche:niche.value==="Other"?$("nicheo").value.trim():niche.value,monetization:$("mon").value,age:$("age").value,audience:audience,tags:tags,title:title.value.trim(),description:desc.value.trim()+(catOther?"\n\nCategory: "+catOther:""),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:FILES})
+  else if(typeof v==="string"){if(v==="others"){if(tags.indexOf("others")<0)tags.push("others");var ot=root.querySelector("#qo"+i).value.trim();if(ot)catOther.push((q.label&&q.label!=="Category"?q.label+": ":"")+ot)}else if(v)tags.push(v)}else v.forEach(function(x){tags.push(x)})});
+ SM.createListing({platform:pc.value,niche:niche.value==="Other"?$("nicheo").value.trim():niche.value,monetization:$("mon").value,age:$("age").value,audience:audience,tags:tags,title:title.value.trim(),description:desc.value.trim()+(catOther.length?"\n\nCategory: "+catOther.join(", "):""),followers:Math.round(+aud.value),income:+inc.value,price:+price.value,link:link.value.trim(),shots:FILES})
   .then(function(){f.style.display="none";done.style.display="block";wrap.classList.add("sent");window.scrollTo(0,0)})
   .catch(function(x){alert("Could not send your listing: "+SM.msg(x))})
   .then(function(){delete f.dataset.busy;f.style.opacity=""});

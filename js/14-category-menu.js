@@ -13,7 +13,14 @@ function mmBuild(){if(mm.dataset.b)return;var h="";
 function mmShow(attr,v){clearTimeout(mt);mmBuild();[].forEach.call(mm.querySelectorAll(".mp"),function(x){x.classList.toggle("act",x.getAttribute(attr)===v)});mm.classList.add("on")}
 function mmOpen(p){var g=SUB[p];if(!g){mmClose();return}mmShow("data-p",p)}
 /* categories that have no sub categories yet (E-commerce, Gaming ...) open the same wide box with "Coming soon" */
-function mmSoon(a){mmShow("data-s",a.textContent.trim())}
+/* Gaming / E-commerce / Websites / AdSense stay "Coming soon" until a seller lists an account there. Then "Coming soon" goes by itself and the categories sellers really used appear. If anything goes wrong it just stays "Coming soon". */
+var SOON=null;
+function soonData(){if(!SOON)SOON=(typeof SM!=="undefined"&&SM.listings?SM.listings():Promise.resolve([])).then(function(rows){var m={};(rows||[]).forEach(function(r){var p=r.platform;if(!p)return;var o=m[p]||(m[p]={n:0,t:{}});o.n++;(r.tags||[]).forEach(function(t){o.t[t]=1})});return m},function(){return{}});return SOON}
+function soonFill(a){try{var tx=a.textContent.trim(),p=a.dataset.s||tx,pn=mm.querySelector('.mp[data-s="'+tx+'"]');if(!pn||pn.dataset.live)return;
+ soonData().then(function(m){var o=m&&m[p],g=(typeof EXTRA_SUB!=="undefined"&&EXTRA_SUB[p])||[],h=(typeof HK!=="undefined"&&HK[p])||"";if(!o||!o.n||!h||pn.dataset.live)return;
+  var cols=g.map(function(c){var it=c[1].filter(function(i){return o.t[i[1]]});if(!it.length)return"";return '<div><h4>'+c[0]+'</h4>'+it.map(function(i){return '<a href="/'+h+"-"+i[1]+'">'+i[0]+'</a>'}).join("")+'</div>'}).join("");
+  pn.innerHTML='<div class="mh"><b>'+p+'</b><a href="/'+h+'">Browse all '+p+' &rarr;</a></div>'+cols;pn.dataset.live="1"}).catch(function(){})}catch(e){}}
+function mmSoon(a){mmShow("data-s",a.textContent.trim());soonFill(a)}
 [].forEach.call(document.querySelectorAll("#cats nav a"),function(a){var p=a.dataset.p;
  a.addEventListener("mouseenter",function(){if(!window.matchMedia("(hover:hover)").matches){mmClose();return}if(SUB[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()});
  a.addEventListener("focus",function(){if(SUB[p])mmOpen(p);else if(a.dataset.s)mmSoon(a);else mmClose()})});
