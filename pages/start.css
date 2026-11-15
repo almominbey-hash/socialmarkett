@@ -278,8 +278,8 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .xsub{position:absolute;z-index:1;left:14px;bottom:12px;color:#fff;display:flex;align-items:baseline;gap:6px}
 .xsub b{font-size:24px;line-height:1;font-weight:600;letter-spacing:-.02em}
 .xsub span{font-size:14px;opacity:.95}
-.xmo{position:absolute;z-index:1;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 12px 0 10px;border-radius:999px;background:#fff;color:#0f5132;font:600 12.5px/1 inherit;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.xmo i{width:10px;height:10px;border-radius:50%;background:#0f9d58;box-shadow:0 0 0 3px #d6f0e1}
+.xvt{position:absolute;z-index:1;right:12px;bottom:12px;width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.xvt svg{width:17px;height:17px;fill:none;stroke:#0f7a4a;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .xm .sm{left:auto;right:62px;top:18px}
 .xi{padding:14px 16px 16px}
 .xi h3{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0;font-size:17px;line-height:1.3}
@@ -325,52 +325,15 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .xrail .xe{grid-column:1/-1}
 .exr .ar{display:none}
 
-/* Filters button sits next to the heading, bigger and blue so it stands out */
-.exr .fbt{height:48px;padding:0 24px;gap:10px;font-size:16px;font-weight:600;border:1.5px solid var(--accent);border-radius:999px;background:var(--bg);color:var(--accent)}
-.exr .fbt svg{width:22px;height:22px}
-.exr .fbt:hover{background:color-mix(in srgb,var(--accent) 9%,var(--bg))}
-.exr .fbt i{min-width:20px;height:20px;border-radius:10px;background:var(--accent);color:#fff;font-size:12px}
-/* filter popup: all four corners round, every box the same size */
-.fmod .fbox,.fmod .fbox.fl{border-radius:18px;overflow-x:hidden;overflow-y:auto;scrollbar-width:none;max-height:calc(100vh - 32px)}
-.fmod .fbox::-webkit-scrollbar{display:none}
-.fmod .fbox select,.fmod .fbox .pr input,.fmod .fbox input[type=search],.fmod .fbox .rst{box-sizing:border-box;height:46px;border-radius:12px;font-size:15px;line-height:normal}
-.fmod .fbox select,.fmod .fbox input[type=search],.fmod .fbox .rst{width:100%}
-.fmod .fbox .pr input{flex:1;min-width:0;width:auto;padding:0 14px}
-.fmod .fbox .rst{display:block;margin-top:10px;padding:0 16px;border:1px solid var(--line);background:var(--soft);color:var(--text);font-weight:500;font-family:inherit;text-align:center;text-decoration:none;cursor:pointer}
-.fmod .fbox .rst:hover{border-color:var(--accent);color:var(--accent)}
+/* ===== Big blue Filters button (replaces "Explore all accounts") ===== */
+.fbt.fbig{height:52px;padding:0 26px;gap:10px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-t,#fff);font:600 17px inherit;font-family:inherit;box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 35%,transparent);transition:transform .12s,box-shadow .12s,background .12s}
+.fbt.fbig svg{width:22px;height:22px;stroke-width:2}
+.fbt.fbig:hover{background:color-mix(in srgb,var(--accent) 88%,#000);transform:translateY(-1px);box-shadow:0 12px 28px color-mix(in srgb,var(--accent) 40%,transparent)}
+.fbt.fbig i{background:#fff;color:var(--accent)}
+@media (max-width:640px){.exr{justify-content:stretch}.fbt.fbig{width:100%;justify-content:center}}
 
-/* blue count on "All kinds" */
-.sub{position:relative}
-.fbar .subs{padding-top:12px}
-.sub .sc{position:absolute;top:-10px;right:-6px;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--accent);color:#fff;font:600 11.5px/20px inherit;font-family:inherit;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg)}
-.sub .sc[hidden]{display:none}
-
-/* Filters pop-up: no Search box (hidden, code stays so nothing breaks), so it starts with All platforms.
-   Every dropdown and the Min / Max price boxes have exactly the same size. */
-#fmod .fbox label[for="fk"],#fmod #fk{display:none}
-#fmod .fbox select,#fmod .fbox .pr input{height:52px!important;font-size:16px!important;box-sizing:border-box!important;border-radius:12px!important}
-/* the list that opens under each dropdown: bigger lines, same size as the boxes (works on computers; phones draw their own list) */
-#fmod .fbox select option{font-size:16px;padding:14px 12px;min-height:50px}
-
-/* ===== Filters pop-up: every box the same size + big dropdown lists (added) =====
-   Dropdown boxes (All platforms, Followers ...) and the Min / Max price boxes: same height, same text size, same padding.
-   The list that opens under a dropdown is our own list, so its lines are big and the same size on every device. */
-#fmod .fbox .ddb,#fmod .fbox .pr input{box-sizing:border-box!important;height:40px!important;padding:0 12px!important;border:1px solid transparent!important;border-radius:12px!important;background-color:var(--soft)!important;color:var(--text)!important;font-family:inherit!important;font-size:15px!important;font-weight:400!important;line-height:1.2!important}
-#fmod .fbox .dd{position:relative;width:100%}
-#fmod .fbox .dd[hidden]{display:none}
-#fmod .fbox .ddn{display:none!important}
-#fmod .fbox .ddb{display:flex;align-items:center;width:100%;padding-right:40px!important;text-align:left;cursor:pointer;appearance:none;-webkit-appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23566070' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 16px center}
-#fmod .fbox .ddb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#fmod .fbox .ddb:hover,#fmod .fbox .pr input:hover{border-color:var(--line)!important}
-#fmod .fbox .ddb:focus-visible,#fmod .fbox .dd.open .ddb,#fmod .fbox .pr input:focus-visible{border-color:var(--accent)!important;outline:none}
-#fmod .fbox .ddl{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;max-height:300px;overflow-y:auto;box-sizing:border-box;padding:6px;background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 36px rgba(0,0,0,.2)}
-#fmod .fbox .dd.open .ddl{display:block}
-#fmod .fbox .ddi{display:flex;align-items:center;min-height:38px;padding:0 12px;border-radius:8px;font-size:14px;line-height:1.25;color:var(--text);cursor:pointer}
-#fmod .fbox .ddi:hover{background:var(--soft)}
-#fmod .fbox .ddi.on{font-weight:600;color:var(--accent)}
-/* buttons under the boxes (Apply filters, Reset all filters): same height and text size as the boxes */
-#fmod .fbox .btn,#fmod .fbox .rst{box-sizing:border-box!important;height:40px!important;padding:0 16px!important;border-radius:12px!important;font-family:inherit!important;font-size:15px!important;line-height:1.2!important;display:flex;align-items:center;justify-content:center;width:100%}
-/* narrower pop-up so every box and button is less wide */
-#fmod .fbox.fl,#fmod .fbox{max-width:380px!important}
+/* ===== Filter pop-up: Apply and Reset are the same size as the dropdown boxes ===== */
+.fl #fap,.fl #frs{display:block;width:100%;height:46px;padding:0 16px;border-radius:12px;font:500 15px inherit;font-family:inherit;text-align:center;text-decoration:none;box-sizing:border-box}
+.fl #fap{margin-top:24px}
+.fl #frs{margin-top:10px;border:1px solid transparent;background:var(--soft);color:var(--text);cursor:pointer;transition:background-color .15s,border-color .15s}
+.fl #frs:hover{border-color:var(--line);color:var(--text)}
