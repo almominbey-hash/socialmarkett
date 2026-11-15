@@ -35,6 +35,14 @@ $("lb").addEventListener("click",function(e){if(e.target===$("lb"))lbHide()});
 $("lbp").addEventListener("click",function(){var n=(window.SEL[12]||[]).length;gi=(gi-1+n)%n;lbShow()});
 $("lbn").addEventListener("click",function(){var n=(window.SEL[12]||[]).length;gi=(gi+1)%n;lbShow()});
 document.addEventListener("keydown",function(e){if($("lb").hidden)return;if(e.key==="Escape")lbHide();else if(e.key==="ArrowLeft")$("lbp").click();else if(e.key==="ArrowRight")$("lbn").click()});
+/* seller card: accounts sold + buyer reviews (from supabase/seller-reviews.sql; hidden if not set up yet) */
+function stars(n){n=Math.round(Number(n)||0);return "\u2605\u2605\u2605\u2605\u2605".slice(0,n)+"\u2606\u2606\u2606\u2606\u2606".slice(0,5-n)}
+function sellerCard(d){var ss=$("ss"),rv=$("rv");ss.textContent="";rv.hidden=true;rv.innerHTML="";if(!d[13]||typeof sb==="undefined")return;
+ var id=d[13];
+ sb.rpc("seller_card",{p_listing:id}).then(function(r){if(!window.SEL||window.SEL[13]!==id||r.error||!r.data)return;var c=r.data,n=Number(c.sold)||0,k=Number(c.count)||0;
+  ss.textContent=n+(n===1?" account sold":" accounts sold")+(k?" \u00b7 \u2605 "+Number(c.avg).toFixed(1)+" ("+k+(k===1?" review)":" reviews)"):"");
+  rv.hidden=false;
+  rv.innerHTML='<h3>Reviews'+(k?' <span>'+k+'</span>':'')+'</h3>'+(k?c.reviews.map(function(x){return '<div class="rv1"><div class="rt"><b>'+E(x.name)+'</b><span class="st" aria-label="'+x.rating+' out of 5">'+stars(x.rating)+'</span><small>'+new Date(x.created_at).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})+'</small></div>'+(x.comment?'<p>'+E(x.comment)+'</p>':'')+'</div>'}).join(""):'<p class="note">No reviews yet.</p>')},function(){})}
 window.renderAccount=function(){var d=window.SEL;if(!d)return;gi=0;lbHide();
  $("ttl").textContent=d[2];
  $("tg").innerHTML='<span class="tag">'+E(d[0])+'</span>'+(d[1]?'<span class="tag">'+E(d[1])+'</span>':"");
@@ -44,7 +52,7 @@ window.renderAccount=function(){var d=window.SEL;if(!d)return;gi=0;lbHide();
  var tp=topics(d);$("tp").innerHTML=tp.map(function(x){return '<span class="chip ok">'+E(x)+'</span>'}).join("");$("tpw").hidden=!tp.length;
  $("pr").textContent=R(d[8]);
  ["si","si2"].forEach(function(k){$(k).textContent=ini(d[3])});["sn","sn2"].forEach(function(k){$(k).textContent=d[3]});
- window.scrollTo(0,0)};
+ sellerCard(d);window.scrollTo(0,0)};
 ["cs","cs2"].forEach(function(k){$(k).addEventListener("click",function(){var d=window.SEL;if(d&&d[13])window.openChat(d[13])})});
 /* Buy now: makes the order (and its Order ID) in the database, then opens the Orders page */
 $("buy").addEventListener("click",function(){var d=window.SEL;if(!d||!d[13])return;
