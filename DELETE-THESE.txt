@@ -1,0 +1,4 @@
+Delete these 3 old files from your site:
+x-high-followers.html
+x-high-engagement.html
+x-niche.html
