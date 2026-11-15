@@ -1,15 +1,14 @@
 <main class="wrap" id="top">
-  <nav class="crumb" aria-label="Breadcrumb"><a href="/">All accounts</a><i aria-hidden="true">›</i><span id="c1"></span></nav>
   <div class="layout">
     <div class="main">
-      <div class="gal" id="gal"></div>
-
       <div class="head">
         <h1 id="ttl"></h1>
         <div class="tags" id="tg"></div>
       </div>
 
-      <div class="stats" id="st" aria-label="Account stats"></div>
+      <div class="gal" id="gal"></div>
+
+      <div class="stats" id="st" aria-label="Account details"></div>
 
       <section id="dsw" hidden>
         <h2>About this account</h2>
@@ -22,31 +21,28 @@
       </section>
 
       <section>
-        <h2>Full details</h2>
-        <table class="det" id="dt"></table>
-      </section>
-
-      <section>
-        <h2 id="how">Buying</h2>
-        <p class="note">Ask the seller anything about this account using the Contact seller button. Online payment is being set up and is not open yet. All prices are in Pakistani Rupees (PKR).</p>
-      </section>
-
-      <section>
         <h2>About the seller</h2>
         <div class="sbx">
           <i aria-hidden="true" id="si"></i>
-          <div><b id="sn"></b><small id="sv"></small><span>Have a question about this account? Ask the seller here. Chat stays inside socialmarket.</span></div>
+          <div><b id="sn"></b><span>Have a question about this account? Ask the seller here. Chat stays inside socialmarket.</span></div>
           <button type="button" class="btn" id="cs2">&#9993; Contact seller</button>
         </div>
       </section>
     </div>
 
-    <aside class="buy" aria-label="Buy this account">
-      <div class="price"><span id="pr"></span><small>One-time price in PKR</small></div>
-      <div class="roi" id="roi" hidden></div>
+    <aside class="buy" aria-label="Price">
+      <div class="price"><span id="pr"></span></div>
       <button type="button" class="btn full" id="buy">Buy now</button>
       <button type="button" class="btn line full" id="cs" style="margin-top:10px">&#9993; Contact seller</button>
-      <div class="seller"><i id="si2"></i><div><b id="sn2"></b><small id="sv2"></small></div></div>
+      <div class="seller"><i id="si2"></i><div><b id="sn2"></b></div></div>
     </aside>
+  </div>
+
+  <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Full size picture">
+    <button type="button" class="lx" id="lbx" aria-label="Close">&times;</button>
+    <button type="button" class="ln lp" id="lbp" aria-label="Previous picture">&lsaquo;</button>
+    <img id="lbi" alt="">
+    <button type="button" class="ln lq" id="lbn" aria-label="Next picture">&rsaquo;</button>
+    <span class="lc" id="lbc"></span>
   </div>
 </main>
