@@ -5,7 +5,9 @@
 function mmClose(){clearTimeout(mt);mm.classList.remove("on")}
 /* All menus sit on top of each other in one box, so every menu is exactly as tall as the tallest one. Only the chosen one is visible. */
 function mmBuild(){if(mm.dataset.b)return;var h="";
- Object.keys(SUB).forEach(function(p){var g=SUB[p];h+='<div class="mp" data-p="'+p+'"><div class="mh"><b>'+p+'</b><a href="/'+HK[p]+'">Browse all '+p+' &rarr;</a></div>'+g.map(function(c){return '<div><h4>'+c[0]+'</h4>'+c[1].map(function(i){return '<a href="/'+HK[p]+"-"+i[1]+'">'+i[0]+'</a>'}).join("")+'</div>'}).join("")+'</div>'});
+ Object.keys(SUB).forEach(function(p){var g=SUB[p],cols=[],au=null;
+  g.forEach(function(c){if(AUD.indexOf(c)>-1){if(!au){au=[];cols.push(au)}au.push(c)}else cols.push([c])}); /* Premium audience and Local audience share one column */
+  h+='<div class="mp" data-p="'+p+'"><div class="mh"><b>'+p+'</b><a href="/'+HK[p]+'">Browse all '+p+' &rarr;</a></div>'+cols.map(function(col){return '<div>'+col.map(function(c){return '<h4>'+c[0]+'</h4>'+c[1].map(function(i){return '<a href="/'+HK[p]+"-"+i[1]+'">'+i[0]+'</a>'}).join("")}).join("")+'</div>'}).join("")+'</div>'});
  [].forEach.call(document.querySelectorAll("#cats nav a[data-s]"),function(a){var n=a.textContent.trim();h+='<div class="mp" data-s="'+n+'"><div class="mh"><b>'+n+'</b><p>Coming soon. Sellers, contact us to list your accounts here.</p><a href="/sell">Become a seller &rarr;</a></div></div>'});
  mm.innerHTML='<div class="mi">'+h+'</div>';mm.dataset.b="1"}
 function mmShow(attr,v){clearTimeout(mt);mmBuild();[].forEach.call(mm.querySelectorAll(".mp"),function(x){x.classList.toggle("act",x.getAttribute(attr)===v)});mm.classList.add("on")}

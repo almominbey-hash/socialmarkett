@@ -10,7 +10,7 @@ function openChat(id){
  if(!U){window.GO="start";NAV.go("login");route();return}
  sb.rpc("start_conversation",{p_listing:id}).then(function(r){if(r.error){alert(SM.msg(r.error));return}window.pendChat={id:r.data};NAV.go("messages");route()})}window.openChat=openChat;
 var HK={YouTube:"youtube",Instagram:"instagram",TikTok:"tiktok",Facebook:"facebook",X:"x"},lastN=null;
-var AUD=[["Premium audience",[["USA audience","usa"],["UK audience","uk"]]],["Local audience",[["Pakistan audience","pakistan"],["Other countries","other"]]]];
+var AUD=[["Premium audience",[["USA audience","usa"],["UK audience","uk"]]],["Local audience",[["Pakistan audience","pakistan"],["Other countries","other"]]]]; /* top menu: both headings sit in ONE column (Premium, USA, UK, Local, Pakistan, Other). Create-listing form: only the country names, no headings */
 var SUB={
 YouTube:[["Channel status",[["Fresh YouTube Channels","fresh"],["Monetized YouTube Channels","monetized"],["Non-Monetized Channels","non-monetized"],["YouTube Partner Program Channels","ypp"]]],["Content format",[["YouTube Shorts Channels","shorts"],["Long-Form Video Channels","long-form"],["Faceless / Automation Channels","faceless"]]]].concat(AUD),
 Instagram:[["Account type",[["Fresh Instagram Accounts","fresh"],["Instagram Creator Accounts","creator"],["Instagram Business Accounts","business"],["Monetized Instagram Accounts","monetized"],["Instagram Influencer Accounts","influencer"],["Verified (blue tick)","verified"]]],["Page type",[["Instagram Reels Accounts","reels"],["Instagram Theme Pages","theme"],["Instagram Meme Pages","meme"],["Instagram Fashion Pages","fashion"],["Instagram E-commerce Pages","ecommerce"]]]].concat(AUD),
@@ -18,6 +18,8 @@ TikTok:[["Monetization & programs",[["Monetized TikTok Accounts","monetized"],["
 Facebook:[["Page status",[["Fresh Facebook Pages","fresh"],["Monetized Facebook Pages","monetized"],["Non-Monetized Facebook Pages","non-monetized"]]],["Monetization features",[["Content Monetization Enabled Pages","content-monetization"],["Monetization Eligible Pages","eligible"],["Monetization Criteria Completed Pages","criteria"],["Facebook Stars Enabled Pages","stars"],["Facebook Subscription Enabled Pages","subscriptions"]]],["Business",[["Facebook Business Portfolios","business-portfolios"]]]].concat(AUD),
 X:[["Account type",[["Fresh Accounts","fresh"],["Aged Accounts","aged"],["Premium Accounts","premium"],["Monetized Accounts","monetized"],["Business Accounts","business"]]],["Verification",[["Verified (Blue Tick) Accounts","verified"],["Verified Organization (Gold Tick)","verified-gold"],["Verified Premium+ Accounts","verified-premium-plus"]]]].concat(AUD) 
 };
+/* every platform gets an "Others" item at the end of its categories: the top menu shows it, the Create-listing menu shows it (seller types the category) and listings saved there appear on the page /platform-others */
+Object.keys(SUB).forEach(function(p){var c=SUB[p].filter(function(g){return AUD.indexOf(g)<0});if(c.length)c[c.length-1][1].push(["Others","others"])});
 var PMAP={};Object.keys(SUB).forEach(function(p){PMAP[HK[p]]=[p,null];SUB[p].forEach(function(g){g[1].forEach(function(i){PMAP[HK[p]+"-"+i[1]]=[p,i[0],i[1]]})})});
 function subLabel(p,t){var r=null;(SUB[p]||[]).forEach(function(g){g[1].forEach(function(i){if(i[1]===t)r=i[0]})});return r}
 /* ===== ONE PLACE TO CHANGE CATEGORIES =====
