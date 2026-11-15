@@ -355,7 +355,7 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 /* ===== Filters pop-up: every box the same size + big dropdown lists (added) =====
    Dropdown boxes (All platforms, Followers ...) and the Min / Max price boxes: same height, same text size, same padding.
    The list that opens under a dropdown is our own list, so its lines are big and the same size on every device. */
-#fmod .fbox .ddb,#fmod .fbox .pr input{box-sizing:border-box!important;height:40px!important;padding:0 12px!important;border:1px solid transparent!important;border-radius:12px!important;background-color:var(--soft)!important;color:var(--text)!important;font:400 14px/1.2 inherit!important;font-family:inherit!important}
+#fmod .fbox .ddb,#fmod .fbox .pr input{box-sizing:border-box!important;height:40px!important;padding:0 12px!important;border:1px solid transparent!important;border-radius:12px!important;background-color:var(--soft)!important;color:var(--text)!important;font-family:inherit!important;font-size:15px!important;font-weight:400!important;line-height:1.2!important}
 #fmod .fbox .dd{position:relative;width:100%}
 #fmod .fbox .dd[hidden]{display:none}
 #fmod .fbox .ddn{display:none!important}
@@ -371,6 +371,6 @@ a.bxc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
 #fmod .fbox .ddi:hover{background:var(--soft)}
 #fmod .fbox .ddi.on{font-weight:600;color:var(--accent)}
 /* buttons under the boxes (Apply filters, Reset all filters): same height and text size as the boxes */
-#fmod .fbox .btn,#fmod .fbox .rst{box-sizing:border-box!important;height:40px!important;padding:0 16px!important;border-radius:12px!important;font-size:14px!important;line-height:1!important;display:flex;align-items:center;justify-content:center;width:100%}
+#fmod .fbox .btn,#fmod .fbox .rst{box-sizing:border-box!important;height:40px!important;padding:0 16px!important;border-radius:12px!important;font-family:inherit!important;font-size:15px!important;line-height:1.2!important;display:flex;align-items:center;justify-content:center;width:100%}
 /* narrower pop-up so every box and button is less wide */
 #fmod .fbox.fl,#fmod .fbox{max-width:380px!important}
