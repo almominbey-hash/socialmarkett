@@ -20,16 +20,22 @@ function stats(d){var s=[],fol=Number(d[4])||0,social=!!SOCIAL[d[0]];
  if(d[17]>0)s.push(["Listing views",Number(d[17]).toLocaleString("en-US"),"",0,1]);
  if(d[18])s.push(["Listed on",new Date(d[18]).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}),"",0,1]);
  return s}
-/* picture area: small pictures in one row under the title. Tap a picture (or "Full") to see it full screen. */
+/* picture area: ONE big picture under the title. Arrows go to the next / previous picture; "Full" opens it full screen (where you can keep going with the arrows). */
 var gi=0;
+function gShow(){var d=window.SEL;if(!d)return;var sh=d[12]||[];if(!sh.length)return;var im=$("gi");if(!im)return;im.src=sh[gi];im.alt="Picture "+(gi+1)+" of this account";var c=$("gc");if(c)c.textContent=(gi+1)+" / "+sh.length}
 function gallery(d){var sh=d[12]||[],g=$("gal"),c=PC[d[0]]||"#1d5fd6",lg=(window.SMX&&window.SMX.LOGO&&window.SMX.LOGO[d[0]])||"";
  if(!sh.length){g.innerHTML='<div class="gm ph" style="--c:'+c+'">'+lg+'<span>'+E(d[0])+(d[1]?' \u00b7 '+E(d[1]):'')+'</span></div>';return}
- g.innerHTML='<div class="th">'+sh.map(function(u,i){return '<div class="ti"><button type="button" data-i="'+i+'" aria-label="Picture '+(i+1)+'"><img src="'+E(u)+'" alt="Picture '+(i+1)+' of this account" loading="lazy"></button><a href="#" class="fl" data-i="'+i+'">Full</a></div>'}).join("")+'</div>'}
+ var many=sh.length>1;
+ g.innerHTML='<div class="big"><button type="button" class="bi" data-a="full" aria-label="Open this picture full screen"><img id="gi" alt=""></button>'+
+  (many?'<button type="button" class="gn gp" data-a="prev" aria-label="Previous picture">&lsaquo;</button><button type="button" class="gn gq" data-a="next" aria-label="Next picture">&rsaquo;</button><span class="gc" id="gc"></span>':'')+'</div>'+
+  '<div class="gb"><button type="button" class="fl" data-a="full">Full</button></div>';
+ gShow()}
 function lbShow(){var d=window.SEL;if(!d)return;var sh=d[12]||[];if(!sh.length)return;
  $("lbi").src=sh[gi];$("lbc").textContent=(gi+1)+" / "+sh.length;$("lb").hidden=false;
  $("lbp").style.display=$("lbn").style.display=sh.length>1?"":"none";document.body.style.overflow="hidden"}
-function lbHide(){$("lb").hidden=true;$("lbi").removeAttribute("src");document.body.style.overflow=""}
-$("gal").addEventListener("click",function(e){var d=window.SEL;if(!d)return;var t=e.target.closest("[data-i]");if(!t)return;e.preventDefault();gi=+t.dataset.i;lbShow()});
+function lbHide(){var was=!$("lb").hidden;$("lb").hidden=true;$("lbi").removeAttribute("src");document.body.style.overflow="";if(was)gShow()}
+$("gal").addEventListener("click",function(e){var d=window.SEL;if(!d)return;var t=e.target.closest("[data-a]");if(!t)return;e.preventDefault();var n=(d[12]||[]).length,a=t.dataset.a;
+ if(a==="prev"){gi=(gi-1+n)%n;gShow()}else if(a==="next"){gi=(gi+1)%n;gShow()}else if(a==="full")lbShow()});
 $("lbx").addEventListener("click",lbHide);
 $("lb").addEventListener("click",function(e){if(e.target===$("lb"))lbHide()});
 $("lbp").addEventListener("click",function(){var n=(window.SEL[12]||[]).length;gi=(gi-1+n)%n;lbShow()});
@@ -54,10 +60,10 @@ window.renderAccount=function(){var d=window.SEL;if(!d)return;gi=0;lbHide();
  ["si","si2"].forEach(function(k){$(k).textContent=ini(d[3])});["sn","sn2"].forEach(function(k){$(k).textContent=d[3]});
  sellerCard(d);
  if(window.SMX&&window.SMX.track)window.SMX.track(d); /* every account opened is remembered for "Inspired by your recent activity" */
- var ra=$("ra"),rg=$("rag"),hh=(window.SMX&&window.SMX.recent)?window.SMX.recent(d[13]):"";if(rg)rg.innerHTML=hh;if(ra)ra.hidden=!hh;
+ var ra=$("ra"),hh=(window.SMX&&window.SMX.recent)?window.SMX.recent(d[13]):"";$("rag").innerHTML=hh;ra.hidden=!hh;
  window.scrollTo(0,0)};
 /* the cards under the page: picture arrows, heart, and opening another account */
-if($("rag"))$("rag").addEventListener("click",function(e){var D=window.SMD;if(!D)return;
+$("rag").addEventListener("click",function(e){var D=window.SMD;if(!D)return;
  var nv=e.target.closest(".xnv");if(nv){e.preventDefault();e.stopPropagation();var cd=nv.closest(".xc"),sh=D[+cd.dataset.k][12],i=((+cd.dataset.i||0)+(+nv.dataset.d)+sh.length)%sh.length;cd.dataset.i=i;var im=cd.querySelector(".xm img");if(!im){im=document.createElement("img");im.alt="";cd.querySelector(".xm").insertBefore(im,cd.querySelector(".xm").firstChild)}im.src=sh[i];return}
  var h=e.target.closest(".xh");if(h){e.preventDefault();var k=+h.dataset.k;if(typeof toggleSave==="function")toggleSave(D[k][2],function(){var on=SV.indexOf(D[k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"\u2665":"\u2661"});return}
  var c=e.target.closest(".xc");if(c){e.preventDefault();var d2=D[+c.dataset.k];if(!d2)return;window.SEL=d2;if(window.SMX&&window.SMX.track)window.SMX.track(d2);window.renderAccount()}});
