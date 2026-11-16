@@ -47,7 +47,7 @@ function draw(){
  panel.innerHTML='<div class="ph"><b>'+X(name)+'</b><span>'+X(mail)+'</span></div><div class="ps" style="margin-top:0"></div>'+
   '<div class="pl">'+
   '<button type="button" class="pi" role="menuitem" data-a="settings">Profile</button>'+
-  '<button type="button" class="pi" role="menuitem" data-a="soon" data-n="Settings &amp; security">Settings &amp; security</button>'+
+  '<button type="button" class="pi" role="menuitem" data-a="account">Settings &amp; security</button>'+
   '<button type="button" class="pi" role="menuitem" data-a="soon" data-n="Billing and payments">Billing and payments</button>'+
   '<button type="button" class="pi" role="menuitem" data-a="soon" data-n="Support">Support</button>'+
   '<div class="ps"></div>'+
@@ -72,6 +72,7 @@ window.addEventListener("navchange",close);
 panel.addEventListener("click",function(e){
  var b=e.target.closest(".pi");if(!b)return;var a=b.dataset.a;close();
  if(a==="settings"){NAV.go("dash");route()}
+ else if(a==="account"){NAV.go("settings");route()}
  else if(a==="soon"){window.SMSoon(b.dataset.n)}
  else if(a==="out"){doSignOut()}});
 })();
