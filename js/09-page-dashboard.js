@@ -1,30 +1,74 @@
-/* Dashboard */
-init.dash=function(root){window.renderDash=function(){if(!U)return;SM.refresh().then(draw)};
+/* Profile page (top-right menu > Profile). Buyers see only what is here: picture, seller name, location and About.
+   ID card details are never shown. Needs supabase/seller-profile.sql (run once). */
+init.dash=function(root){
+var BUSY=false,EDIT="";
+var PEN='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>';
+var CAM='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+var PIN='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function N(x){return Number(x||0).toLocaleString("en-US")}
+function ini(n){return String(n||"S").trim().split(/\s+/).map(function(w){return w.charAt(0)}).join("").slice(0,2).toUpperCase()||"S"}
+function since(){try{return new Date(U.since).toLocaleDateString("en-US",{month:"short",year:"numeric"})}catch(e){return ""}}
+function $(i){return root.querySelector("#"+i)}
+function say(t,bad){var s=$("pmsg");if(!s)return;s.textContent=t||"";s.className="pmsg"+(bad?" bad":(t?" ok":""))}
+function setupMsg(e){return /function|schema cache|column|does not exist/i.test((e&&e.message)||"")?"Profile is not set up yet. In Supabase > SQL Editor run supabase/seller-profile.sql once, then try again.":(window.SM&&SM.msg?SM.msg(e):"Something went wrong. Please try again.")}
+function loc(){return [U.city,U.country].filter(Boolean).join(", ")}
+
 function draw(){if(!U)return;
- var kc=(U.kyc==="pending"||U.kyc==="verified")?'<div class="c" style="margin-top:16px"><b style="font-size:17px">Seller verification: <span style="color:var(--ok)">'+(U.kyc==="pending"?"In review":"Verified")+'</span></b><span>'+(U.kyc==="pending"?"We check your details within 24 hours. You can list accounts once you are approved.":"You can list accounts.")+'</span></div>':'<div class="c" style="margin-top:16px"><b style="font-size:17px">Want to sell?</b><span>Verify your identity once, then list your accounts.</span><br><a class="btn" style="margin-top:10px" href="/start-selling">Become a seller</a></div>';
- var v=root.querySelector("#dv"),n=esc(U.name||U.email);
- var c=function(a,b){return '<div class="c"><b>'+a+'</b><span>'+b+'</span></div>'};
- v.innerHTML='<div class="hd"><div><h1>Hi, '+n+'</h1><p class="m" style="margin:0">Your account</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn line" href="/">Browse accounts</a><a class="btn" href="/sell">+ List an account</a></div></div>'+
- '<div class="cards">'+c('<span id="oa">0</span>',"Active orders")+c('<span id="oc">0</span>',"Completed orders")+c('<span id="nl">0</span>',"Active listings")+c('PKR <span id="os">0</span>',"Sales this month")+c('PKR <span id="op">0</span>',"Pending payout")+'</div>'+
- '<h2>My orders (buying)</h2><div class="tb" id="ob"><p class="m" style="margin:0">Loading...</p></div>'+
- '<h2>My listings (selling)</h2><div class="tb" id="lt"><p class="m" style="margin:0">Loading...</p></div>'+
- '<h2>Orders to deliver</h2><div class="tb" id="od"><p class="m" style="margin:0">Loading...</p></div>';
- v.querySelector('.hd').insertAdjacentHTML('afterend',kc);
- sb.from("orders").select("order_no,listing_title,platform,buyer_id,seller_id,amount,status,payment_status,payout_status,paid_at").order("created_at",{ascending:false}).then(function(r){
-  var O=r.data||[],ob=v.querySelector("#ob"),od=v.querySelector("#od");if(!ob||!od)return;
-  var LB={awaiting_payment:"Awaiting payment",in_progress:"In progress",delivered:"Delivered",completed:"Completed",cancelled:"Cancelled"};
-  var mine=O.filter(function(o){return o.buyer_id===U.id}),sold=O.filter(function(o){return o.seller_id===U.id}),m0=new Date();m0.setDate(1);m0.setHours(0,0,0,0);
-  var sum=function(a){return a.reduce(function(t,o){return t+Number(o.amount)},0)};
-  v.querySelector("#oa").textContent=O.filter(function(o){return o.status!=="completed"&&o.status!=="cancelled"}).length;
-  v.querySelector("#oc").textContent=O.filter(function(o){return o.status==="completed"}).length;
-  v.querySelector("#os").textContent=sum(sold.filter(function(o){return o.payment_status==="paid"&&o.paid_at&&new Date(o.paid_at)>=m0})).toLocaleString("en-US");
-  v.querySelector("#op").textContent=sum(sold.filter(function(o){return o.payout_status==="held"})).toLocaleString("en-US");
-  var tbl=function(a){return '<table><tr><th>Order</th><th>Account</th><th>Amount</th><th>Status</th></tr>'+a.slice(0,5).map(function(o){return"<tr><td>SM-"+o.order_no+"</td><td>"+esc(o.platform)+" \u00b7 "+esc(o.listing_title)+"</td><td>PKR "+Number(o.amount).toLocaleString("en-US")+'</td><td><span class="pill'+(o.status==="completed"?" ok":"")+'">'+LB[o.status]+"</span></td></tr>"}).join("")+"</table><p style=\"margin:8px 0 0\"><a href=\"/order\">See all orders</a></p>"};
-  ob.innerHTML=mine.length?tbl(mine):'<p class="m" style="margin:0">No orders yet.</p>';
-  var dv=sold.filter(function(o){return o.status==="in_progress"});od.innerHTML=dv.length?tbl(dv):'<p class="m" style="margin:0">No orders to deliver.</p>'});
- sb.from("listings").select("title,price,status,platform").eq("seller_id",U.id).order("created_at",{ascending:false}).then(function(r){
-  var L=r.data||[],lt=v.querySelector("#lt");if(!lt)return;
-  v.querySelector("#nl").textContent=L.filter(function(x){return x.status==="live"}).length;
-  if(!L.length){lt.innerHTML='<p class="m" style="margin:0">You have no listings yet.</p>';return}
-  var lab={pending:"In review",live:"Live",sold:"Sold",rejected:"Rejected"};
-  lt.innerHTML='<table><tr><th>Account</th><th>Price</th><th>Status</th></tr>'+L.map(function(x){return "<tr><td>"+esc(x.platform)+" · "+esc(x.title)+"</td><td>PKR "+Number(x.price).toLocaleString("en-US")+'</td><td><span class="pill'+(x.status==="live"?" ok":"")+'">'+lab[x.status]+"</span></td></tr>"}).join("")+"</table>"})}};
+ var ver=U.kyc==="verified",v=$("dv");
+ var nameBlock=EDIT==="name"
+  ?'<div class="ed"><input id="psn" maxlength="40" value="'+E(U.sname)+'" placeholder="Seller name" aria-label="Seller name"><button type="button" class="btn sm" data-save="name">Save</button><button type="button" class="btn line sm" data-cancel="1">Cancel</button></div>'
+  :'<h1>'+(U.sname?E(U.sname):'<span class="mut">Add your seller name</span>')+'<button type="button" class="ib" data-edit="name" aria-label="Edit seller name">'+PEN+'</button></h1>';
+ var locBlock=EDIT==="loc"
+  ?'<div class="ed"><input id="pco" maxlength="60" value="'+E(U.country)+'" placeholder="Country" aria-label="Country"><input id="pci" maxlength="60" value="'+E(U.city)+'" placeholder="City" aria-label="City"><button type="button" class="btn sm" data-save="loc">Save</button><button type="button" class="btn line sm" data-cancel="1">Cancel</button></div>'
+  :'<div class="ploc">'+PIN+'<span>'+(loc()?E(loc()):'<span class="mut">Add your location</span>')+'</span><button type="button" class="ib" data-edit="loc" aria-label="Edit location">'+PEN+'</button></div>';
+ var aboutBlock=EDIT==="about"
+  ?'<textarea id="pab" rows="7" maxlength="600" placeholder="Write about yourself and the accounts you sell (up to 600 letters)">'+E(U.about)+'</textarea><div class="ed" style="margin-top:12px"><button type="button" class="btn sm" data-save="about">Save</button><button type="button" class="btn line sm" data-cancel="1">Cancel</button></div>'
+  :'<p class="abt">'+(U.about?E(U.about):'<span class="mut">Tell buyers about yourself.</span>')+'</p>';
+ v.innerHTML='<div class="pf">'+
+  '<header class="ph2"><div class="pavw"><div class="pav">'+(U.avatar?'<img src="'+E(U.avatar)+'" alt="Your profile picture">':'<span>'+E(ini(U.sname))+'</span>')+'</div>'+
+   '<label class="cam" for="pfile" title="'+(U.avatar?"Change photo":"Add photo")+'" aria-label="'+(U.avatar?"Change photo":"Add photo")+'">'+CAM+'</label><input type="file" id="pfile" accept="image/jpeg,image/png,image/webp" hidden></div>'+
+   '<div class="pinfo">'+nameBlock+(ver?'<span class="pbadge">&#10003; Verified seller</span>':'')+locBlock+
+   '<div class="pstr"><span><b id="ps1">-</b> accounts sold</span><span><b id="ps2">-</b> live listings</span>'+(since()?'<span>Member since <b>'+E(since())+'</b></span>':'')+'</div>'+
+   (U.avatar?'<button type="button" class="lnk" data-rm="1">Remove photo</button>':'')+
+   '<div id="pmsg" class="pmsg" role="status"></div></div></header>'+
+  '<section class="pcard"><div class="ch2"><h2>About</h2>'+(EDIT==="about"?'':'<button type="button" class="ib" data-edit="about" aria-label="Edit About">'+PEN+'</button>')+'</div>'+aboutBlock+'</section>'+
+ '</div>';
+ if(EDIT){var f=$({name:"psn",loc:"pco",about:"pab"}[EDIT]);if(f){f.focus();try{f.setSelectionRange(f.value.length,f.value.length)}catch(e){}}}
+ stats()}
+
+function stats(){
+ var o=sb.from("orders").select("id",{count:"exact",head:true}).eq("seller_id",U.id).eq("status","completed");
+ var l=sb.from("listings").select("id",{count:"exact",head:true}).eq("seller_id",U.id).eq("status","live");
+ Promise.all([o,l]).then(function(a){var x=$("ps1"),y=$("ps2");if(x)x.textContent=N(a[0].count);if(y)y.textContent=N(a[1].count)},function(){})}
+
+/* one save for everything; fields not being edited keep their current value */
+function save(part,avatar){
+ if(BUSY)return Promise.resolve();
+ var a={sn:U.sname,ab:U.about,co:U.country,ci:U.city};
+ if(part==="name"){a.sn=String($("psn").value).trim().replace(/\s+/g," ");if(a.sn.length<2){say("Seller name must be at least 2 letters.",1);return Promise.resolve()}}
+ if(part==="loc"){a.co=$("pco").value;a.ci=$("pci").value}
+ if(part==="about")a.ab=$("pab").value;
+ if(!a.sn||a.sn.length<2){say("Please add your seller name first.",1);return Promise.resolve()}
+ BUSY=true;say("Saving...");
+ var args={p_seller_name:a.sn,p_about:a.ab,p_country:a.co,p_city:a.ci};if(avatar!==undefined)args.p_avatar=avatar;
+ return sb.rpc("save_profile",args).then(function(r){BUSY=false;
+  if(r.error){say(setupMsg(r.error),1);return}
+  EDIT="";return SM.refresh().then(function(){draw();say("Saved.")})},function(){BUSY=false;say("Could not save. Check your internet and try again.",1)})}
+
+root.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest("button");if(!t)return;
+ if(t.dataset.edit){EDIT=t.dataset.edit;draw()}
+ else if(t.dataset.cancel){EDIT="";draw()}
+ else if(t.dataset.save)save(t.dataset.save);
+ else if(t.dataset.rm){if(confirm("Remove your profile picture?"))save("","")}});
+root.addEventListener("keydown",function(e){if(!EDIT)return;if(e.key==="Escape"){EDIT="";draw()}else if(e.key==="Enter"&&e.target.tagName==="INPUT")save(EDIT)});
+root.addEventListener("change",function(e){var f=e.target;if(f.id!=="pfile"||!f.files||!f.files[0])return;
+ var file=f.files[0];f.value="";
+ if(!/^image\/(jpeg|png|webp)$/.test(file.type)){say("Please choose a JPG, PNG or WebP picture.",1);return}
+ if(file.size>5*1024*1024){say("The picture must be under 5 MB.",1);return}
+ if(!U.sname){say("Add your seller name first, then add the photo.",1);return}
+ say("Uploading photo...");
+ SM.upload("avatars",file).then(function(path){return save("",sb.storage.from("avatars").getPublicUrl(path).data.publicUrl)},function(err){say(setupMsg(err),1)})});
+
+window.renderDash=function(){if(!U)return;EDIT="";SM.refresh().then(draw)};
+};
