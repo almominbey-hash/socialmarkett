@@ -49,38 +49,21 @@ function sellerCard(d){var ss=$("ss"),rv=$("rv");ss.textContent="";rv.hidden=tru
   ss.textContent=n+(n===1?" account sold":" accounts sold")+(k?" \u00b7 \u2605 "+Number(c.avg).toFixed(1)+" ("+k+(k===1?" review)":" reviews)"):"");
   rv.hidden=false;
   rv.innerHTML='<h3>Reviews'+(k?' <span>'+k+'</span>':'')+'</h3>'+(k?c.reviews.map(function(x){return '<div class="rv1"><div class="rt"><b>'+E(x.name)+'</b><span class="st" aria-label="'+x.rating+' out of 5">'+stars(x.rating)+'</span><small>'+new Date(x.created_at).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})+'</small></div>'+(x.comment?'<p>'+E(x.comment)+'</p>':'')+'</div>'}).join(""):'<p class="note">No reviews yet.</p>')},function(){})}
-/* the channel / account link the seller entered: shown under the picture, opens in a new tab */
-var BASE={YouTube:"https://www.youtube.com/@",Instagram:"https://www.instagram.com/",TikTok:"https://www.tiktok.com/@",Facebook:"https://www.facebook.com/",X:"https://x.com/"};
-function chLink(d){var el=$("al");if(!el)return;el.hidden=true;el.innerHTML="";var v=String(d[21]||"").trim();if(!v)return;var href="";
- if(/^https?:\/\//i.test(v))href=v;
- else if(/^[a-z][a-z0-9+.-]*:/i.test(v)||/\s/.test(v))href="";
- else if(/^(www\.)?[^\/@]+\.[a-z]{2,}(\/|$)/i.test(v))href="https://"+v;
- else if(BASE[d[0]])href=BASE[d[0]]+encodeURIComponent(v.replace(/^@/,""));
- var shown=E(v.replace(/^https?:\/\//i,"").replace(/\/$/,""));
- el.innerHTML='<span>Account link:</span> '+(href?'<a href="'+E(href)+'" target="_blank" rel="noopener noreferrer nofollow">'+shown+' &#8599;</a>':'<b>'+shown+'</b>');el.hidden=false}
-/* "Popular right now": the most viewed / most wanted listings (10 to 15), shown under the details */
-function popular(d){var box=$("pg"),w=$("pw");if(!box||!w)return;var D=window.SMD||[],sc=window.SMX&&window.SMX.score;w.hidden=true;box.innerHTML="";if(!D.length)return;
- var L=[];D.forEach(function(x,k){if(x[13]!==d[13])L.push([x,k,sc?sc(x):(x[17]||0)])});
- L.sort(function(a,b){return b[2]-a[2]});L=L.slice(0,12);if(!L.length)return;
- box.innerHTML=L.map(function(a){var x=a[0],im=x[12]&&x[12][0],lg=(window.SMX&&window.SMX.LOGO&&window.SMX.LOGO[x[0]])||"";
-  return '<a class="pc" href="/account" data-k="'+a[1]+'"><div class="pm" style="--c:'+(PC[x[0]]||"#1d5fd6")+'">'+(im?'<img src="'+E(im)+'" alt="" loading="lazy">':'<span class="pl">'+lg+'</span>')+'</div><div class="pb"><small>'+E(x[0])+(x[1]?' \u00b7 '+E(x[1]):'')+'</small><b>'+E(x[2])+'</b><span>'+R(x[8])+'</span></div></a>'}).join("");
- w.hidden=false}
-if($("pg"))$("pg").addEventListener("click",function(e){var c=e.target.closest(".pc");if(!c)return;e.preventDefault();var D=window.SMD,x=D&&D[+c.dataset.k];if(!x)return;window.SEL=x;if(window.SMX&&window.SMX.track)window.SMX.track(x);window.renderAccount()});
 window.renderAccount=function(){var d=window.SEL;if(!d)return;gi=0;lbHide();
  $("ttl").textContent=d[2];
  $("tg").innerHTML='<span class="tag">'+E(d[0])+'</span>'+(d[1]?'<span class="tag">'+E(d[1])+'</span>':"");
- gallery(d);chLink(d);
+ gallery(d);
  $("st").innerHTML=stats(d).map(function(f){return '<div class="'+(f[3]?"hl":"")+(f[4]?" t":"")+'"><span>'+E(f[0])+'</span><b>'+E(f[1])+'</b>'+(f[2]?'<small>'+E(f[2])+'</small>':"")+'</div>'}).join("");
  var ds=String(d[11]||"").trim();$("ds").textContent=ds;$("dsw").hidden=!ds;
  var tp=topics(d);$("tp").innerHTML=tp.map(function(x){return '<span class="chip ok">'+E(x)+'</span>'}).join("");$("tpw").hidden=!tp.length;
  $("pr").textContent=R(d[8]);
  ["si","si2"].forEach(function(k){$(k).textContent=ini(d[3])});["sn","sn2"].forEach(function(k){$(k).textContent=d[3]});
- sellerCard(d);popular(d);
+ sellerCard(d);
  if(window.SMX&&window.SMX.track)window.SMX.track(d); /* every account opened is remembered for "Inspired by your recent activity" */
- var ra=$("ra"),hh=(window.SMX&&window.SMX.recent)?window.SMX.recent(d[13]):"";$("rag").innerHTML=hh;ra.hidden=!hh;
+ var ra=$("ra"),rg=$("rag"),hh=(window.SMX&&window.SMX.recent)?window.SMX.recent(d[13]):"";if(ra&&rg){rg.innerHTML=hh;ra.hidden=!hh}
  window.scrollTo(0,0)};
 /* the cards under the page: picture arrows, heart, and opening another account */
-$("rag").addEventListener("click",function(e){var D=window.SMD;if(!D)return;
+if($("rag"))$("rag").addEventListener("click",function(e){var D=window.SMD;if(!D)return;
  var nv=e.target.closest(".xnv");if(nv){e.preventDefault();e.stopPropagation();var cd=nv.closest(".xc"),sh=D[+cd.dataset.k][12],i=((+cd.dataset.i||0)+(+nv.dataset.d)+sh.length)%sh.length;cd.dataset.i=i;var im=cd.querySelector(".xm img");if(!im){im=document.createElement("img");im.alt="";cd.querySelector(".xm").insertBefore(im,cd.querySelector(".xm").firstChild)}im.src=sh[i];return}
  var h=e.target.closest(".xh");if(h){e.preventDefault();var k=+h.dataset.k;if(typeof toggleSave==="function")toggleSave(D[k][2],function(){var on=SV.indexOf(D[k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"\u2665":"\u2661"});return}
  var c=e.target.closest(".xc");if(c){e.preventDefault();var d2=D[+c.dataset.k];if(!d2)return;window.SEL=d2;if(window.SMX&&window.SMX.track)window.SMX.track(d2);window.renderAccount()}});
