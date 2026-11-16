@@ -75,3 +75,73 @@ from public.listings l
 join public.profiles p on p.id = l.seller_id
 where l.status = 'live';
 grant select on public.public_listings to anon, authenticated;
+
+-- 5) SELLERS WHO ALREADY APPLIED: their seller name, country, city and "about you" appear in the profile automatically ---
+-- The seller application form saved these in one of your tables (it has a "display_name" column). This finds that table by itself.
+-- It never touches the ID name, phone, ID number or ID photos, and it never overwrites what the seller already wrote in the profile.
+create or replace function public._app_table() returns text language sql stable security definer set search_path = public as $$
+  select c.table_name::text from information_schema.columns c
+  where c.table_schema = 'public' and c.column_name = 'display_name' and c.table_name not in ('profiles')
+  order by (c.table_name like '%applic%') desc, c.table_name limit 1
+$$;
+revoke all on function public._app_table() from public, anon, authenticated;
+
+create or replace function public._app_key(t text) returns text language sql stable security definer set search_path = public as $$
+  select c.column_name::text from information_schema.columns c
+  where c.table_schema = 'public' and c.table_name = t and c.column_name in ('user_id','profile_id','applicant_id','id')
+  order by array_position(array['user_id','profile_id','applicant_id','id'], c.column_name::text) limit 1
+$$;
+revoke all on function public._app_key(text) from public, anon, authenticated;
+
+-- what the signed-in person gave when applying (only these four things)
+create or replace function public.seller_profile_defaults() returns jsonb
+language plpgsql security definer set search_path = public as $$
+declare uid uuid := auth.uid(); t text := public._app_table(); k text; r jsonb;
+begin
+  if uid is null or t is null then return null; end if;
+  k := public._app_key(t); if k is null then return null; end if;
+  execute format('select to_jsonb(x) from public.%I x where x.%I = $1 limit 1', t, k) into r using uid;
+  if r is null then return null; end if;
+  return jsonb_build_object('display_name', r->>'display_name', 'country', r->>'country', 'city', r->>'city', 'bio', r->>'bio');
+end $$;
+revoke all on function public.seller_profile_defaults() from public, anon;
+grant execute on function public.seller_profile_defaults() to authenticated;
+
+-- keeps the profile filled for new applications too
+create or replace function public._sync_application() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare j jsonb := to_jsonb(new); uid uuid;
+begin
+  begin
+    uid := coalesce(nullif(j->>'user_id',''), nullif(j->>'profile_id',''), nullif(j->>'applicant_id',''), nullif(j->>'id',''))::uuid;
+    update public.profiles set
+      seller_name = coalesce(nullif(trim(seller_name), ''), nullif(left(trim(j->>'display_name'), 40), '')),
+      country     = coalesce(nullif(country, ''), nullif(left(trim(j->>'country'), 60), '')),
+      city        = coalesce(nullif(city, ''), nullif(left(trim(j->>'city'), 60), '')),
+      about       = coalesce(nullif(about, ''), nullif(left(trim(j->>'bio'), 600), ''))
+    where id = uid;
+  exception when others then null;   -- never block an application
+  end;
+  return new;
+end $$;
+
+-- fill the profiles of everybody who already applied, and attach the trigger
+do $$
+declare t text := public._app_table(); k text;
+begin
+  if t is null then raise notice 'No seller application table with a display_name column was found. Profiles stay blank until sellers type them.'; return; end if;
+  k := public._app_key(t);
+  if k is null then raise notice 'Found table %, but no user id column.', t; return; end if;
+  raise notice 'Seller application table found: % (user column: %)', t, k;
+  execute format($f$
+    update public.profiles p set
+      seller_name = coalesce(nullif(trim(p.seller_name), ''), nullif(left(trim(to_jsonb(x)->>'display_name'), 40), '')),
+      country     = coalesce(nullif(p.country, ''), nullif(left(trim(to_jsonb(x)->>'country'), 60), '')),
+      city        = coalesce(nullif(p.city, ''), nullif(left(trim(to_jsonb(x)->>'city'), 60), '')),
+      about       = coalesce(nullif(p.about, ''), nullif(left(trim(to_jsonb(x)->>'bio'), 600), ''))
+    from public.%I x where p.id = x.%I$f$, t, k);
+  execute format('drop trigger if exists sm_sync_application on public.%I', t);
+  execute format('create trigger sm_sync_application after insert or update on public.%I for each row execute function public._sync_application()', t);
+exception when others then
+  raise notice 'Skipped automatic fill: %', sqlerrm;
+end $$;
