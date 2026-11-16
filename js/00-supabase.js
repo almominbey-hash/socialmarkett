@@ -12,7 +12,7 @@ SM.short=function(n){n=+n||0;if(n>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,
 SM.loadUser=function(user){
   return sb.from("profiles").select("*").eq("id",user.id).maybeSingle().then(function(r){
     var p=r.data||{},k=p.kyc_status;
-    setUser({id:user.id,email:p.email||user.email||"",name:p.full_name||"",role:p.role||"member",sname:p.seller_name||"",avatar:p.avatar_url||"",about:p.about||"",country:p.country||"",city:p.city||"",since:p.created_at||"",kyc:(k==="pending"||k==="verified"||k==="rejected")?k:undefined});
+    setUser({id:user.id,email:p.email||user.email||"",name:p.full_name||"",role:p.role||"member",sname:p.seller_name||"",meta:String((user.user_metadata&&(user.user_metadata.full_name||user.user_metadata.name))||"").trim(),avatar:p.avatar_url||"",about:p.about||"",country:p.country||"",city:p.city||"",since:p.created_at||"",kyc:(k==="pending"||k==="verified"||k==="rejected")?k:undefined});
     return SM.loadSaved().then(function(){if(SM.notify)SM.notify()});
   });
 };
