@@ -54,10 +54,10 @@ window.renderAccount=function(){var d=window.SEL;if(!d)return;gi=0;lbHide();
  ["si","si2"].forEach(function(k){$(k).textContent=ini(d[3])});["sn","sn2"].forEach(function(k){$(k).textContent=d[3]});
  sellerCard(d);
  if(window.SMX&&window.SMX.track)window.SMX.track(d); /* every account opened is remembered for "Inspired by your recent activity" */
- var ra=$("ra"),hh=(window.SMX&&window.SMX.recent)?window.SMX.recent(d[13]):"";$("rag").innerHTML=hh;ra.hidden=!hh;
+ var ra=$("ra"),rg=$("rag"),hh=(window.SMX&&window.SMX.recent)?window.SMX.recent(d[13]):"";if(rg)rg.innerHTML=hh;if(ra)ra.hidden=!hh;
  window.scrollTo(0,0)};
 /* the cards under the page: picture arrows, heart, and opening another account */
-$("rag").addEventListener("click",function(e){var D=window.SMD;if(!D)return;
+if($("rag"))$("rag").addEventListener("click",function(e){var D=window.SMD;if(!D)return;
  var nv=e.target.closest(".xnv");if(nv){e.preventDefault();e.stopPropagation();var cd=nv.closest(".xc"),sh=D[+cd.dataset.k][12],i=((+cd.dataset.i||0)+(+nv.dataset.d)+sh.length)%sh.length;cd.dataset.i=i;var im=cd.querySelector(".xm img");if(!im){im=document.createElement("img");im.alt="";cd.querySelector(".xm").insertBefore(im,cd.querySelector(".xm").firstChild)}im.src=sh[i];return}
  var h=e.target.closest(".xh");if(h){e.preventDefault();var k=+h.dataset.k;if(typeof toggleSave==="function")toggleSave(D[k][2],function(){var on=SV.indexOf(D[k][2])>-1;h.setAttribute("aria-pressed",on);h.textContent=on?"\u2665":"\u2661"});return}
  var c=e.target.closest(".xc");if(c){e.preventDefault();var d2=D[+c.dataset.k];if(!d2)return;window.SEL=d2;if(window.SMX&&window.SMX.track)window.SMX.track(d2);window.renderAccount()}});
