@@ -9,7 +9,8 @@ function E(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"
 function N(x){return Number(x||0).toLocaleString("en-US")}
 function cur(c){return "PKR "}
 function amt(a,c){return cur(c)+Number(a||0).toLocaleString("en-US",{maximumFractionDigits:2})}
-function mm(map,key){var ks=Object.keys(map||{});if(!ks.length)return "PKR 0";return ks.map(function(c){return amt(map[c][key],c)}).join(" + ")}
+/* all money is PKR: add up every currency row into ONE amount, so it shows "PKR 1,500" and never "PKR 0 + PKR 0" */
+function mm(map,key){var t=0;Object.keys(map||{}).forEach(function(c){t+=Number((map[c]||{})[key])||0});return amt(t)}
 function dt(t){if(!t)return "";try{return new Date(t).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}catch(e){return ""}}
 function chip(p){return '<span class="chip '+p[1]+'">'+E(p[0])+'</span>'}
 function card(l,n,h,c){return '<div class="k'+(c?" "+c:"")+'"><small>'+E(l)+'</small><b>'+n+'</b><span>'+E(h)+'</span></div>'}
