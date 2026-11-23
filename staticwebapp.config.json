@@ -1,0 +1,85 @@
+{
+  "routes": [
+    {
+      "route": "/about",
+      "rewrite": "/about.html"
+    },
+    {
+      "route": "/help",
+      "rewrite": "/help.html"
+    },
+    {
+      "route": "/help-check-before-buying",
+      "rewrite": "/help-check-before-buying.html"
+    },
+    {
+      "route": "/help-create-listing",
+      "rewrite": "/help-create-listing.html"
+    },
+    {
+      "route": "/help-deliver-an-order",
+      "rewrite": "/help-deliver-an-order.html"
+    },
+    {
+      "route": "/help-fees-and-payouts",
+      "rewrite": "/help-fees-and-payouts.html"
+    },
+    {
+      "route": "/help-how-to-buy",
+      "rewrite": "/help-how-to-buy.html"
+    },
+    {
+      "route": "/help-id-verification",
+      "rewrite": "/help-id-verification.html"
+    },
+    {
+      "route": "/help-seller-eligibility",
+      "rewrite": "/help-seller-eligibility.html"
+    },
+    {
+      "route": "/help-sellers",
+      "rewrite": "/help-sellers.html"
+    },
+    {
+      "route": "/help-track-your-order",
+      "rewrite": "/help-track-your-order.html"
+    },
+    {
+      "route": "/safety-avoid-scams",
+      "rewrite": "/safety-avoid-scams.html"
+    },
+    {
+      "route": "/safety-buy-safely",
+      "rewrite": "/safety-buy-safely.html"
+    },
+    {
+      "route": "/safety-fake-messages",
+      "rewrite": "/safety-fake-messages.html"
+    },
+    {
+      "route": "/safety-payments",
+      "rewrite": "/safety-payments.html"
+    },
+    {
+      "route": "/safety-protect-your-account",
+      "rewrite": "/safety-protect-your-account.html"
+    },
+    {
+      "route": "/safety-report-a-problem",
+      "rewrite": "/safety-report-a-problem.html"
+    },
+    {
+      "route": "/support",
+      "rewrite": "/support.html"
+    },
+    {
+      "route": "/trust-and-safety",
+      "rewrite": "/trust-and-safety.html"
+    }
+  ],
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/404.html"
+    }
+  }
+}
