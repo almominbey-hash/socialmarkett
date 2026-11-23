@@ -1,4 +1,4 @@
--- socialmarket LISTING CATEGORIES (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
+-- AVIBIX LISTING CATEGORIES (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
 -- 1) Listings remember their categories (Monetized / Fresh / Aged, USA audience ...) so that clicking
 --    YouTube > Monetized on the website shows exactly those accounts.
 -- 2) Any platform name is allowed, so a new platform added in js/01-config.js works without more SQL.

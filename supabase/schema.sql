@@ -1,4 +1,4 @@
--- socialmarket database. Paste this whole file in Supabase > SQL Editor > New query > Run.
+-- AVIBIX database. Paste this whole file in Supabase > SQL Editor > New query > Run.
 -- Safe to run once on a new project.
 
 -- 1) TABLES ---------------------------------------------------------------

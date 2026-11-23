@@ -49,7 +49,7 @@ function draw(){
   '<button type="button" class="pi" role="menuitem" data-a="profile">Profile</button>'+
   '<button type="button" class="pi" role="menuitem" data-a="settings">Settings &amp; security</button>'+
   '<button type="button" class="pi" role="menuitem" data-a="soon" data-n="Billing and payments">Billing and payments</button>'+
-  '<button type="button" class="pi" role="menuitem" data-a="soon" data-n="Support">Support</button>'+
+  '<button type="button" class="pi" role="menuitem" data-a="support">Support</button>'+
   '<div class="ps"></div>'+
   '<button type="button" class="pi" role="menuitem" data-a="soon" data-n="Invite a friend">Invite a friend</button>'+
   '<div class="ps"></div>'+
@@ -73,6 +73,7 @@ panel.addEventListener("click",function(e){
  var b=e.target.closest(".pi");if(!b)return;var a=b.dataset.a;close();
  if(a==="profile"){NAV.go("dash");route()}
  else if(a==="settings"){NAV.go("settings");route()}
+ else if(a==="support"){location.href="/support"}
  else if(a==="soon"){window.SMSoon(b.dataset.n)}
  else if(a==="out"){doSignOut()}});
 })();

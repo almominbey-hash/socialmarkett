@@ -1,4 +1,4 @@
--- socialmarket ORDERS, part 2 (run AFTER orders.sql). Safe to run twice.
+-- AVIBIX ORDERS, part 2 (run AFTER orders.sql). Safe to run twice.
 -- Adds: the account picture on each order, stars (Starred tab), and "You earned $X" for sellers.
 
 -- 1) account picture saved on the order

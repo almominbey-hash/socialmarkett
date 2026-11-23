@@ -1,4 +1,4 @@
--- socialmarket FILTERS (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
+-- AVIBIX FILTERS (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
 -- Run supabase/listing-categories.sql first.
 -- Adds two things to every listing: monetization status (enabled / eligible / none) and account age (new / 1plus / 3plus).
 -- The browse filters "Monetization" and "Account Age" use them.

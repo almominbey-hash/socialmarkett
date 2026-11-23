@@ -1,4 +1,4 @@
-/* socialmarket theme: one font (Inter, then sans-serif), a little bolder than before. Colours stay as in the original design. */
+/* AVIBIX theme: one font (Inter, then sans-serif), a little bolder than before. Colours stay as in the original design. */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 :root,:host{--white:#fff}
 :root,:host,body{font-family:Inter,sans-serif}

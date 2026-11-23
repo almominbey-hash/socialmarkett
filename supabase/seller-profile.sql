@@ -1,4 +1,4 @@
--- socialmarket SELLER PROFILE (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
+-- AVIBIX SELLER PROFILE (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
 -- Gives every user a public "seller name", a profile picture and a short "About".
 -- The name written on the ID card (profiles.full_name) is NEVER shown to buyers once a seller name is set.
 -- Run it after supabase/listing-categories.sql, supabase/filters.sql and supabase/orders.sql (already part of your setup).

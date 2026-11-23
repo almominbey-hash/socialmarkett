@@ -30,7 +30,7 @@ new MutationObserver(sync).observe(land,{attributes:true,attributeFilter:["class
 f.addEventListener("click",function(e){
  if(e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
  var a=e.target.closest&&e.target.closest("a[href]");if(!a)return;var hr=a.getAttribute("href");
- if(a.dataset.p||a.dataset.s){e.preventDefault();var h=document.querySelector(a.dataset.p?'#cats a[data-p="'+a.dataset.p+'"]':'#cats a[data-s="'+a.dataset.s+'"]');if(h)h.click();return}
+ if(a.dataset.p||a.dataset.s){e.preventDefault();var nm=a.dataset.p||a.dataset.s,h=document.querySelector('#cats a[data-p="'+nm+'"]')||document.querySelector('#cats a[data-s="'+nm+'"]');if(h)h.click();return}
  if(hr.charAt(0)==="#"){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"});return}
  if(hr.charAt(0)==="/"&&hr.charAt(1)!=="/"){var n=hr.slice(1)||"start";
   if(R.indexOf(n)>-1||PMAP[n]||n==="browse"){e.preventDefault();if(location.pathname===NAV.path(n))window.scrollTo(0,0);else NAV.go(n)}}});

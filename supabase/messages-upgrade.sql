@@ -1,4 +1,4 @@
--- socialmarket MESSAGES UPGRADE
+-- AVIBIX MESSAGES UPGRADE
 -- Run this ONCE in Supabase > SQL Editor > New query > Run. It is safe to run again.
 -- Adds: unread messages, online / offline, file sending, and the seller details panel.
 

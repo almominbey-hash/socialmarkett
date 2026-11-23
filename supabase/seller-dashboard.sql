@@ -1,4 +1,4 @@
--- socialmarket SELLER DASHBOARD (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
+-- AVIBIX SELLER DASHBOARD (run once in Supabase > SQL Editor > New query > Run). Safe to run twice.
 -- One function gives an approved seller all his numbers. It only ever reads HIS OWN rows
 -- (orders where he is the seller, his listings, his chats), so nobody can see another seller's data.
 -- Needs supabase/orders.sql, orders-2.sql and messages-upgrade.sql to be already run (they were part of your setup).

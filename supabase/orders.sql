@@ -1,4 +1,4 @@
--- socialmarket ORDERS (step 1: database).
+-- AVIBIX ORDERS (step 1: database).
 -- Paste this whole file in Supabase > SQL Editor > New query > Run. Safe to run once.
 --
 -- How money works here:

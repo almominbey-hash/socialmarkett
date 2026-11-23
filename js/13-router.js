@@ -18,7 +18,7 @@ R.forEach(function(n){
 });
 function route(){
   var raw=NAV.cur();if(raw==="browse")raw="start";var PM=PMAP,pf=PM[raw]?PM[raw][0]:null,pt=PM[raw]?PM[raw][2]:null;var n=pf?"start":raw;if(n==="home")n="start";if(R.indexOf(n)<0)n=U?"start":"landing";if(U&&n==="landing")n="start";
-  if((n==="sell"||n==="start-selling"||n==="seller-dashboard")&&!U){window.GO=(n==="sell"?"start-selling":n);n="landing";setTimeout(function(){if(window.SMAuth)SMAuth.open("join")},0)}else if(n==="sell"&&U.kyc!=="verified")n="start-selling";else if(n==="start-selling"&&U.kyc==="verified")n="seller-dashboard";else if(n==="seller-dashboard"&&U.kyc!=="verified")n="start-selling";if(n==="account"&&!window.SEL)n="start";if(n==="settings"&&!U){window.GO="settings";n="login"}
+  if((n==="sell"||n==="start-selling"||n==="seller-dashboard")&&!U){window.GO=(n==="sell"?"start-selling":n);n="landing";setTimeout(function(){if(window.SMAuth)SMAuth.open("join")},0)}else if(n==="sell"&&U.kyc!=="verified")n="start-selling";else if(n==="start-selling"&&U.kyc==="verified")n="seller-dashboard";else if(n==="seller-dashboard"&&U.kyc!=="verified")n="start-selling";if(n==="account"&&!U){window.GO="account";n="landing";setTimeout(function(){if(window.SMAuth)SMAuth.open("in")},0)}else if(n==="account"&&!window.SEL)n="start";if(n==="settings"&&!U){window.GO="settings";n="login"}
   if(!U&&(n==="order"||n==="dash"||n==="messages")){window.GO=n;n="login"}else if(!U&&n==="login"&&!window.GO)window.GO=null;if(!U&&(n==="order"||n==="dash"||n==="messages"))n="login";else if(U&&n==="login")n="start";
   if(n==="landing")NAV.swap("/");else if(pf&&n==="start")NAV.swap("/"+raw);else NAV.swap(NAV.path(n));
   R.forEach(function(r){pages[r].classList.toggle("on",r===n)});
