@@ -1,4 +1,4 @@
-# socialmarket
+# AVIBIX
 
 Front end: plain HTML/CSS/JS (index.html, css/, js/, pages/). Works on GitHub Pages.
 Back end: Supabase (database, login, file storage). Full setup steps in Urdu: SETUP-URDU.md.

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Support – AVIBIX</title>
+<meta name="description" content="Submit a support ticket and follow the replies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/help.css">
+<script>if(/\.html$/.test(location.pathname))history.replaceState(null,"",location.pathname.replace(/\.html$/,"")+location.search)</script>
+</head>
+<body>
+<header class="top"><div class="in">
+<a class="logo" href="/"><span data-brand>AVIBIX</span><b>.</b></a>
+<nav class="nav"><a class="hm" href="/help">Help centre</a><a class="hm" href="/trust-and-safety">Trust &amp; safety</a><a class="pri" href="/support">Submit a ticket</a><a class="hm" href="/">Back to site</a></nav>
+</div></header>
+<main class="sp">
+<h1>Support</h1><p>Send us a ticket. Our team will reply here. You can open this page any time to read the answer and reply.</p>
+<div id="gate" class="gate" hidden><h2>Please sign in first</h2><p>We need to know who you are so we can reply to you and keep your ticket private.</p><a class="btn" href="/#login">Sign in</a></div>
+<div id="app" class="cols2" hidden>
+<section class="panel" id="newp"><h2>New ticket</h2>
+<div id="m1" class="msg" role="status"></div>
+<label class="f"><span>What is it about?</span><select id="tp"></select></label>
+<label class="f"><span>Category</span><select id="cat"></select></label>
+<label class="f"><span>Subject</span><input id="sub" maxlength="120" placeholder="Short title, for example: My listing was rejected"></label>
+<label class="f"><span>Message</span><textarea id="body" maxlength="4000" placeholder="Tell us what happened. Add the order number (like SM-123) if you have one."></textarea><small>Write in simple words. The more detail you give, the faster we can help.</small></label>
+<button class="btn" id="send" type="button">Submit ticket</button>
+</section>
+<section class="panel"><div id="list"><h2>My tickets</h2><div id="tks"></div></div>
+<div id="view" hidden><button class="back-l" id="back" type="button">&larr; All tickets</button><h2 id="vt"></h2><div id="vs"></div><div class="thread" id="th"></div>
+<div id="rp"><div id="m2" class="msg" role="status"></div><label class="f"><span>Your reply</span><textarea id="rb" maxlength="4000"></textarea></label><button class="btn" id="rs" type="button">Send reply</button></div></div></section>
+</div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js/00-supabase.js"></script>
+<script src="/js/support.js"></script>
+<footer class="foot"><span>&copy; <span id="yr"></span> <span data-brand>AVIBIX</span>. Built for Pakistan.</span><span><a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/support">Contact support</a></span></footer>
+<script>document.getElementById("yr").textContent=new Date().getFullYear()</script>
+<script src="/js/help.js"></script>
+</body></html>
