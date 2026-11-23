@@ -1,4 +1,4 @@
--- socialmarket ADMIN (run once in Supabase > SQL Editor). Safe to run twice.
+-- AVIBIX ADMIN (run once in Supabase > SQL Editor). Safe to run twice.
 -- Every admin power lives in functions that first check "is this person in admin_users?".
 -- Normal users can never call them successfully. Every action is written to admin_log.
 
@@ -83,7 +83,7 @@ begin
   update profiles set kyc_status = case when p_ok then 'verified' else 'rejected' end where id = p_user;
   perform _log(case when p_ok then 'kyc_approve' else 'kyc_reject' end, p_user::text, p_note);
   perform _notify(p_user, 'kyc', case when p_ok then 'You are verified' else 'Verification not approved' end,
-    case when p_ok then 'You can now sell on socialmarket.' else coalesce(p_note, 'Please check your details and submit again.') end);
+    case when p_ok then 'You can now sell on AVIBIX.' else coalesce(p_note, 'Please check your details and submit again.') end);
 end $$;
 
 create or replace function public.admin_listings(p_status text default null) returns jsonb

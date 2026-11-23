@@ -1,4 +1,4 @@
--- socialmarket ADMIN FIX (run once in Supabase > SQL Editor). Safe to run twice.
+-- AVIBIX ADMIN FIX (run once in Supabase > SQL Editor). Safe to run twice.
 -- Fixes: listing list / approve / reject no longer fail when the status column is an enum,
 -- and a failed notification can no longer block an approval. "unlisted" is an allowed status.
 

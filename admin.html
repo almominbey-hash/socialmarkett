@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Admin – socialmarket</title>
+<title>Admin – AVIBIX</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f7f9;--card:#fff;--ink:#14171f;--mut:#6b7280;--line:#e5e7eb;--side:#10131a;--acc:#4f46e5;--ok:#15803d;--bad:#b91c1c;--warn:#b45309}
@@ -26,7 +26,7 @@ button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 1
 #toast{position:fixed;bottom:18px;right:18px;background:#111;color:#fff;padding:10px 14px;border-radius:9px;display:none}
 @media(max-width:760px){#side{position:static;width:auto;display:flex;overflow:auto}#side b{display:none}#main{margin:0;padding:14px}}
 </style></head><body>
-<div id="login"><h1>socialmarket admin</h1><p style="color:var(--mut)">Sign in with your admin account.</p>
+<div id="login"><h1>AVIBIX admin</h1><p style="color:var(--mut)">Sign in with your admin account.</p>
 <input id="em" type="email" placeholder="Email" autocomplete="username"><br><br><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><br><br>
 <button id="go" style="width:100%">Sign in</button><p id="le" style="color:var(--bad)"></p></div>
 <div id="app"><nav id="side"></nav><div id="main"><h1 id="h"></h1><div id="v"></div></div></div>
@@ -45,8 +45,8 @@ function tbl(h,rows){if(!rows.length)return'<div class="box" style="padding:20px
 function modal(h){$("#mc").innerHTML=h;$("#m").style.display="flex"}function closeM(){$("#m").style.display="none"}
 $("#m").onclick=function(e){if(e.target.id==="m")closeM()};
 
-var TABS=[["overview","Overview"],["kyc","Seller verification"],["listings","Listings"],["orders","Orders & payouts"],["chats","Chats"],["users","Users"],["log","Audit log"]];
-function nav(){$("#side").innerHTML="<b>socialmarket admin</b>"+TABS.map(function(t){var n=t[0]==="kyc"?ST.kyc_pending:t[0]==="listings"?ST.listings_pending:t[0]==="orders"?ST.attention+ST.ready:0;
+var TABS=[["overview","Overview"],["kyc","Seller verification"],["listings","Listings"],["orders","Orders & payouts"],["chats","Chats"],["tickets","Support tickets"],["users","Users"],["log","Audit log"]];
+function nav(){$("#side").innerHTML="<b>AVIBIX admin</b>"+TABS.map(function(t){var n=t[0]==="kyc"?ST.kyc_pending:t[0]==="listings"?ST.listings_pending:t[0]==="orders"?ST.attention+ST.ready:0;
   return'<a data-t="'+t[0]+'" class="'+(cur()===t[0]?"on":"")+'">'+t[1]+(n?"<i>"+n+"</i>":"")+"</a>"}).join("")+'<a id="out" style="margin-top:20px">Sign out ('+esc(ME.level)+")</a>"}
 function cur(){return location.hash.slice(1)||"overview"}
 $("#side").onclick=function(e){var a=e.target.closest("a");if(!a)return;if(a.id==="out"){sb.auth.signOut().then(function(){location.reload()});return}location.hash=a.dataset.t};
@@ -72,6 +72,9 @@ orders:function(){return rpc("admin_orders").then(function(d){ST.od=d;var f=ST.f
     return["SM-"+o.order_no,esc(o.listing_title),esc(o.buyer_name)+" → "+esc(o.seller_name),money(o.amount,"PKR "),tag(o.status)+" "+tag(o.payment_status),(o.disputed?'<span class="t bad">complaint</span> ':"")+(o.needs_refund?'<span class="t bad">refund?</span> ':"")+esc(o.dispute_note||o.payout_note||""),b]});
   return'<div class="bar"><select data-k="f_o">'+[["all","All"],["attention","Need attention"],["release","Ready to pay seller"],["unpaid","Unpaid"],["in_progress","In progress"],["delivered","Delivered"],["completed","Completed"],["cancelled","Cancelled"]].map(function(x){return'<option value="'+x[0]+'"'+(x[0]===f?" selected":"")+">"+x[1]+"</option>"}).join("")+"</select></div>"+
   tbl(["Order","Account","Buyer → Seller","Amount","Status","Notes","Action"],rows)})},
+tickets:function(){var f=ST.f_t==null?"open":ST.f_t;return rpc("admin_tickets",{p_status:f||null}).then(function(d){ST.td=d;
+  return'<div class="bar"><select data-k="f_t">'+[["open","Waiting for us"],["answered","Answered"],["closed","Closed"],["","All"]].map(function(x){return'<option value="'+x[0]+'"'+(x[0]===f?" selected":"")+">"+x[1]+"</option>"}).join("")+"</select></div>"+
+  tbl(["#","From","Topic","Subject","Status","Updated",""],d.map(function(r,i){return["T-"+r.ticket_no,esc(r.name||"")+"<br><small>"+esc(r.email)+"</small>",esc(String(r.source).replace("_"," "))+" · "+esc(r.category),esc(r.subject),tag(r.status),dt(r.updated_at),'<button data-tk="'+i+'">Open</button>']}))})},
 chats:function(){return rpc("admin_chats").then(function(d){return tbl(["Account","Buyer","Seller","Last message",""],d.map(function(c){return[esc(c.listing_title),esc(c.buyer_name),esc(c.seller_name),dt(c.updated_at),'<button class="g" data-ch="'+c.id+'">Read</button>']}))})},
 users:function(){return rpc("admin_users",{p_q:ST.q||null}).then(function(d){return'<div class="bar"><input id="q" placeholder="Search name or email" value="'+esc(ST.q||"")+'"><button id="qb">Search</button></div>'+
   tbl(["Name","Email","Phone","Type","KYC","Listings","Bought","Sold","Joined"],d.map(function(u){return[esc(u.full_name),esc(u.email),esc(u.phone),esc(u.role),tag(u.kyc_status),u.listings,u.bought,u.sold,dt(u.created_at)]}))})},
@@ -104,4 +107,16 @@ function start(){rpc("admin_me").then(function(m){if(!m){toast("This account is 
 $("#go").onclick=function(){sb.auth.signInWithPassword({email:$("#em").value.trim(),password:$("#pw").value}).then(function(r){if(r.error){$("#le").textContent=r.error.message;return}start()})};
 $("#pw").onkeydown=function(e){if(e.key==="Enter")$("#go").click()};
 sb.auth.getSession().then(function(r){if(r.data.session)start()});
+
+/* Support tickets: open, reply (also by email), close */
+var TKO=null;
+function openTicket(t){TKO=t;rpc("admin_ticket_messages",{p_ticket:t.id}).then(function(r){
+ modal("<h3>T-"+t.ticket_no+" · "+esc(t.subject)+" "+tag(t.status)+"</h3><p><small>"+esc(t.name||"")+" · "+esc(t.email)+" · "+esc(t.category)+"</small></p>"+
+ r.messages.map(function(m){return'<p style="background:'+(m.from_admin?"#e8f6ee":"#f1f3f7")+';color:#14181f;padding:10px 12px;border-radius:10px"><b>'+(m.from_admin?"Support":"User")+"</b> <small>"+dt(m.created_at)+"</small><br>"+esc(m.body).replace(/\n/g,"<br>")+"</p>"}).join("")+
+ (t.status!=="closed"?'<textarea id="tkb" rows="5" style="width:100%" placeholder="Write your reply"></textarea><p><button class="o" data-tkr="0">Send reply</button> <button class="g" data-tkr="1">Reply and close</button> <button class="g" data-tkm="1">Also email the user</button> <button class="r" data-tkx="1">Close ticket</button> <button class="g" onclick="closeM()">Close window</button></p>':'<p><button class="g" onclick="closeM()">Close window</button></p>'))})}
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var d=b.dataset;
+ if(d.tk!=null)openTicket(ST.td[d.tk]);
+ if(d.tkr!=null&&TKO){var v=($("#tkb").value||"").trim();if(!v){toast("Write the reply first",1);return}rpc("admin_ticket_reply",{p_ticket:TKO.id,p_body:v,p_close:d.tkr==="1"}).then(function(){closeM();toast("Reply sent");show()})}
+ if(d.tkm&&TKO){var v2=($("#tkb").value||"").trim();location.href="mailto:"+encodeURIComponent(TKO.email||"")+"?subject="+encodeURIComponent("Re: [T-"+TKO.ticket_no+"] "+TKO.subject)+"&body="+encodeURIComponent(v2)}
+ if(d.tkx&&TKO)rpc("admin_ticket_close",{p_ticket:TKO.id}).then(function(){closeM();toast("Closed");show()})});
 </script></body></html>
